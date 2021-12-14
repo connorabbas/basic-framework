@@ -2,4 +2,4 @@
 $ValidRoute;
 $Routes = array();
 
-define('BASE_DIR', '/php-mf-v2/');
+define('BASE_DIR', '/php-mf/');
