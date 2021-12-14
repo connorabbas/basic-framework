@@ -35,7 +35,11 @@ class Route
                 $route_part = ltrim($route_part, '$');
                 array_push($parameters, $request_url_parts[$__i__]);
                 $$route_part=$request_url_parts[$__i__];
-                $_GET[$route_part] = $$route_part;
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $_POST[$route_part] = $$route_part;
+                } else{
+                    $_GET[$route_part] = $$route_part;
+                }
             }
             else if( $route_parts[$__i__] != $request_url_parts[$__i__] ){
                 return;
