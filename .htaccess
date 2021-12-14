@@ -1,0 +1,5 @@
+header set x-frame-options DENY
+
+RewriteEngine On
+RewriteCond %{REQUEST_URI}  !(\.png|\.jpg|\.gif|\.jpeg|\.zip|\.css|\.svg|\.js|\.pdf)$
+RewriteRule (.*) index.php [QSA,L]
