@@ -15,8 +15,6 @@ spl_autoload_register(
 );
 
 // Include DB connection once, use dependency injection with class constructors for DB usage
-require_once '../DATABASE/pdo_db.class.php';
-global $db;
 $db = new db();
 
 // Global vars and routes

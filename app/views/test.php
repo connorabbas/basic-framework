@@ -1,6 +1,6 @@
 <?php
 $pageTitle = 'About';
-require_once('./app/views/header.php');
+require_once('./app/views/layout/header.php');
 ?>
 
 <div class="container">
@@ -21,5 +21,5 @@ require_once('./app/views/header.php');
 </div>
 
 <?php
-require_once('./app/views/footer.php');
+require_once('./app/views/layout/footer.php');
 ?>
