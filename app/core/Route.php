@@ -35,6 +35,7 @@ class Route
                 $route_part = ltrim($route_part, '$');
                 array_push($parameters, $request_url_parts[$__i__]);
                 $$route_part=$request_url_parts[$__i__];
+                // Set dynamic route variables for get or post
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_POST[$route_part] = $$route_part;
                 } else{

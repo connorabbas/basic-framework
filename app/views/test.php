@@ -1,5 +1,5 @@
 <?php
-$pageTitle = 'About';
+$pageTitle = 'Tester';
 require_once('./app/views/layout/header.php');
 ?>
 
