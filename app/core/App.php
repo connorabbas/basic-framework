@@ -12,8 +12,7 @@ class App
         if(file_exists('./app/views/' . $view . '.php')){
             require_once('./app/views/' . $view . '.php');
         } else{
-            require_once('./app/views/404.php');
-            die($_404);
+            App::view('404');
         }
     }
 }

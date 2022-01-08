@@ -1,6 +1,3 @@
-<?php
-ob_start();
-?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -24,5 +21,5 @@ ob_start();
     </body>
 </html>
 <?php
-$_404 = ob_get_clean();
+die();
 ?>

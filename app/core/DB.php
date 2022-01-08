@@ -9,20 +9,20 @@
 class DB
 {
 	private $host = DB_HOST;
-	private $user = DB_USER;
-	private $pass = DB_PASS;
+	private $user = DB_USERNAME;
+	private $pass = DB_PASSWORD;
 	private $dbname = DB_NAME;
 	
 	private $dbh;
 	private $error;
 	private $stmt;
 	
-	public function __construct()
+	public function __construct($persistent = false)
     {
 		// Set DSN
 		$dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;
 		$options = array (
-			PDO::ATTR_PERSISTENT => true,
+			PDO::ATTR_PERSISTENT => $persistent,
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION 
 		);
 
@@ -33,6 +33,11 @@ class DB
 		catch ( PDOException $e ) {
 			$this->error = $e->getMessage();
 		}
+	}
+
+    // Just the connection
+	public function conn() {
+		return $this->dbh;
 	}
 	
 	// Prepare statement with query
@@ -72,14 +77,14 @@ class DB
 	public function resultset()
     {
 		$this->execute();
-		return $this->stmt->fetchAll(PDO::FETCH_OBJ);
+		return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
 	// Get single record as object
 	public function single()
     {
 		$this->execute();
-		return $this->stmt->fetch(PDO::FETCH_OBJ);
+		return $this->stmt->fetch(PDO::FETCH_ASSOC);
 	}
 	
 	// Get record row count

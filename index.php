@@ -1,7 +1,11 @@
 <?php
-/* 
-* based on code by: https://github.com/howCodeORG/how & https://phprouter.com/
-*/
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// ENV and global vars
+require_once('./env.php');
+require_once('./app/globals.php');
 
 // Autoload Classes
 spl_autoload_register(
@@ -10,13 +14,14 @@ spl_autoload_register(
             require_once './app/core/' . $class . '.php';
         } else if (file_exists('./app/controllers/' . $class . '.php')) {
             require_once './app/controllers/' . $class . '.php';
+        } else if (file_exists('./app/models/' . $class . '.php')) {
+            require_once './app/models/' . $class . '.php';
         }
     }
 );
 
 // Include DB connection once, use dependency injection with class constructors for DB usage
-$db = new db();
+$db = new DB();
 
-// Global vars and routes
-require_once('./app/globals.php');
+// Routes for site
 require_once('./app/routes.php');

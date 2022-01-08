@@ -16,12 +16,7 @@ class Route
     
         // If route is only /
         if( $route_parts[0] == '' && count($request_url_parts) == 0 ){
-            if(is_array($closure)){
-                call_user_func_array($closure[0], $closure[1]);
-            } else if (is_callable($closure)){
-                $closure->__invoke();
-            }
-            $ValidRoute = $route;
+            self::callRoute($route, $closure);
             exit();
         }
 
@@ -46,21 +41,54 @@ class Route
                 return;
             } 
         }
-        if(is_array($closure)){
-            call_user_func_array($closure[0], $closure[1]);
-        } else if (is_callable($closure)){
-            $closure->__invoke();
-        }
-        $ValidRoute = $route;
+        self::callRoute($route, $closure);
         exit();
+    }
+
+    public static function callRoute($route, $closure)
+    {
+        if(is_array($closure)){
+            if (is_string($closure[0])) {
+                // Statically
+                if (strpos($closure[0], '::') !== false) {
+                    call_user_func_array($closure[0], $closure[1]);
+                }
+                // Instantiate class and call method
+                if (strpos($closure[0], '()->') !== false)  {
+                    $closureParts = explode('()->', $closure[0]);
+                    $class_name = $closureParts[0];
+                    $method_name = $closureParts[1];
+                    $fully_qualified_class_name = "\\$class_name";
+                    $obj = new $fully_qualified_class_name;
+                    call_user_func( [$obj, $method_name],  $closure[1]);
+                }
+            } else {
+                // invoke regular function from route file
+                $closure[0]->__invoke($closure[1]);
+            }
+            $ValidRoute = $route;
+        }
     }
 
     public static function checkRoute()
     {
         global $ValidRoute;
         if($ValidRoute == null){
-            require_once('./app/views/404.php');
-            die($_404);
+            App::view('404');
         }
+    }
+
+    public static function get($route, $closure)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            self::set($route, $closure);
+        } 
+    }
+
+    public static function post($route, $closure)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            self::set($route, $closure);
+        } 
     }
 }
