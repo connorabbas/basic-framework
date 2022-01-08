@@ -1,5 +1,7 @@
 <?php
 // Valid Routes for site
+// :: to call static controller method
+// ()-> to intantiate controller class and call method
 
 Route::get('/', ['App::view', ['root']]);
 

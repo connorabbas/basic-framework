@@ -7,7 +7,7 @@ require_once('./app/views/layout/header.php');
     <div class="row my-5">
         <div class="col">
             <h1>Tester Example</h1>
-            <form action="<?=BASE_DIR?>tester" method="post">
+            <form action="<?=App::route('/tester')?>" method="post">
                 <input type="hidden" name="test1" value="value data">
                 <button class="btn btn-dark" action="submit">submit</button>
             </form>

@@ -15,4 +15,10 @@ class App
             App::view('404');
         }
     }
+
+    public static function route($path)
+    {
+        $path = ltrim($path, '/');
+        echo BASE_DIR . $path;
+    }
 }
