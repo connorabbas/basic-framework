@@ -1,7 +1,6 @@
-# php-mf
-PHP (Mini Framework)
+# PHP (Mini Framework)
 
-starter content for env.php file, create in base dir:
+starter content for env.php file (create in /app directory):
 ```
 <?php
 // Private ENV variables

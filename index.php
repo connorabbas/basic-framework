@@ -4,7 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // ENV and global vars
-require_once('./env.php');
+require_once('./app/env.php');
 require_once('./app/globals.php');
 
 // Autoload Classes
