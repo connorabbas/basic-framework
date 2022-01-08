@@ -8,6 +8,7 @@
         <!-- Resources -->
         <link href="<?=App::route('/resources/css/bootstrap/bootstrap.min.css')?>" rel="stylesheet">
         <link href="<?=App::route('/resources/css/styles.css')?>" rel="stylesheet">
+        <link href="<?=App::route('/resources/css/animate.min.css')?>" rel="stylesheet">
 
         <!-- Scripts -->
         <script src='<?=App::route('/resources/js/jquery.min.js')?>' type='text/javascript'  ></script>
@@ -30,5 +31,5 @@
                 </div>
             </div>
         </nav>
-        <div id="contentContainer" class="">
+        <div id="contentContainer" class="animate__animated animate__fadeIn">
             <!-- Site content from views starts -->
