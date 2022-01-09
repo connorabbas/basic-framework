@@ -20,7 +20,7 @@ spl_autoload_register(
     }
 );
 
-// Include DB connection once, use dependency injection with class constructors for DB usage
+// Include DB connection once, use dependency injection with model constructors for DB usage
 $db = new DB();
 
 // Routes for site
