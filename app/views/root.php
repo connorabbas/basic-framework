@@ -5,8 +5,16 @@ require_once('./app/views/layout/header.php');
 
 <div class="container">
     <div class="row my-5">
-        <div class="col text-center">
-            <h1>Home</h1>
+        <div class="col">
+            <h1 class="mb-5">Welcome to PHP Mini Framework!</h1>
+            <p>Features:</p>
+            <ul>
+                <li>Routing for GET and POST requests</li>
+                <li>MVC architecture</li>
+                <li>Class auto loading</li>
+                <li>PDO database class</li>
+                <li>Bootstrap, jQuery, and React included</li>
+            </ul>
         </div>
     </div>
 </div>

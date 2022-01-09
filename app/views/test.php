@@ -6,13 +6,12 @@ require_once('./app/views/layout/header.php');
 <div class="container">
     <div class="row my-5">
         <div class="col">
-            <h1>Tester Example</h1>
+            <h1 class="mb-3" >Tester Example</h1>
             <form action="<?=App::route('/tester')?>" method="post">
                 <input type="hidden" name="test1" value="value data">
+                <p class="mb-3">Submit form to post to same route</p>
                 <button class="btn btn-dark" action="submit">submit</button>
             </form>
-        </div>
-        <div class="col">
             <br>
             Test Data from controller:
             <?php
