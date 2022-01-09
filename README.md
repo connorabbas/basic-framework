@@ -1,4 +1,11 @@
-# PHP (Mini Framework)
+# PHP Mini Framework
+
+Key Features:
+- Routing for GET and POST requests
+- MVC architecture
+- Class auto loading
+- PDO database class
+- Bootstrap, jQuery, and React included
 
 starter content for env.php file (create in /app directory):
 ```
