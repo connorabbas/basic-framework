@@ -2,6 +2,7 @@
 // Valid Routes for site
 // :: to call static controller method
 // ()-> to instantiate controller class object and call method
+// Example: Route::get('/route', ['functionToCall', ['array', 'of', 'function', 'parameters']]);
 
 Route::get('/', ['App::view', ['root']]);
 
