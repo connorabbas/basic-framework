@@ -7,6 +7,7 @@ Key Features:
 - PDO database class
 - Bootstrap 5, jQuery, and React included
 
+
 starter content for env.php file (create in /app directory):
 ```
 <?php
