@@ -1,19 +1,20 @@
 <?php
 class App
 {
-    public static function view($view, $data=array())
+    public static function view($view, $data = [], $template = 'main')
     {
-        if(count($data)){
-            foreach($data as $var => $val){
-                ${$var} = $val;
+        if ($template != null && file_exists('./app/views/templates/' . $template . '.php') && file_exists('./app/views/' . $view . '.php')) {
+            // Create variables for view
+            if(count($data)){
+                foreach($data as $var => $val){
+                    ${$var} = $val;
+                }
             }
-        }
-        // Include view file
-        if(file_exists('./app/views/' . $view . '.php')){
-            require_once('./app/views/' . $view . '.php');
-        } else{
-            App::view('404');
-        }
+            // Include template and view file
+            require_once('./app/views/templates/' . $template . '.php');
+        } else {
+            require_once('./app/views/404.php');
+        } 
     }
 
     public static function route($path)

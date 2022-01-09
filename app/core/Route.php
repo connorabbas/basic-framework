@@ -74,7 +74,7 @@ class Route
     {
         global $ValidRoute;
         if($ValidRoute == null){
-            App::view('404');
+            require_once('./app/views/404.php');
         }
     }
 

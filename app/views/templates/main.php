@@ -32,4 +32,14 @@
             </div>
         </nav>
         <div id="contentContainer" class="animate__animated animate__fadeIn">
-            <!-- Site content from views starts -->
+            <?php
+            // Include view file
+            require_once('./app/views/' . $view . '.php');
+            ?>
+        </div>
+
+        <!-- Script Resources -->
+        <script src="<?=App::route('/resources/js/bootstrap/bootstrap.bundle.min.js')?>"></script>
+
+    </body>
+</html>

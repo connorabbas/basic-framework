@@ -7,6 +7,7 @@ class TestController extends Controller
         array_push($testData, $this->test());
 
         return App::view('test', [
+            'pageTitle' => 'Tester',
             'testData' => $testData,
             'db' => $db,
         ]);
