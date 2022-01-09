@@ -13,7 +13,7 @@ require_once('./app/views/layout/header.php');
                 <li>MVC architecture</li>
                 <li>Class auto loading</li>
                 <li>PDO database class</li>
-                <li>Bootstrap, jQuery, and React included</li>
+                <li>Bootstrap 5, jQuery, and React included</li>
             </ul>
         </div>
     </div>

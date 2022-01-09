@@ -5,7 +5,7 @@ Key Features:
 - MVC architecture
 - Class auto loading
 - PDO database class
-- Bootstrap, jQuery, and React included
+- Bootstrap 5, jQuery, and React included
 
 starter content for env.php file (create in /app directory):
 ```

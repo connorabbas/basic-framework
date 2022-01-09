@@ -19,6 +19,6 @@ class App
     public static function route($path)
     {
         $path = ltrim($path, '/');
-        echo BASE_DIR . $path;
+        return BASE_DIR . $path;
     }
 }
