@@ -1,21 +1,16 @@
 <?php
 // Valid Routes for site
-// :: to call static controller method
-// ()-> to instantiate controller class object and call method
-// Example: Route::get('/route', ['functionToCall', ['array', 'of', 'function', 'parameters']]);
 
-Route::get('/', ['App::view', ['root', ['pageTitle' => 'Home']]]);
+Route::get('/', function(){
+    return App::view('root', ['pageTitle' => 'Home']);
+});
 
-Route::get('/tester', ['TestController()->index', [$db]]);
-Route::post('/tester', ['TestController()->postTest', []]);
+Route::get('/tester', [TestController::class, 'index']);
+Route::post('/tester', [TestController::class, 'postTest']);
 
-Route::get('/test/$tester', [function(){
-
-    echo 'test route without a controller class & dynamic GET data';
-    echo '<pre style="max-height:600px; overflow-y: auto; border:1px solid #000;">';
-    var_dump($_GET);
-    echo '</pre>';
-
-}, []]);
+Route::get('/dynamic/$tester', function(){
+    echo 'test route without a controller class & dynamic GET data <br>';
+    echo 'dynamic slug: '.$_GET['tester'];
+});
 
 Route::checkRoute();

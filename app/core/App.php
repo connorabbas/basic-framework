@@ -5,8 +5,8 @@ class App
     {
         if ($template != null && file_exists('./app/views/templates/' . $template . '.php') && file_exists('./app/views/' . $view . '.php')) {
             // Create variables for view
-            if(count($data)){
-                foreach($data as $var => $val){
+            if (count($data)) {
+                foreach($data as $var => $val) {
                     ${$var} = $val;
                 }
             }
