@@ -1,7 +1,7 @@
 # PHP Mini Framework
 
 Key Features:
-- Routing for GET and POST requests
+- Routing for GET, POST, PATCH, PUT & DELETE HTTP requests
 - MVC architecture
 - Class auto loading
 - PDO database class
