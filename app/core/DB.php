@@ -8,17 +8,16 @@
 */
 class DB
 {
-	private $host = DB_HOST;
-	private $user = DB_USERNAME;
-	private $pass = DB_PASSWORD;
-	private $dbname = DB_NAME;
-	
-	private $dbh;
-	private $error;
-	private $stmt;
+	private $host, $user, $pass, $dbname, $dbh, $error, $stmt;
 	
 	public function __construct($persistent = false)
     {
+        // Set connection vars
+        $this->host = getenv('DB_HOST');  
+        $this->user = getenv('DB_USERNAME');     
+        $this->pass = getenv('DB_PASSWORD');
+        $this->dbname = getenv('DB_NAME');
+
 		// Set DSN
 		$dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;
 		$options = array (
@@ -36,7 +35,8 @@ class DB
 	}
 
     // Just the connection
-	public function conn() {
+	public function conn()
+    {
 		return $this->dbh;
 	}
 	
