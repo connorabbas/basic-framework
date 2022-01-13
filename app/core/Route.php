@@ -31,11 +31,21 @@ class Route
                 array_push($parameters, $request_url_parts[$__i__]);
                 $$route_part=$request_url_parts[$__i__];
                 // Set dynamic route variables for get or post
-                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    $_POST[$route_part] = $$route_part;
-                } else {
+                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     $_GET[$route_part] = $$route_part;
-                }
+                } 
+                else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $_POST[$route_part] = $$route_part;
+                } 
+                else if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
+                    $_PATCH[$route_part] = $$route_part;
+                } 
+                else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+                    $_PUT[$route_part] = $$route_part;
+                } 
+                else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+                    $_DELETE[$route_part] = $$route_part;
+                } 
             }
             else if ( $route_parts[$__i__] != $request_url_parts[$__i__] ) {
                 return;
