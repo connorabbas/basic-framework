@@ -10,7 +10,7 @@
             <br>
             Test Data from controller:
             <?php
-            echo '<pre style="max-height:600px; overflow-y: auto; border:1px solid #000;">';
+            echo '<pre class="dump">';
             var_dump($testData);
             var_dump($db);
             echo '</pre>';

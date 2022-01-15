@@ -2,7 +2,7 @@
 // Valid Routes for site
 
 $route->get('/', function(){
-    return App::view('root', ['pageTitle' => 'Home']);
+    return App::view('home', ['pageTitle' => 'Home']);
 });
 
 $route->get('/tester', [TestController::class, 'index']);
