@@ -11,18 +11,11 @@ class TestController extends SiteController
     public function index()
     {
         $testData = array('test', 'test2', 'test3');
-        array_push($testData, $this->test());
-
         return App::view('test', [
             'pageTitle' => 'Tester',
             'testData' => $testData,
             'connection' => $this->db,
         ]);
-    }
-
-    public function test()
-    {
-        return 'testdata';
     }
 
     public function postTest()
