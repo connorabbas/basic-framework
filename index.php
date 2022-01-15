@@ -23,5 +23,6 @@ spl_autoload_register(
 // Include DB connection once, use dependency injection with model constructors for DB usage
 $db = new DB();
 
-// Routes for site
-require_once('./app/routes.php');
+// Invoke the site
+$site = new SiteController($db);
+$site->invoke();

@@ -1,5 +1,5 @@
 <?php
-class TestController extends Controller
+class TestController extends SiteController
 {
     public function index($db)
     {
