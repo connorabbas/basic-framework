@@ -1,7 +1,14 @@
 <?php
 class TestController extends SiteController
 {
-    public function index($db)
+    protected $db;
+
+    public function __construct($db)
+    {
+        $this->db = $db;
+    }
+
+    public function index()
     {
         $testData = array('test', 'test2', 'test3');
         array_push($testData, $this->test());
@@ -9,7 +16,7 @@ class TestController extends SiteController
         return App::view('test', [
             'pageTitle' => 'Tester',
             'testData' => $testData,
-            'db' => $db,
+            'connection' => $this->db,
         ]);
     }
 

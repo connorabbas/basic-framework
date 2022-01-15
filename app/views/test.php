@@ -12,7 +12,7 @@
             <?php
             echo '<pre class="dump">';
             var_dump($testData);
-            var_dump($db);
+            var_dump($connection);
             echo '</pre>';
             ?>
         </div>
