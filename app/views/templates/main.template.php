@@ -6,15 +6,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- Resources -->
-        <link href="<?=App::route('/resources/css/bootstrap/bootstrap.min.css')?>" rel="stylesheet">
-        <link href="<?=App::route('/resources/css/styles.css')?>" rel="stylesheet">
-        <link href="<?=App::route('/resources/css/animate.min.css')?>" rel="stylesheet">
+        <link href="<?= App::path('/resources/css/bootstrap/bootstrap.min.css') ?>" rel="stylesheet">
+        <link href="<?= App::path('/resources/css/styles.css') ?>" rel="stylesheet">
+        <link href="<?= App::path('/resources/css/animate.min.css') ?>" rel="stylesheet">
 
         <!-- Scripts -->
-        <script src='<?=App::route('/resources/js/jquery.min.js')?>' type='text/javascript'  ></script>
+        <script src='<?= App::path('/resources/js/jquery.min.js') ?>' type='text/javascript'  ></script>
 
         <!-- Page Title -->
-        <title>PHP Mini Framework - <?=$pageTitle?></title>
+        <title>PHP Mini Framework - <?= $pageTitle ?></title>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -25,21 +25,21 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-link" aria-current="page" href="<?=App::route('/')?>">Home</a>
-                        <a class="nav-link" href="<?=App::route('/tester')?>">Tester Page</a>
+                        <a class="nav-link" aria-current="page" href="<?= App::path('/') ?>">Home</a>
+                        <a class="nav-link" href="<?= App::path('/tester') ?>">Tester Page</a>
                     </div>
                 </div>
             </div>
         </nav>
         <div id="contentContainer" class="animate__animated animate__fadeIn">
             <?php
-            // Include view file
-            require_once('./app/views/' . $view . '.php');
+            // Content View
+            App::view($view, $data, null);
             ?>
         </div>
 
         <!-- Script Resources -->
-        <script src="<?=App::route('/resources/js/bootstrap/bootstrap.bundle.min.js')?>"></script>
+        <script src="<?= App::path('/resources/js/bootstrap/bootstrap.bundle.min.js') ?>"></script>
 
     </body>
 </html>
