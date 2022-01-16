@@ -18,3 +18,7 @@ putenv("DB_PASSWORD=");
 putenv("DB_NAME=");
 ?>
 ```
+
+``` bash command-line
+php command make:controller NewController
+```
