@@ -6,9 +6,8 @@ Key Features:
 - Class auto loading
 - PDO database class
 - Bootstrap 5, jQuery, and React included
-
-
-starter content for env.php file (create in /app directory):
+  
+Starter content for env.php file (create in /app directory):
 ```
 <?php
 // Enviroment specific variables
@@ -18,7 +17,13 @@ putenv("DB_PASSWORD=");
 putenv("DB_NAME=");
 ?>
 ```
-
+  
+Create a controller via CLI:
 ``` bash command-line
-php command make:controller NewController
+php command make:controller YourControllerName
+```
+  
+Create a model via CLI:
+``` bash command-line
+php command make:model YourModelName
 ```
