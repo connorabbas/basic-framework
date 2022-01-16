@@ -3,6 +3,7 @@
 Key Features:
 - Routing for GET, POST, PATCH, PUT & DELETE HTTP requests
 - MVC architecture
+- Basic CLI actions for creating Models & Controllers
 - Class auto loading
 - PDO database class
 - Bootstrap 5, jQuery, and React included
