@@ -11,7 +11,7 @@ class SiteController
     public function invoke()
     {
         // Valid routes for site
-        $route = new Route($this->db);
+        $routes = new Route($this->db);
         require_once('./app/routes.php');
     }
 }

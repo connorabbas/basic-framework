@@ -1,19 +1,19 @@
 <?php
 // Valid Routes for site
 
-$route->get('/', function(){
+$routes->get('/', function(){
     return App::view('home', [
         'pageTitle' => 'Home',
         'pageDesc' => 'Welcome to the php mini framework!',
     ]);
 });
 
-$route->get('/tester', [TestController::class, 'index']);
-$route->post('/tester', [TestController::class, 'postTest']);
+$routes->get('/tester', [TestController::class, 'index']);
+$routes->post('/tester', [TestController::class, 'postTest']);
 
-$route->get('/dynamic/$tester', function(){
+$routes->get('/dynamic/$tester', function(){
     echo 'test route without a controller class & dynamic GET data <br>';
     echo 'dynamic slug: '.$_GET['tester'];
 });
 
-$route->checkRoute();
+$routes->checkRoute();
