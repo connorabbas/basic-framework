@@ -17,7 +17,7 @@
         <meta property="og:site_name" content="JDS Industries" />
         <meta property="og:title" content="JDS Industries - <?= $pageTitle ?>" />
         <meta property="og:description" content="<?= $pageDesc ?>" />
-        <meta property="og:image" content="<?= BASE_DIR ?>resources/images/php-logo.png" />
+        <meta property="og:image" content="<?= App::path('/resources/images/php-logo.png') ?>" />
         <meta property="og:image:width" content="1280" />
         <meta property="og:image:height" content="670" />
 
