@@ -7,4 +7,4 @@ $URL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http
 
 // Constants
 define('URL', $URL);
-define('BASE_DIR', '/php-mf/');
+define('BASE_DIR', getenv('BASE_DIR'));
