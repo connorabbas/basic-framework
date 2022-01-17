@@ -38,7 +38,7 @@ function createController($name)
         fclose($controllerFile);
     
         // Output Success
-        print_r("app/controllers/".$name.".php created.");
+        print_r("Controller: app/controllers/".$name.".php created!");
     } else {
         // Output Failure
         print_r("FAILED. app/controllers/".$name.".php already exists.");
@@ -81,7 +81,7 @@ function createModel($name)
         fclose($modelFile);
 
         // Output Success
-        print_r("app/models/".$name.".php created.");
+        print_r("Model: app/models/".$name.".php created!");
     } else {
         // Output Failure
         print_r("FAILED. app/models/".$name.".php already exists.");
@@ -93,7 +93,7 @@ function createModel($name)
 $command = $argv[1];
 
 // Create a certain file type
-if (strpos($command, 'make:') !== false && isset($argv[2])) {
+if (strpos($command, 'create:') !== false && isset($argv[2])) {
     $commandParts = explode(':', $command);
     $makeThis = $commandParts[1];
 
@@ -109,6 +109,8 @@ if (strpos($command, 'make:') !== false && isset($argv[2])) {
         createModel($modelName);
     }
 
+} else {
+    print_r("Not a valid Mini Framework command.");
 }
 
 echo "\n";

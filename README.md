@@ -21,10 +21,10 @@ putenv("DB_NAME=");
 
 Create a controller via CLI:
 ``` bash command-line
-php command make:controller YourControllerName
+php mini create:controller YourControllerName
 ```
 
 Create a model via CLI:
 ``` bash command-line
-php command make:model YourModelName
+php mini create:model YourModelName
 ```
