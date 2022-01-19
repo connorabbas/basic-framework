@@ -14,8 +14,8 @@
         <meta property="og:locale" content="en_US" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="<?= URL ?>" />
-        <meta property="og:site_name" content="JDS Industries" />
-        <meta property="og:title" content="JDS Industries - <?= $pageTitle ?>" />
+        <meta property="og:site_name" content="PHP Mini Framework" />
+        <meta property="og:title" content="PHP Mini Framework - <?= $pageTitle ?>" />
         <meta property="og:description" content="<?= $pageDesc ?>" />
         <meta property="og:image" content="<?= App::path('/resources/images/php-logo.png') ?>" />
         <meta property="og:image:width" content="1280" />
