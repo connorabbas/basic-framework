@@ -1,4 +1,5 @@
 # PHP Mini Framework
+[View Documentation](https://php-mf-docs.connor-abbas.com/)
 
 Key Features:
 - Routing for GET, POST, PATCH, PUT & DELETE HTTP requests
