@@ -7,7 +7,7 @@
             <ul>
                 <li>Routing for GET, POST, PATCH, PUT & DELETE HTTP requests</li>
                 <li>MVC architecture</li>
-                <li>Basic CLI actions for creating Models & Controllers</li>
+                <li>Basic CLI commands for creating Models & Controllers</li>
                 <li>Class auto loading</li>
                 <li>PDO database class</li>
                 <li>Bootstrap 5 & animate.css included</li>

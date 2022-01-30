@@ -37,7 +37,6 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
                         <a class="nav-link" aria-current="page" href="<?= App::path('/') ?>">Home</a>
-                        <a class="nav-link" href="<?= App::path('/tester') ?>">Tester Page</a>
                     </div>
                 </div>
             </div>
