@@ -8,12 +8,4 @@ $routes->get('/', function(){
     ]);
 });
 
-$routes->get('/tester', [TestController::class, 'index']);
-$routes->post('/tester', [TestController::class, 'postTest']);
-
-$routes->get('/dynamic/$tester', function(){
-    echo 'test route without a controller class & dynamic GET data <br>';
-    echo 'dynamic slug: '.$_GET['tester'];
-});
-
 $routes->checkRoute();

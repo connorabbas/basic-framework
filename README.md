@@ -7,7 +7,7 @@ Key Features:
 - Basic CLI actions for creating Models & Controllers
 - Class auto loading
 - PDO database class
-- Bootstrap 5, jQuery, and React included
+- Bootstrap 5 & animate.css included
 
 Starter content for env.php file (create in /app directory):
 ```

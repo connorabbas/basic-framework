@@ -26,8 +26,6 @@
         <link href="<?= App::path('/resources/css/styles.css') ?>" rel="stylesheet">
         <link href="<?= App::path('/resources/css/animate.min.css') ?>" rel="stylesheet">
 
-        <!-- Scripts -->
-        <script src='<?= App::path('/resources/js/jquery.min.js') ?>' type='text/javascript'  ></script>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
