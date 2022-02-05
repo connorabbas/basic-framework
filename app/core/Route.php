@@ -85,7 +85,7 @@ class Route
     {
         global $ValidRoute;
         if ($ValidRoute == null) {
-            require_once('./app/views/404.php');
+            require_once('../app/views/404.php');
         }
     }
 

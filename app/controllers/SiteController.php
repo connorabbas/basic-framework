@@ -12,6 +12,6 @@ class SiteController
     {
         // Valid routes for site
         $routes = new Route($this->db);
-        require_once('./app/routes.php');
+        require_once('../app/routes.php');
     }
 }
