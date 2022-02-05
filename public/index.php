@@ -1,4 +1,15 @@
 <?php
+/*
+|--------------------------------------------------------------------------
+| PHP Mini Framework
+|--------------------------------------------------------------------------
+|   
+| Developed and maintained by: Connor Abbas 
+| Source code: https://github.com/connorabbas/php-mf
+| Latest buid: v1.0.0
+|
+*/
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
