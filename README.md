@@ -1,29 +1,26 @@
 # PHP Mini Framework
-[View Documentation](https://php-mf-docs.connor-abbas.com/)
 
-Key Features:
+## Documentation
+View full documentation: [https://php-mf-docs.connor-abbas.com/](https://php-mf-docs.connor-abbas.com/)
+
+## What is PHP Mini Framework?
+PHP Mini is a full-stack PHP web framework that gives you the essentials for starting a web project in a lightweight "mini" package.
+
+## Key Features
 - Routing for GET, POST, PATCH, PUT & DELETE HTTP requests
 - MVC architecture
+- View templating using Plates PHP
 - Basic CLI commands for creating Models & Controllers
 - Class auto loading
 - PDO database class
-- Bootstrap 5 & animate.css included
+- Bootstrap 5 included
 
-Starter content for env.php file (create in /app directory):
-```
-<?php
-// Enviroment specific variables
+## Installation
+- Clone repo
+- Run composer update to add [Plates](https://github.com/thephpleague/plates) templating
+- Change env to env.php located in /app/vars/
 
-// Database
-putenv("DB_HOST=127.0.0.1");
-putenv("DB_USERNAME=root");
-putenv("DB_PASSWORD=");
-putenv("DB_NAME=");
-
-// Site Base Directory
-putenv("BASE_DIR=/php-mf/public/");
-?>
-```
+## CLI Tools
 
 Create a controller via CLI:
 ``` bash command-line

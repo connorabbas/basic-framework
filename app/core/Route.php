@@ -1,17 +1,15 @@
 <?php
 class Route
 {
-    protected $db;
+    public $validRoute;
 
-    public function __construct($db)
+    public function __construct()
     {
-        $this->db = $db;
+        $this->validRoute = false;
     }
 
     public function set($route, $callback)
     {
-        global $ValidRoute;
-    
         $request_url = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
         $request_url = str_replace(ltrim(BASE_DIR, '/'), '',  $request_url);
         $request_url = rtrim($request_url, '/');
@@ -58,21 +56,20 @@ class Route
                 $class_name = $callback[0];
                 $method_name = $callback[1];
                 $fully_qualified_class_name = "\\$class_name";
-                $obj = new $fully_qualified_class_name($this->db);
+                $obj = new $fully_qualified_class_name();
                 call_user_func( [$obj, $method_name],  $callback[1]);
-                $ValidRoute = $route;
+                $this->validRoute = true;
             } 
         }
         else if (is_callable($callback)) {
-            $callback->__invoke($this->db);
-            $ValidRoute = $route;
+            $callback->__invoke();
+            $this->validRoute = true;
         }
     }
 
     public function checkRoute()
     {
-        global $ValidRoute;
-        if ($ValidRoute == null) {
+        if (!$this->validRoute) {
             require_once('../app/views/404.php');
         }
     }

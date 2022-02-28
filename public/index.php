@@ -6,40 +6,31 @@
 |   
 | Developed and maintained by: Connor Abbas 
 | Source code: https://github.com/connorabbas/php-mf
-| Latest buid: v1.0.0
+| Latest buid: v1.2
 |
 */
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 // ENV and global vars
-require_once('../app/env.php');
-require_once('../app/globals.php');
+if (file_exists('../app/vars/env.php')) {
+    require_once('../app/vars/env.php');
+}
+require_once('../app/vars/globals.php');
 
-// Use SSL
-if (!isset($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] != "on" && BASE_DIR != '/php-mf/') {
-    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"], true, 301);
-    exit;
+// Report Errors
+if (ENV == 'local') {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
 }
 
-// Autoload Classes
-spl_autoload_register(
-    function ($class) {
-        if (file_exists('../app/core/' . $class . '.php')) {
-            require_once '../app/core/' . $class . '.php';
-        } else if (file_exists('../app/controllers/' . $class . '.php')) {
-            require_once '../app/controllers/' . $class . '.php';
-        } else if (file_exists('../app/models/' . $class . '.php')) {
-            require_once '../app/models/' . $class . '.php';
-        }
-    }
-);
+// Composer autoloader for vendor classes (run composer update)
+if (file_exists('../vendor/autoload.php')) {
+    require '../vendor/autoload.php';
+}
 
-// Include DB connection once, use dependency injection with class object constructors for DB usage
-$db = new DB();
+// Mini framework autoloader
+require '../app/autoload.php';
 
 // Invoke the site
-$site = new SiteController($db);
+$site = new SiteController();
 $site->invoke();
