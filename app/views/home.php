@@ -1,3 +1,9 @@
+<?php
+$this->layout('template::main', [
+    'pageTitle' => 'Home',
+    'pageDesc' => "Welcome to the php mini framework!",
+]);
+?>
 <div class="container">
     <div class="row my-5">
         <div class="col">

@@ -9,7 +9,9 @@ Key Features:
 - PDO database class
 - Bootstrap 5 & animate.css included
 
-Starter content for env.php file (create in /app directory):
+Run composer update upon installation to add Plates templating
+
+Starter content for env.php file (create in /app/vars/ directory):
 ```
 <?php
 // Enviroment specific variables

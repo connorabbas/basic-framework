@@ -42,10 +42,8 @@
             </div>
         </nav>
         <div id="contentContainer" class="animate__animated animate__fadeIn">
-            <?php
-            // Content View
-            App::view($view, $data, null);
-            ?>
+            <!-- Main Content -->
+            <?= $this->section('content') ?>
         </div>
 
         <!-- Script Resources -->
