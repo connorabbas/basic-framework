@@ -11,11 +11,12 @@
 
         <title>404</title>
     </head>
-    <body>
+    <body class="bg-light">
         <div class="d-flex align-items-center justify-content-center" style="height: 90vh">
             <div class="text-center">
                 <h1 class="mb-4">404</h1>
-                <p>Nothing to see here...</p>
+                <p class="text-muted">Nothing to see here...</p>
+                <a href="<?= App::path('/') ?>">Home</a>
             </div>
         </div>
     </body>
