@@ -4,10 +4,11 @@
 Key Features:
 - Routing for GET, POST, PATCH, PUT & DELETE HTTP requests
 - MVC architecture
+- View templating using Plates PHP
 - Basic CLI commands for creating Models & Controllers
 - Class auto loading
 - PDO database class
-- Bootstrap 5 & animate.css included
+- Bootstrap 5 included by default
 
 Run composer update upon installation to add Plates templating
 

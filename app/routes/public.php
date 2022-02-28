@@ -1,8 +1,13 @@
 <?php
-// Valid Routes for site
+/*
+|--------------------------------------------------------------------------
+| Valid Routes for Site
+|--------------------------------------------------------------------------
+*/
 
 $routes->get('/', function(){
-    return App::view('home');
+    return App::view('welcome');
 });
 
+// Check if valid route
 $routes->checkRoute();

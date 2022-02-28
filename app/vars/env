@@ -1,0 +1,16 @@
+<?php
+// Enviroment specific variables
+// rename to env.php for use
+
+// Database
+putenv("DB_HOST=127.0.0.1");
+putenv("DB_USERNAME=root");
+putenv("DB_PASSWORD=");
+putenv("DB_NAME=");
+
+// Site Base Directory
+putenv("BASE_DIR=/php-mf/public/");
+
+// Site Enviroment
+putenv("ENV=local");
+?>

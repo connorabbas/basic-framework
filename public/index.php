@@ -11,11 +11,13 @@
 */
 
 // ENV and global vars
-require_once('../app/vars/env.php');
+if (file_exists('../app/vars/env.php')) {
+    require_once('../app/vars/env.php');
+}
 require_once('../app/vars/globals.php');
 
 // Report Errors
-if (ENV == 'DEV' || ENV == 'STAGING') {
+if (ENV == 'local') {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);

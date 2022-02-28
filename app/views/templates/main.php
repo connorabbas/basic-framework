@@ -24,27 +24,12 @@
         <!-- Resources -->
         <link href="<?= App::path('/resources/css/bootstrap/bootstrap.min.css') ?>" rel="stylesheet">
         <link href="<?= App::path('/resources/css/styles.css') ?>" rel="stylesheet">
-        <link href="<?= App::path('/resources/css/animate.min.css') ?>" rel="stylesheet">
 
     </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="#">php-mf</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        <a class="nav-link" aria-current="page" href="<?= App::path('/') ?>">Home</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <div id="contentContainer" class="animate__animated animate__fadeIn">
-            <!-- Main Content -->
-            <?= $this->section('content') ?>
-        </div>
+    <body class="bg-light">
+
+        <!-- Main Content -->
+        <?= $this->section('content') ?>
 
         <!-- Script Resources -->
         <script src="<?= App::path('/resources/js/bootstrap/bootstrap.bundle.min.js') ?>"></script>
