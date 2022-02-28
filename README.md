@@ -1,10 +1,10 @@
 # PHP Mini Framework
 
-# Documentation
+## Documentation
 View full documentation: [https://php-mf-docs.connor-abbas.com/](https://php-mf-docs.connor-abbas.com/)
 
 ## What is PHP Mini Framework?
-PHP Mini is a full-stack PHP web framework that gives you the basic essentials for starting a web project in a lightweight package.
+PHP Mini is a full-stack PHP web framework that gives you the essentials for starting a web project in a lightweight "mini" package.
 
 ## Key Features
 - Routing for GET, POST, PATCH, PUT & DELETE HTTP requests
