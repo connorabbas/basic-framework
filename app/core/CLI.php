@@ -15,11 +15,11 @@ class CLI
             $content .= "    protected \$db;";
             $content .= "\n";
             $content .= "\n";
-            $content .= "    public function __construct(\$db)";
+            $content .= "    public function __construct()";
             $content .= "\n";
             $content .= "    {";
             $content .= "\n";
-            $content .= "        \$this->db = \$db;";
+            $content .= "        \$this->db = new DB();";
             $content .= "\n";
             $content .= "    }";
             $content .= "\n";
