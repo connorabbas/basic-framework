@@ -35,10 +35,9 @@ class Route
                 $route_part = ltrim($route_part, '$');
                 array_push($parameters, $request_url_parts[$__i__]);
                 $$route_part=$request_url_parts[$__i__];
-                // Set dynamic route variables for GET
-                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                    $_GET[$route_part] = $$route_part;
-                } 
+                // Set dynamic route variables
+                $_REQUEST[$route_part] = $$route_part;
+
             }
             else if ( $route_parts[$__i__] != $request_url_parts[$__i__] ) {
                 return;
