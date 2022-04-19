@@ -1,7 +1,6 @@
 <?php
 
-use App\Core\App;
-use App\Controllers\TestController;
+use App\Controllers\ExampleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -10,11 +9,7 @@ use App\Controllers\TestController;
 */
 
 $router->get('/', function() {
-    return App::view('pages/welcome');
+    return view('pages/welcome');
 });
 
-$router->get('/test/$var', function() {
-    echo 'test with ' . $_REQUEST['var'];
-});
-
-$router->get('/tester', [TestController::class, 'index']);
+$router->get('/example', [ExampleController::class, 'index']);

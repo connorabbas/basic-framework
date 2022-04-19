@@ -1,5 +1,5 @@
-<?php
 
+<?php
 $this->layout('template::main', [
     'pageTitle' => 'Welcome',
     'pageDesc' => "Welcome to the php mini framework!",

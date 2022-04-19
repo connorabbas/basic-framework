@@ -25,7 +25,7 @@
         <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet">
         <link href="/css/styles.css" rel="stylesheet">
     </head>
-    <body class="bg-light">
+    <body class="bg-dark text-white">
 
         <!-- Main Content -->
         <?= $this->section('content') ?>

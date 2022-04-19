@@ -2,10 +2,9 @@
 
 namespace App\Controllers;
 
-use App\Core\App;
 use App\Core\DB;
 
-class TestController extends SiteController
+class ExampleController extends SiteController
 {
     protected $db;
 
@@ -16,6 +15,6 @@ class TestController extends SiteController
 
     public function index()
     {
-        return App::view('pages/tester');
+        return view('pages/example');
     }
 }

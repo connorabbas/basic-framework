@@ -11,6 +11,7 @@ use \PDO;
 *  Binds params to values
 *  Returns rows and results
 */
+
 class DB
 {
 	private $host, $user, $pass, $dbname, $dbh, $error, $stmt;

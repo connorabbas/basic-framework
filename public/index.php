@@ -24,6 +24,9 @@ if (file_exists('../app/vars/env.php')) {
 }
 require_once('../app/vars/globals.php');
 
+// Global helper functions
+require_once('../app/core/Helpers.php');
+
 // Report Errors
 if (ENV == 'local') {
     ini_set('display_errors', 1);

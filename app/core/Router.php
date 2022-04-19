@@ -2,8 +2,6 @@
 
 namespace App\Core;
 
-use App\Core\App;
-
 class Router
 {
     public $validRoute;
