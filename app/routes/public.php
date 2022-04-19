@@ -1,13 +1,16 @@
 <?php
+
+use App\Core\App;
+use App\Controllers\TestController;
+
 /*
 |--------------------------------------------------------------------------
 | Valid Routes for Site
 |--------------------------------------------------------------------------
 */
 
-$routes->get('/', function(){
-    return App::view('welcome');
+$router->get('/', function() {
+    return App::view('pages/welcome');
 });
 
-// Check if valid route
-$routes->checkRoute();
+$router->get('/tester', [TestController::class, 'index']);

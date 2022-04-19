@@ -6,8 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Resources -->
-        <link href="<?= App::path('/resources/css/bootstrap/bootstrap.min.css') ?>" rel="stylesheet">
-        <link href="<?= App::path('/resources/css/styles.css') ?>" rel="stylesheet">
+        <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/styles.css" rel="stylesheet">
 
         <title>404</title>
     </head>
@@ -16,7 +16,7 @@
             <div class="text-center">
                 <h1 class="mb-4">404</h1>
                 <p class="text-muted">Nothing to see here...</p>
-                <a href="<?= App::path('/') ?>">Home</a>
+                <a href="/">Home</a>
             </div>
         </div>
     </body>

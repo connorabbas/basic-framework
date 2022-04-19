@@ -1,4 +1,7 @@
 <?php
+
+use App\Controllers\SiteController;
+
 /*
 |--------------------------------------------------------------------------
 | PHP Mini Framework
@@ -9,6 +12,11 @@
 | Latest buid: v1.2
 |
 */
+
+// Composer autoloader
+if (file_exists('../vendor/autoload.php')) {
+    require '../vendor/autoload.php';
+}
 
 // ENV and global vars
 if (file_exists('../app/vars/env.php')) {
@@ -22,14 +30,6 @@ if (ENV == 'local') {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 }
-
-// Composer autoloader for vendor classes (run composer update)
-if (file_exists('../vendor/autoload.php')) {
-    require '../vendor/autoload.php';
-}
-
-// Mini framework autoloader
-require '../app/autoload.php';
 
 // Invoke the site
 $site = new SiteController();

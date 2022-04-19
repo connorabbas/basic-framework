@@ -1,4 +1,7 @@
 <?php
+
+namespace App\Core;
+
 class CLI
 {
     public function createController($name)

@@ -1,4 +1,9 @@
 <?php
+
+namespace App\Core;
+
+use League\Plates\Engine;
+
 class App
 {
     public static function view($view, $data = [])
@@ -7,26 +12,14 @@ class App
         // install: composer require league/plates
         // docs: https://platesphp.com/
         if (file_exists('../app/views/' . $view . '.php')) {
-            $templates = new League\Plates\Engine('../app/views/');
+            $templates = new Engine('../app/views/');
             $templates->addFolder('template', '../app/views/templates/');
             echo $templates->render($view, $data);
         } 
         // Not found
         else {
-            require_once('../app/views/404.php');
+            require_once('../app/views/pages/404.php');
         } 
-    }
-
-    public static function path($path)
-    {
-        $path = ltrim($path, '/');
-        return BASE_DIR . $path;
-    }
-
-    public static function redirect($path)
-    {
-        $path = ltrim($path, '/');
-        header("location: ".BASE_DIR.$path);
     }
 
     public static function set_csrf()

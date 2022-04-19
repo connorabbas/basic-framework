@@ -1,14 +1,18 @@
 <?php
+
+namespace App\Controllers;
+
+use App\Core\Router;
+
 class SiteController
 {
-    public function __construct()
-    {
-    }
-
     public function invoke()
     {
-        // Valid routes for site
-        $routes = new Route();
-        require_once('../app/routes/public.php');
+        // Site routing
+        $router = new Router();
+        foreach (glob("../app/routes/*.php") as $filename) {
+            require_once($filename);
+        }
+        $router->checkRoute();
     }
 }

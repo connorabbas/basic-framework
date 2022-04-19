@@ -2,7 +2,10 @@
 <?php
 // Basic CLI actions for PHP Mini Framework
 
-require_once('app/core/CLI.php');
+require __DIR__.'/vendor/autoload.php';
+
+use App\Core\CLI;
+
 $cli = new CLI();
 
 //print_r($argc); // number or arguments
