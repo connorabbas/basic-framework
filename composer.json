@@ -1,4 +1,12 @@
 {
+    "name": "connorabbas/php-mf",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Connor Abbas",
+            "email": "abbasconnor@gmail.com"
+        }
+    ],
     "require": {
         "league/plates": "^3.4"
     },
