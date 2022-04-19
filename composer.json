@@ -1,5 +1,6 @@
 {
     "name": "connorabbas/php-mf",
+    "description": "PHP Mini is a full-stack PHP web framework that gives you the essentials for starting a web project in a lightweight package",
     "type": "project",
     "authors": [
         {
@@ -8,6 +9,7 @@
         }
     ],
     "require": {
+        "php": ">=7.2",
         "league/plates": "^3.4"
     },
     "autoload": {
