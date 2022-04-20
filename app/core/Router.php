@@ -1,5 +1,8 @@
 <?php
-class Route
+
+namespace App\Core;
+
+class Router
 {
     public $validRoute;
 
@@ -10,8 +13,11 @@ class Route
 
     public function set($route, $callback)
     {
+        $dirParts = explode('\\', __DIR__);
+        $projectName = $dirParts[count($dirParts) - 3];
+        $publicPath = '/' . $projectName . '/public/';
         $request_url = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
-        $request_url = str_replace(ltrim(BASE_DIR, '/'), '',  $request_url);
+        $request_url = str_replace(ltrim($publicPath, '/'), '',  $request_url);
         $request_url = rtrim($request_url, '/');
         $request_url = strtok($request_url, '?');
         $route_parts = explode('/', $route);
@@ -29,7 +35,7 @@ class Route
     
         // If multi component route
         $parameters = [];
-        for( $__i__ = 0; $__i__ < count($route_parts); $__i__++ ) {
+        for ( $__i__ = 0; $__i__ < count($route_parts); $__i__++ ) {
             $route_part = $route_parts[$__i__];
             if ( preg_match("/^[$]/", $route_part) ) {
                 $route_part = ltrim($route_part, '$');
@@ -56,7 +62,7 @@ class Route
                 $method_name = $callback[1];
                 $fully_qualified_class_name = "\\$class_name";
                 $obj = new $fully_qualified_class_name();
-                call_user_func( [$obj, $method_name],  $callback[1]);
+                call_user_func([$obj, $method_name],  $callback[1]);
                 $this->validRoute = true;
             } 
         }
@@ -69,7 +75,7 @@ class Route
     public function checkRoute()
     {
         if (!$this->validRoute) {
-            require_once('../app/views/404.php');
+            require_once('../app/views/pages/404.php');
         }
     }
 

@@ -1,4 +1,9 @@
 <?php
+
+namespace App\Core;
+
+use \PDO;
+
 /* 
 *  PDO DATABASE CLASS
 *  Connects Database Using PDO
@@ -6,6 +11,7 @@
 *  Binds params to values
 *  Returns rows and results
 */
+
 class DB
 {
 	private $host, $user, $pass, $dbname, $dbh, $error, $stmt;
@@ -20,10 +26,10 @@ class DB
 
 		// Set DSN
 		$dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;
-		$options = array (
+		$options = [
 			PDO::ATTR_PERSISTENT => $persistent,
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION 
-		);
+        ];
 
 		// Create a new PDO instanace
 		try {

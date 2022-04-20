@@ -1,4 +1,7 @@
 <?php
+
+namespace App\Core;
+
 class CLI
 {
     public function createController($name)
@@ -7,6 +10,13 @@ class CLI
             $controllerFile = fopen("app/controllers/".$name.".php", "w") or die("Unable to open file!");
             $content = "";
             $content .= "<?php";
+            $content .= "\n";
+            $content .= "\n";
+            $content .= "namespace App\Controllers;";
+            $content .= "\n";
+            $content .= "\n";
+            $content .= "use App\Core\DB;";
+            $content .= "\n";
             $content .= "\n";
             $content .= "class ".$name." extends SiteController";
             $content .= "\n";
@@ -27,6 +37,8 @@ class CLI
             $content .= "    public function index()";
             $content .= "\n";
             $content .= "    {";
+            $content .= "\n";
+            $content .= "        //";
             $content .= "\n";
             $content .= "    }";
             $content .= "\n";
@@ -51,6 +63,10 @@ class CLI
             $content = "";
             $content .= "<?php";
             $content .= "\n";
+            $content .= "\n";
+            $content .= "namespace App\Models;";
+            $content .= "\n";
+            $content .= "\n";
             $content .= "class ".$name;
             $content .= "\n";
             $content .= "{";
@@ -70,6 +86,8 @@ class CLI
             $content .= "    public function modelFunction()";
             $content .= "\n";
             $content .= "    {";
+            $content .= "\n";
+            $content .= "        //";
             $content .= "\n";
             $content .= "    }";
             $content .= "\n";

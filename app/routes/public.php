@@ -1,13 +1,15 @@
 <?php
+
+use App\Controllers\ExampleController;
+
 /*
 |--------------------------------------------------------------------------
 | Valid Routes for Site
 |--------------------------------------------------------------------------
 */
 
-$routes->get('/', function(){
-    return App::view('welcome');
+$router->get('/', function() {
+    return view('pages/welcome');
 });
 
-// Check if valid route
-$routes->checkRoute();
+$router->get('/example', [ExampleController::class, 'index']);

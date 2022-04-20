@@ -1,3 +1,4 @@
+
 <?php
 $this->layout('template::main', [
     'pageTitle' => 'Welcome',

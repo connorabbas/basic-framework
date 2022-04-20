@@ -1,8 +1,16 @@
 #!/usr/bin/env php
 <?php
-// Basic CLI actions for PHP Mini Framework
 
-require_once('app/core/CLI.php');
+/*
+|--------------------------------------------------------------------------
+| Basic CLI actions for PHP Mini Framework
+|--------------------------------------------------------------------------
+*/
+
+require __DIR__.'/vendor/autoload.php';
+
+use App\Core\CLI;
+
 $cli = new CLI();
 
 //print_r($argc); // number or arguments
@@ -10,7 +18,7 @@ $cli = new CLI();
 $command = $argv[1];
 
 // Create a certain file type
-if (strpos($command, 'create:') !== false && isset($argv[2])) {
+if (strpos($command, 'new:') !== false && isset($argv[2])) {
     $commandParts = explode(':', $command);
     $makeThis = $commandParts[1];
 
