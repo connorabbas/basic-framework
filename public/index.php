@@ -9,7 +9,7 @@ use App\Controllers\SiteController;
 |   
 | Developed and maintained by: Connor Abbas 
 | Source code: https://github.com/connorabbas/php-mf
-| Latest buid: v1.2
+| Latest buid: v2.0
 |
 */
 
