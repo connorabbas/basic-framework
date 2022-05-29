@@ -75,7 +75,7 @@ class Router
     public function checkRoute()
     {
         if (!$this->validRoute) {
-            require_once('../app/views/pages/404.php');
+            return view('pages/404');
         }
     }
 

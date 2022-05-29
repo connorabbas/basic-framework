@@ -10,8 +10,11 @@ class SiteController
     {
         // Site routing
         $router = new Router();
-        foreach (glob("../app/routes/*.php") as $filename) {
-            require_once($filename);
+        $di = new \RecursiveDirectoryIterator('../app/routes/');
+        foreach (new \RecursiveIteratorIterator($di) as $filename => $file) {
+            if (strpos($filename, '.php') !== false) {
+                require_once($filename);
+            }
         }
         $router->checkRoute();
     }
