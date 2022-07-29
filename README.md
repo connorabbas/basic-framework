@@ -103,10 +103,10 @@ class TesterController extends SiteController
 
     public function index()
     {
-        $example = new Example($this->db);
-        $exampleData = $example->exampleQuery('test_data');
+        $exampleModel = new Example($this->db);
+        $exampleData = $exampleModel->exampleQuery('test_data');
 
-        return App::view('documentation', [
+        return view('pages/example', [
             'exampleData' => $exampleData,
         ]);
     }
