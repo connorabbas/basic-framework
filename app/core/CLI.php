@@ -43,6 +43,7 @@ class CLI
             $content .= "    }";
             $content .= "\n";
             $content .= "}";
+            $content .= "\n";
         
             // Write to the file
             fwrite($controllerFile, $content);
@@ -92,6 +93,7 @@ class CLI
             $content .= "    }";
             $content .= "\n";
             $content .= "}";
+            $content .= "\n";
 
             // Write to the file
             fwrite($modelFile, $content);

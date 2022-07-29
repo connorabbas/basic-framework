@@ -2,7 +2,8 @@
 
 namespace App\Core;
 
-use \PDO;
+use PDO;
+use PDOException;
 
 /* 
 *  PDO DATABASE CLASS
@@ -19,10 +20,10 @@ class DB
 	public function __construct($persistent = false)
     {
         // Set connection vars
-        $this->host = getenv('DB_HOST');  
-        $this->user = getenv('DB_USERNAME');     
-        $this->pass = getenv('DB_PASSWORD');
-        $this->dbname = getenv('DB_NAME');
+        $this->host = $_ENV['DB_HOST'];  
+        $this->user = $_ENV['DB_USERNAME'];     
+        $this->pass = $_ENV['DB_PASSWORD'];
+        $this->dbname = $_ENV['DB_NAME'];
 
 		// Set DSN
 		$dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;

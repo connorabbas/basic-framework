@@ -1,11 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Basic CLI actions for PHP Mini Framework
-|--------------------------------------------------------------------------
-*/
+// Basic CLI actions for PHP Mini Framework
 
 require __DIR__.'/vendor/autoload.php';
 

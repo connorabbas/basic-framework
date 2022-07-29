@@ -13,8 +13,13 @@ class ExampleController extends SiteController
         $this->db = new DB();
     }
 
+    // simple example of passing data to a view
     public function index()
     {
-        return view('pages/example');
+        $foo = 'bar';
+
+        return view('pages/example', [
+            'foo' => $foo,
+        ]);
     }
 }

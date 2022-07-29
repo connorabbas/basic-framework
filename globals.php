@@ -6,9 +6,9 @@ $pageTitle = 'Welcome!';
 $pageDesc = "This is a mini framework with the basic php application essentials";
 
 // Constants
-if (!getenv('ENV')) {
+if (!$_ENV['ENV']) {
     define('ENV', 'local');
 } else {
-    define('ENV', getenv('ENV'));
+    define('ENV', $_ENV['ENV']);
 }
 define('URL', $URL);

@@ -13,11 +13,11 @@ class Example
 
     public function exampleQuery($data)
     {
-		$sql = "SELECT * FROM schema.table Where column = :data";
+        $sql = "SELECT * FROM schema.table Where column = :data";
         $this->db->query($sql);
         $this->db->bind(':data', $data);
         $results = $this->db->resultSet();
 
         return $results;
-	}
+    }
 }
