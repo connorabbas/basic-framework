@@ -1,17 +1,13 @@
 <?php
 
+use Dotenv\Dotenv;
 use App\Controllers\SiteController;
 
-/*
-|--------------------------------------------------------------------------
-| PHP Mini Framework
-|--------------------------------------------------------------------------
-|   
-| Developed and maintained by: Connor Abbas 
-| Source code: https://github.com/connorabbas/php-mf
-| Latest buid: v2.1.0
-|
-*/
+/**
+ * PHP Mini Framework
+ * Developed and maintained by: Connor Abbas 
+ * Source code: https://github.com/connorabbas/php-mf
+ */
 
 // Composer autoloader
 if (file_exists('../vendor/autoload.php')) {
@@ -19,10 +15,9 @@ if (file_exists('../vendor/autoload.php')) {
 }
 
 // ENV and global vars
-if (file_exists('../app/vars/env.php')) {
-    require_once('../app/vars/env.php');
-}
-require_once('../app/vars/globals.php');
+$dotenv = Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
+require_once('../globals.php');
 
 // Global helper functions
 require_once('../app/core/Helpers.php');

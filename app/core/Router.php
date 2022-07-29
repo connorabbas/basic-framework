@@ -27,7 +27,7 @@ class Router
     
         // If route is only /
         if ( $route_parts[0] == '' && count($request_url_parts) == 0 ) {
-            $this->callRoute($route, $callback);
+            $this->callRoute($callback);
             exit();
         }
 
@@ -49,11 +49,11 @@ class Router
                 return;
             } 
         }
-        $this->callRoute($route, $callback);
+        $this->callRoute($callback);
         exit();
     }
 
-    public function callRoute($route, $callback)
+    public function callRoute($callback)
     {
         if (is_array($callback)) {
             if (is_string($callback[0]) && is_string($callback[1]) && count($callback) == 2) {
@@ -70,6 +70,10 @@ class Router
             $callback->__invoke();
             $this->validRoute = true;
         }
+        else if (is_string($callback)) {
+            view($callback);
+            $this->validRoute = true;
+        }
     }
 
     public function checkRoute()
@@ -77,6 +81,13 @@ class Router
         if (!$this->validRoute) {
             return view('pages/404');
         }
+    }
+
+    public function view($route, $view)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $this->set($route, $view);
+        } 
     }
 
     public function get($route, $callback)

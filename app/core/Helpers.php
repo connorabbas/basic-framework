@@ -2,16 +2,11 @@
 
 use League\Plates\Engine;
 
-/*
-|--------------------------------------------------------------------------
-| Helper functions available anywhere within the application
-|--------------------------------------------------------------------------
-*/
+// Helper functions available anywhere within the application
 
 function view($view, $data = [])
 {
     // View templating using Plates from composer
-    // install: composer require league/plates
     // docs: https://platesphp.com/
     if (file_exists('../app/views/' . $view . '.php')) {
         $templates = new Engine('../app/views/');
