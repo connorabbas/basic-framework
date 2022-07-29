@@ -36,7 +36,7 @@ $routes->get('/home', function() {
 // Alternatively, use a controller class and a method to store your logic in
 $routes->get('/home-alt', [HomeController::class, 'index']);
 ```
-### Paramters
+### Parameters
 You can set dynamic values in your routes slug that will be available in the $_REQUEST super global. Warning: This data is NOT sanitized, just like any GET url parameter.
 ``` php
 // Ex: yoursite.com/blog/1
