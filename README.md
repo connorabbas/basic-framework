@@ -17,7 +17,7 @@ composer create-project connora/php-mf <your-project-name>
 ```
 
 ## Routing
-#### Request Methods
+### Request Methods
 The framework's router offers the following methods for the common http site requests:
 ``` php
 $routes->get($uri, $callback);
@@ -26,7 +26,7 @@ $routes->put($uri, $callback);
 $routes->patch($uri, $callback);
 $routes->delete($uri, $callback);
 ```
-#### Callback functions
+### Callback functions
 The callback will either be a self contained function, where you can execute your routes logic, or it will be an array where the first item is the class you want to reference (usually a controller), and the second item is the method name.
 ``` php
 // Basic route using a closure
@@ -36,7 +36,7 @@ $routes->get('/home', function() {
 // Alternatively, use a controller class and a method to store your logic in
 $routes->get('/home-alt', [HomeController::class, 'index']);
 ```
-#### Paramters
+### Paramters
 You can set dynamic values in your routes slug that will be available in the $_REQUEST super global. Warning: This data is NOT sanitized, just like any GET url parameter.
 ``` php
 // Ex: yoursite.com/blog/1
@@ -58,12 +58,12 @@ php mini create:controller YourControllerName
 
 ## Views
 By default, PHP Mini Framework uses [Plates](https://platesphp.com/) for it's view template system.
-#### Static Page?
+### Static Page?
 The router class also has a method for calling your view directly, so you don't have to bother with closures or controllers for your more simple pages:
 ``` php
 $router->view('/', 'pages/welcome');
 ```
-#### In Your Controller Method
+### In Your Controller Method
 When calling your view within a controller, you will use the globally available view helper method. The method accepts the view file path (starting at app/views, and no file extension) and an array of data variables you want accessible in said view.
 ``` php
 public function index()
@@ -85,7 +85,7 @@ You can create a model using the cli tools just like you can with controllers:
 ``` bash command-line
 php mini create:model YourModelName
 ```
-#### Example Model Usage
+### Example Model Usage
 ``` php
 <?php
 
