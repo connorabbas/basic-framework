@@ -6,7 +6,7 @@ use App\Controllers\SiteController;
 /**
  * PHP Mini Framework
  * Developed and maintained by: Connor Abbas 
- * Source code: https://github.com/connorabbas/php-mf
+ * Source code: https://github.com/connorabbas/php-mf#php-mini-framework
  */
 
 // Composer autoloader
