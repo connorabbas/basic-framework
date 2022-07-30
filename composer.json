@@ -1,7 +1,12 @@
 {
     "name": "connora/php-mf",
-    "description": "PHP Mini is a full-stack PHP web framework that gives you the essentials for starting a web project in a lightweight package",
+    "description": "PHP Mini is a full-stack PHP web framework that gives you the basics for starting a web project in a lightweight \"mini\" package",
+    "keywords": [
+        "framework",
+        "php"
+    ],
     "type": "project",
+    "license": "MIT",
     "authors": [
         {
             "name": "Connor Abbas",
