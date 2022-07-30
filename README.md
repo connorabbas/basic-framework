@@ -53,7 +53,7 @@ Note: In the current state, controller methods should NOT accept parameters, the
 
 Creating a controller is easy with the built in cli tools included with mini. Just open a command line interface, make sure you are cd'd into the root directory of your project and enter the command:
 ``` bash command-line
-php mini create:controller YourControllerName
+php mini new:controller YourControllerName
 ```
 
 ## Views
@@ -83,7 +83,7 @@ It's recommended that the database connection should be established outside the 
 
 You can create a model using the cli tools just like you can with controllers:
 ``` bash command-line
-php mini create:model YourModelName
+php mini new:model YourModelName
 ```
 ### Example Model Usage
 ``` php
@@ -143,10 +143,10 @@ class TesterController extends SiteController
 
 Create a controller via CLI:
 ``` bash command-line
-php mini create:controller YourControllerName
+php mini new:controller YourControllerName
 ```
 
 Create a model via CLI:
 ``` bash command-line
-php mini create:model YourModelName
+php mini new:model YourModelName
 ```
