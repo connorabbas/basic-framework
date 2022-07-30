@@ -45,6 +45,8 @@ $routes->get('/blog/$id', function() {
     $id = $_REQUEST['id'];
 });
 ```
+### Organization
+As your application grows, you will probably want to better organize your routes instead of having them all in one file. Feel free to organize any file/folder structure you wish! By default, you can define routes within any .php file that resides inside of the /routes directory.
 
 ## Controllers
 Controllers are where you should store your routes logic for handling the incoming HTTP request. There is an example controller class provided.
