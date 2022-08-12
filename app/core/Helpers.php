@@ -1,6 +1,7 @@
 <?php
 
 use League\Plates\Engine;
+use App\Core\Config;
 
 // Helper functions available anywhere within the application
 
@@ -79,4 +80,18 @@ function dd($data)
     var_dump($data);
     echo '</pre>';
     die();
+}
+
+// access config values by using '.' as the nesting delimiter
+function config(string $configPath)
+{
+    $configKeys = explode('.', $configPath);
+    $config = (new Config($_ENV))->get();
+    $finalKey = $config;
+
+    for ($i = 0; $i < count($configKeys); $i++) {
+        $finalKey = $finalKey[$configKeys[$i]];
+    }
+
+    return $finalKey;
 }

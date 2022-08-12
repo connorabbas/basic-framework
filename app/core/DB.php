@@ -8,35 +8,50 @@ use PDOException;
 /* 
 *  PDO DATABASE CLASS
 *  Connects Database Using PDO
-*  Creates Prepeared Statements
+*  Creates Prepared Statements
 *  Binds params to values
 *  Returns rows and results
 */
 
 class DB
 {
-	private $host, $user, $pass, $dbname, $dbh, $error, $stmt;
+	private $host;
+    private $user;
+    private $pass;
+    private $dbname;
+    private $driver;
+    private $dbh;
+    private $stmt;
+    private $error;
 	
-	public function __construct($persistent = false)
+	public function __construct(array $config = null)
     {
+        // for the sake of the framework, use helper function for default configuration
+        if (is_null($config)) {
+            $config = config('database.main');
+        }
+
         // Set connection vars
-        $this->host = $_ENV['DB_HOST'];  
-        $this->user = $_ENV['DB_USERNAME'];     
-        $this->pass = $_ENV['DB_PASSWORD'];
-        $this->dbname = $_ENV['DB_NAME'];
+        $this->driver = $config['driver'];  
+        $this->host = $config['host'];  
+        $this->user = $config['username'];     
+        $this->pass = $config['password'];
+        $this->dbname = $config['name'];
 
 		// Set DSN
-		$dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;
+		$dsn = $this->driver . ':host=' . $this->host . ';dbname=' . $this->dbname;
+
+        // PDO Options
 		$options = [
-			PDO::ATTR_PERSISTENT => $persistent,
+			PDO::ATTR_PERSISTENT => $config['pdo_persistent'],
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION 
         ];
 
-		// Create a new PDO instanace
+		// Create a new PDO instance
 		try {
-			$this->dbh = new PDO ($dsn, $this->user, $this->pass, $options);
-		}		// Catch any errors
-		catch ( PDOException $e ) {
+			$this->dbh = new PDO($dsn, $this->user, $this->pass, $options);
+		} // Catch any errors
+		catch (PDOException $e) {
 			$this->error = $e->getMessage();
 		}
 	}
@@ -51,12 +66,13 @@ class DB
 	public function query($query)
     {
 		$this->stmt = $this->dbh->prepare($query);
+        return $this;
 	}
 	
 	// Bind values
 	public function bind($param, $value, $type = null)
     {
-		if (is_null ($type)) {
+		if (is_null($type)) {
 			switch (true) {
 				case is_int ($value) :
 					$type = PDO::PARAM_INT;
@@ -72,6 +88,8 @@ class DB
 			}
 		}
 		$this->stmt->bindValue($param, $value, $type);
+
+        return $this;
 	}
 	
 	// Execute the prepared statement
