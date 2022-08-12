@@ -72,18 +72,6 @@ class CLI
             $content .= "\n";
             $content .= "{";
             $content .= "\n";
-            $content .= "    protected \$db;";
-            $content .= "\n";
-            $content .= "\n";
-            $content .= "    public function __construct(\$db)";
-            $content .= "\n";
-            $content .= "    {";
-            $content .= "\n";
-            $content .= "        \$this->db = \$db;";
-            $content .= "\n";
-            $content .= "    }";
-            $content .= "\n";
-            $content .= "\n";
             $content .= "    public function modelFunction()";
             $content .= "\n";
             $content .= "    {";
