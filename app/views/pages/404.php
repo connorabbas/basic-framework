@@ -11,7 +11,7 @@
 
         <title>404</title>
     </head>
-    <body class="bg-light">
+    <body class="bg-dark text-white">
         <div class="d-flex align-items-center justify-content-center" style="height: 90vh">
             <div class="text-center">
                 <h1 class="mb-4">404</h1>

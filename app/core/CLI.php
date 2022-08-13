@@ -6,104 +6,68 @@ class CLI
 {
     public function createController($name)
     {
-        if (!file_exists("app/controllers/".$name.".php")) {
-            $controllerFile = fopen("app/controllers/".$name.".php", "w") or die("Unable to open file!");
+        if (!file_exists("app/controllers/" . $name . ".php")) {
             $content = "";
-            $content .= "<?php";
-            $content .= "\n";
-            $content .= "\n";
-            $content .= "namespace App\Controllers;";
-            $content .= "\n";
-            $content .= "\n";
-            $content .= "use App\Core\DB;";
-            $content .= "\n";
-            $content .= "\n";
-            $content .= "class ".$name." extends SiteController";
-            $content .= "\n";
-            $content .= "{";
-            $content .= "\n";
-            $content .= "    protected \$db;";
-            $content .= "\n";
-            $content .= "\n";
-            $content .= "    public function __construct()";
-            $content .= "\n";
-            $content .= "    {";
-            $content .= "\n";
-            $content .= "        \$this->db = new DB();";
-            $content .= "\n";
-            $content .= "    }";
-            $content .= "\n";
-            $content .= "\n";
-            $content .= "    public function index()";
-            $content .= "\n";
-            $content .= "    {";
-            $content .= "\n";
-            $content .= "        //";
-            $content .= "\n";
-            $content .= "    }";
-            $content .= "\n";
-            $content .= "}";
-            $content .= "\n";
-        
+            $content .= "<?php" . PHP_EOL;
+            $content .= PHP_EOL;
+            $content .= "namespace App\Controllers;" . PHP_EOL;
+            $content .= PHP_EOL;
+            $content .= "use App\Core\DB;" . PHP_EOL;
+            $content .= PHP_EOL;
+            $content .= "class ".$name."" . PHP_EOL;
+            $content .= "{" . PHP_EOL;
+            $content .= "    protected \$db;" . PHP_EOL;
+            $content .= PHP_EOL;
+            $content .= "    public function __construct()" . PHP_EOL;
+            $content .= "    {" . PHP_EOL;
+            $content .= "        \$this->db = new DB();" . PHP_EOL;
+            $content .= "    }" . PHP_EOL;
+            $content .= PHP_EOL;
+            $content .= "    public function index()" . PHP_EOL;
+            $content .= "    {" . PHP_EOL;
+            $content .= "        //" . PHP_EOL;
+            $content .= "    }" . PHP_EOL;
+            $content .= "}" . PHP_EOL;
+
             // Write to the file
+            $controllerFile = fopen("app/controllers/" . $name . ".php", "w") or die("Unable to open file!");
             fwrite($controllerFile, $content);
             fclose($controllerFile);
-        
+
             // Output Success
-            print_r("Controller: app/controllers/".$name.".php created!");
+            print_r("Controller: app/controllers/" . $name . ".php created!");
         } else {
             // Output Failure
-            print_r("FAILED. app/controllers/".$name.".php already exists.");
+            print_r("FAILED. app/controllers/" . $name . ".php already exists.");
         }
     }
 
     public function createModel($name)
     {
-        if (!file_exists("app/models/".$name.".php")) {
-            $modelFile = fopen("app/models/".$name.".php", "w") or die("Unable to open file!");
+        if (!file_exists("app/models/" . $name . ".php")) {
             $content = "";
-            $content .= "<?php";
-            $content .= "\n";
-            $content .= "\n";
-            $content .= "namespace App\Models;";
-            $content .= "\n";
-            $content .= "\n";
-            $content .= "class ".$name;
-            $content .= "\n";
-            $content .= "{";
-            $content .= "\n";
-            $content .= "    protected \$db;";
-            $content .= "\n";
-            $content .= "\n";
-            $content .= "    public function __construct(\$db)";
-            $content .= "\n";
-            $content .= "    {";
-            $content .= "\n";
-            $content .= "        \$this->db = \$db;";
-            $content .= "\n";
-            $content .= "    }";
-            $content .= "\n";
-            $content .= "\n";
-            $content .= "    public function modelFunction()";
-            $content .= "\n";
-            $content .= "    {";
-            $content .= "\n";
-            $content .= "        //";
-            $content .= "\n";
-            $content .= "    }";
-            $content .= "\n";
-            $content .= "}";
-            $content .= "\n";
+            $content .= "<?php" . PHP_EOL;
+            $content .= PHP_EOL;
+            $content .= "namespace App\Models;" . PHP_EOL;
+            $content .= PHP_EOL;
+            $content .= "class ".$name." extends Model" . PHP_EOL;
+            $content .= "{" . PHP_EOL;
+            $content .= "    public function modelMethod()" . PHP_EOL;
+            $content .= "    {" . PHP_EOL;
+            $content .= "        //" . PHP_EOL;
+            $content .= "    }" . PHP_EOL;
+            $content .= "}" . PHP_EOL;
 
             // Write to the file
+            $modelFile = fopen("app/models/" . $name . ".php", "w") or die("Unable to open file!");
             fwrite($modelFile, $content);
             fclose($modelFile);
 
             // Output Success
-            print_r("Model: app/models/".$name.".php created!");
+            print_r("Model: app/models/" . $name . ".php created!");
         } else {
             // Output Failure
-            print_r("FAILED. app/models/".$name.".php already exists.");
+            print_r("FAILED. app/models/" . $name . ".php already exists.");
         }
     }
 }

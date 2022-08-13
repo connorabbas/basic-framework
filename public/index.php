@@ -9,21 +9,25 @@ use App\Controllers\SiteController;
  * Source code: https://github.com/connorabbas/php-mini-framework#php-mini-framework
  */
 
-// Composer autoloader
+// Composer autoload
 if (file_exists('../vendor/autoload.php')) {
     require '../vendor/autoload.php';
 }
 
-// ENV and global vars
+// Register .env data into $_ENV super global
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
-require_once('../globals.php');
 
 // Global helper functions
 require_once('../app/core/Helpers.php');
 
-// Report Errors
-if (ENV == 'local') {
+// Session
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Error Reporting
+if (config('site.environment') == 'local') {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);

@@ -3,8 +3,9 @@
 namespace App\Controllers;
 
 use App\Core\DB;
+use App\Core\View;
 
-class ExampleController extends SiteController
+class ExampleController
 {
     protected $db;
 
@@ -18,7 +19,7 @@ class ExampleController extends SiteController
     {
         $foo = 'bar';
 
-        return view('pages/example', [
+        View::show('pages/example', [
             'foo' => $foo,
         ]);
     }
