@@ -70,4 +70,14 @@ class CLI
             print_r("FAILED. app/models/" . $name . ".php already exists.");
         }
     }
+
+    /**
+     * Create env file on composer install script
+     */
+    public static function createEnvFile()
+    {
+        $source = '../.env.example'; 
+        $destination = '../.env'; 
+        copy($source, $destination);
+    }
 }

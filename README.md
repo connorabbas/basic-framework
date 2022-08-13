@@ -1,5 +1,5 @@
 # PHP Mini Framework
-PHP Mini is a full-stack PHP web framework that gives you the basics for starting a web project in a lightweight "mini" package.
+A full-stack PHP framework that gives you the basics for starting a web project in a lightweight "mini" package.
 
 ## Key Features
 - Simple routing
@@ -10,10 +10,11 @@ PHP Mini is a full-stack PHP web framework that gives you the basics for startin
 - Bootstrap 5 included
 
 ## Installation
-Download using composer, and setup your .env file.
+Download using composer.
 ``` bash command-line
 composer create-project connora/php-mf <your-project-name>
 ```
+The project .env file should be created on install when using composer. If not, a provided example file is included.
 
 ### Serving your site
 If you want to serve your site locally for quick testing or development and you have php installed locally, use the "serve" command while working in the root of your project. Note: this will only serve your site with php, not MySQL.

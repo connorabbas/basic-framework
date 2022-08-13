@@ -2,6 +2,7 @@
 
 use Dotenv\Dotenv;
 use App\Controllers\SiteController;
+use Dotenv\Exception\InvalidPathException;
 
 /**
  * PHP Mini Framework
@@ -16,7 +17,12 @@ if (file_exists('../vendor/autoload.php')) {
 
 // Register .env data into $_ENV super global
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
-$dotenv->load();
+try {
+    $dotenv->load();
+} catch (InvalidPathException) {
+    echo '.env file not configured for site.';
+    die;
+}
 
 // Global helper functions and constants
 require_once('../app/core/Helpers.php');
