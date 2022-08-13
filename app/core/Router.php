@@ -18,36 +18,34 @@ class Router
         $dirParts = explode('\\', __DIR__);
         $projectName = $dirParts[count($dirParts) - 3];
         $publicPath = '/' . $projectName . '/public/';
-        $request_url = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
-        $request_url = str_replace(ltrim($publicPath, '/'), '',  $request_url);
-        $request_url = rtrim($request_url, '/');
-        $request_url = strtok($request_url, '?');
-        $route_parts = explode('/', $route);
-        $request_url_parts = explode('/', $request_url);
-        array_shift($route_parts);
-        array_shift($request_url_parts);
+        $requestUrl = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
+        $requestUrl = str_replace(ltrim($publicPath, '/'), '',  $requestUrl);
+        $requestUrl = rtrim($requestUrl, '/');
+        $requestUrl = strtok($requestUrl, '?');
+        $routeParts = explode('/', $route);
+        $requestUrlParts = explode('/', $requestUrl);
+        array_shift($routeParts);
+        array_shift($requestUrlParts);
     
-        // If route is only /
-        if ( $route_parts[0] == '' && count($request_url_parts) == 0 ) {
+        if ($routeParts[0] == '' && count($requestUrlParts) == 0 ) {
             $this->callRoute($callback);
             exit();
         }
-
-        if ( count($route_parts) != count($request_url_parts) ) { return; } 
+        if (count($routeParts) != count($requestUrlParts)) {
+            return;
+        } 
     
-        // If multi component route
         $parameters = [];
-        for ( $__i__ = 0; $__i__ < count($route_parts); $__i__++ ) {
-            $route_part = $route_parts[$__i__];
-            if ( preg_match("/^[$]/", $route_part) ) {
-                $route_part = ltrim($route_part, '$');
-                array_push($parameters, $request_url_parts[$__i__]);
-                $$route_part=$request_url_parts[$__i__];
+        for ($i = 0; $i < count($routeParts); $i++) {
+            $routePart = $routeParts[$i];
+            if (preg_match("/^[$]/", $routePart)) {
+                $routePart = ltrim($routePart, '$');
+                array_push($parameters, $requestUrlParts[$i]);
+                $$routePart = $requestUrlParts[$i];
                 // Set dynamic route variables
-                $_REQUEST[$route_part] = $$route_part;
-
+                $_REQUEST[$routePart] = $$routePart;
             }
-            else if ( $route_parts[$__i__] != $request_url_parts[$__i__] ) {
+            else if ($routeParts[$i] != $requestUrlParts[$i]) {
                 return;
             } 
         }
@@ -60,21 +58,21 @@ class Router
         if (is_array($callback)) {
             if (is_string($callback[0]) && is_string($callback[1]) && count($callback) == 2) {
                 // Instantiate class and call method
-                $class_name = $callback[0];
-                $method_name = $callback[1];
-                $fully_qualified_class_name = "\\$class_name";
-                $obj = new $fully_qualified_class_name();
-                call_user_func([$obj, $method_name],  $callback[1]);
+                $className = $callback[0];
+                $methodName = $callback[1];
+                $fullClassName = "\\$className";
+                $obj = new $fullClassName();
                 $this->validRoute = true;
+                return call_user_func([$obj, $methodName],  $callback[1]);
             } 
         }
         else if (is_callable($callback)) {
-            $callback->__invoke();
             $this->validRoute = true;
+            return call_user_func($callback);
         }
         else if (is_string($callback)) {
-            View::show($callback);
             $this->validRoute = true;
+            return View::show($callback);
         }
     }
 

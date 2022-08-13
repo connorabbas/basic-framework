@@ -18,8 +18,9 @@ if (file_exists('../vendor/autoload.php')) {
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
 
-// Global helper functions
+// Global helper functions and constants
 require_once('../app/core/Helpers.php');
+require_once('../app/data/Constants.php');
 
 // Session
 if (session_status() === PHP_SESSION_NONE) {

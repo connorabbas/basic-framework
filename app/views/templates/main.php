@@ -13,7 +13,7 @@
         <meta name="description" content="<?= $pageDesc ?? config('site.description') ?>" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="<?= config('site.url') ?>" />
+        <meta property="og:url" content="<?= URL ?>" />
         <meta property="og:site_name" content="PHP Mini Framework" />
         <meta property="og:title" content="PHP Mini Framework - <?= $pageTitle ?? config('site.title') ?>" />
         <meta property="og:description" content="<?= $pageDesc ?? config('site.description') ?>" />
