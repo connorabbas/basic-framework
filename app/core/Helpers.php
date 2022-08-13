@@ -1,6 +1,6 @@
 <?php
 
-use App\Core\Config;
+use App\Data\Config;
 
 // Helper functions available anywhere within the application
 

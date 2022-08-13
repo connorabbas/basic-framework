@@ -150,7 +150,7 @@ Data from the .env file is accessible in the $_ENV super global.
 ### config()
 It's best practice that the data from your .env should only be accessed in the config class.
 
-/app/core/Config.php
+/app/data/Config.php
 
 The config class allows you to set your options for things like database or mail connections, site settings, etc.
 
