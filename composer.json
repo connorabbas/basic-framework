@@ -1,6 +1,6 @@
 {
     "name": "connora/php-mini-framework",
-    "description": "PHP Mini is a full-stack PHP web framework that gives you the basics for starting a web project in a lightweight \"mini\" package",
+    "description": "A full-stack PHP framework that gives you the basics for starting a web project in a lightweight \"mini\" package",
     "keywords": [
         "framework",
         "php"
@@ -22,5 +22,10 @@
         "psr-4": {
             "App\\": "./app"
         }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "App\\Core\\CLI::createEnvFile"
+        ]
     }
 }
