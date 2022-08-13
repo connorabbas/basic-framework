@@ -13,8 +13,18 @@ $cli = new CLI();
 //print_r($argv);
 $command = $argv[1];
 
+// serve the site
+if ($command == 'serve') {
+    print_r(getcwd());
+    $oldPath = getcwd();
+    chdir(getcwd() . '\public');
+    $output = shell_exec('php -S 127.0.0.1:8000');
+    chdir($oldPath);
+    print_r($output);
+}
+
 // Create a certain file type
-if (strpos($command, 'new:') !== false && isset($argv[2])) {
+else if (strpos($command, 'new:') !== false && isset($argv[2])) {
     $commandParts = explode(':', $command);
     $makeThis = $commandParts[1];
 
