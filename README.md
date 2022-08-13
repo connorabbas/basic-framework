@@ -29,27 +29,27 @@ Alternatively, use Docker or XAMPP with a vhost configuration.
 ### Request Methods
 The framework's router offers the following methods for the common http site requests:
 ``` php
-$routes->get($uri, $callback);
-$routes->post($uri, $callback);
-$routes->put($uri, $callback);
-$routes->patch($uri, $callback);
-$routes->delete($uri, $callback);
+$router->get($uri, $callback);
+$router->post($uri, $callback);
+$router->put($uri, $callback);
+$router->patch($uri, $callback);
+$router->delete($uri, $callback);
 ```
 ### Callback functions
 The callback will either be a self contained function, where you can execute your routes logic, or it will be an array where the first item is the class you want to reference (usually a controller), and the second item is the method name.
 ``` php
 // Basic route using a closure
-$routes->get('/home', function() {
+$router->get('/home', function() {
     echo 'Hello World';
 });
 // Alternatively, use a controller class and a method to store your logic in
-$routes->get('/home-alt', [HomeController::class, 'index']);
+$router->get('/home-alt', [HomeController::class, 'index']);
 ```
 ### Parameters
 You can set dynamic values in your routes slug that will be available in the $_REQUEST super global. The index will be the same name you used for your variable in the route uri.
 ``` php
 // Ex: yoursite.com/blog/1
-$routes->get('/blog/$id', function() {
+$router->get('/blog/$id', function() {
     // Reference the dynamic variable
     $id = $_REQUEST['id'];
 });
