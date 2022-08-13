@@ -15,6 +15,15 @@ Download using composer, and setup your .env file.
 composer create-project connora/php-mf <your-project-name>
 ```
 
+### Serving your site
+If you want to serve your site locally for quick testing or development and you have php installed locally, use the "serve" command while working in the root of your project. Note: this will only serve your site with php, not MySQL.
+
+``` bash command-line
+php mini serve
+```
+
+Alternatively, use Docker or XAMPP with a vhost configuration.
+
 ## Routing
 ### Request Methods
 The framework's router offers the following methods for the common http site requests:
@@ -163,12 +172,17 @@ $host = config('database.main.host');
 
 ## CLI Tools
 
-Create a controller via CLI:
+Create a controller:
 ``` bash command-line
 php mini new:controller YourControllerName
 ```
 
-Create a model via CLI:
+Create a model:
 ``` bash command-line
 php mini new:model YourModelName
+```
+
+Serve your site locally:
+``` bash command-line
+php mini serve
 ```
