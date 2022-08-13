@@ -2,6 +2,8 @@
 
 namespace App\Core;
 
+use App\Core\View;
+
 class Router
 {
     public $validRoute;
@@ -71,7 +73,7 @@ class Router
             $this->validRoute = true;
         }
         else if (is_string($callback)) {
-            view($callback);
+            View::show($callback);
             $this->validRoute = true;
         }
     }
@@ -79,7 +81,7 @@ class Router
     public function checkRoute()
     {
         if (!$this->validRoute) {
-            return view('pages/404');
+            return View::show('pages/404');
         }
     }
 

@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Core\Router;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
 
 class SiteController
 {
@@ -10,8 +12,8 @@ class SiteController
     {
         // Site routing
         $router = new Router();
-        $di = new \RecursiveDirectoryIterator('../routes/');
-        foreach (new \RecursiveIteratorIterator($di) as $filename => $file) {
+        $di = new RecursiveDirectoryIterator('../routes/');
+        foreach (new RecursiveIteratorIterator($di) as $filename) {
             if (strpos($filename, '.php') !== false) {
                 require_once($filename);
             }

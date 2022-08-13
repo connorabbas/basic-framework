@@ -2,10 +2,9 @@
 PHP Mini is a full-stack PHP web framework that gives you the basics for starting a web project in a lightweight "mini" package.
 
 ## Key Features
-- Routing for GET, POST, PATCH, PUT & DELETE HTTP requests
+- Simple routing
 - MVC architecture
-- View templating using Plates PHP
-- Basic CLI commands for creating Models & Controllers
+- View templates using [Plates](https://platesphp.com/)
 - Class auto loading
 - PDO database class
 - Bootstrap 5 included
@@ -31,13 +30,13 @@ The callback will either be a self contained function, where you can execute you
 ``` php
 // Basic route using a closure
 $routes->get('/home', function() {
-    return 'Hello World';
+    echo 'Hello World';
 });
 // Alternatively, use a controller class and a method to store your logic in
 $routes->get('/home-alt', [HomeController::class, 'index']);
 ```
 ### Parameters
-You can set dynamic values in your routes slug that will be available in the $_REQUEST super global. Warning: This data is NOT sanitized, just like any GET url parameter.
+You can set dynamic values in your routes slug that will be available in the $_REQUEST super global. The index will be the same name you used for your variable in the route uri.
 ``` php
 // Ex: yoursite.com/blog/1
 $routes->get('/blog/$id', function() {
@@ -51,9 +50,9 @@ As your application grows, you will probably want to better organize your routes
 ## Controllers
 Controllers are where you should store your routes logic for handling the incoming HTTP request. There is an example controller class provided.
 
-Note: In the current state, controller methods should NOT accept parameters, there is no DI container being used...
+Note: In the current state, controller methods should NOT accept parameters, there is no dependency injection container being used...
 
-Creating a controller is easy with the built in cli tools included with mini. Just open a command line interface, make sure you are cd'd into the root directory of your project and enter the command:
+Creating a controller is easy with the built in cli tools included with the framework. Just open a command line interface at the root directory of your project and enter the command:
 ``` bash command-line
 php mini new:controller YourControllerName
 ```
@@ -66,13 +65,13 @@ The router class also has a method for calling your view directly, so you don't 
 $router->view('/', 'pages/welcome');
 ```
 ### In Your Controller Method
-When calling your view within a controller, you will use the globally available view helper method. The method accepts the view file path (starting at app/views, and no file extension) and an array of data variables you want accessible in said view.
+When calling your view within a controller, you will use the static show() method from the View class. The method accepts the view file path (no file extension) and an array of data variables you want accessible in the view.
 ``` php
 public function index()
 {
     $foo = 'bar';
 
-    return view('pages/example', [
+    View::show('pages/example', [
         'foo' => $foo,
     ]);
 }
@@ -81,35 +80,28 @@ public function index()
 ## Models and Database
 Models are meant to interact with your database. The included DB class is used to connect and execute your DB queries. The DB class uses PDO, and is setup to accept a dsn of stored credentials to connect using MySQL as the default (This could be changed to another PDO supported driver like ODBC).
 
-It's recommended that the database connection should be established outside the model class, and passed into the constructor as a dependency.
+It's recommended that the database connection only be established once (usually in the controller) and passed throughout the application using dependency injection wherever it is needed.
 
 You can create a model using the cli tools just like you can with controllers:
 ``` bash command-line
 php mini new:model YourModelName
 ```
-### Example Model Usage
+### Example
 ``` php
 <?php
 
 namespace App\Models;
 
-class Example
+class Example extends Model
 {
-    protected $db;
-
-    public function __construct($db)
-    {
-        $this->db = $db;
-    }
-
     public function exampleQuery($data)
     {
         $sql = "SELECT * FROM schema.table Where column = :data";
-        $this->db->query($sql);
-        $this->db->bind(':data', $data);
-        $results = $this->db->resultSet();
 
-        return $results;
+        $this->db->query($sql)
+            ->bind(':data', $data);
+
+        return $this->db->resultSet();
     }
 }
 
@@ -118,9 +110,10 @@ class Example
 <?php
 
 use App\Core\DB;
+use App\Core\View;
 use App\Models\Example;
 
-class TesterController extends SiteController
+class TesterController
 {
     protected $db;
 
@@ -132,13 +125,40 @@ class TesterController extends SiteController
     public function index()
     {
         $exampleModel = new Example($this->db);
-        $exampleData = $exampleModel->exampleQuery('test_data');
+        $exampleData = $exampleModel->exampleQuery('test_data_123');
 
-        return view('pages/example', [
+        View::show('pages/example', [
             'exampleData' => $exampleData,
         ]);
     }
 }
+```
+
+## Helper functions
+Helper functions are meant to be accessed anywhere within the application. There are few included with the framework, and feel free to add our own as well!
+
+/app/core/Helpers.php
+
+## Environmental and Configuration Data
+### .env
+The framework will provide an example .env file for you upon installation, create a new .env file with the same content to start.
+
+This file is to be used for your private data such as API keys, database access credentials, etc. It is added to the .gitignore by default.
+
+Data from the .env file is accessible in the $_ENV super global.
+
+### config()
+It's best practice that the data from your .env should only be accessed in the config class.
+
+/app/core/Config.php
+
+The config class allows you to set your options for things like database or mail connections, site settings, etc.
+
+The config() helper function is used to access the desired data. Use a period as the delimiter for accessing the nested value in the configuration array.
+
+```php
+// get the database host name
+$host = config('database.main.host');
 ```
 
 ## CLI Tools

@@ -11,6 +11,9 @@ class Config
         $this->config = [
             'site' => [
                 'environment' => $env['ENV'],
+                'url' => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]",
+                'title' => 'Welcome!',
+                'description' => 'This is a mini framework with the basic php application essentials.',
             ],
             'database' => [
                 'main' => [

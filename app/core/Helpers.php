@@ -1,35 +1,49 @@
 <?php
 
-use League\Plates\Engine;
 use App\Core\Config;
 
 // Helper functions available anywhere within the application
 
-function view($view, $data = [])
+/**
+ * access config values by using '.' as the nesting delimiter
+ */
+function config(string $configPath)
 {
-    // View templating using Plates from composer
-    // docs: https://platesphp.com/
-    if (file_exists('../app/views/' . $view . '.php')) {
-        $templates = new Engine('../app/views/');
-        $templates->addFolder('template', '../app/views/templates/');
-        echo $templates->render($view, $data);
-    } 
-    // Not found
-    else {
-        require_once('../app/views/pages/404.php');
-    } 
+    $configKeys = explode('.', $configPath);
+    $config = (new Config($_ENV))->get();
+    $finalKey = $config;
+
+    for ($i = 0; $i < count($configKeys); $i++) {
+        $finalKey = $finalKey[$configKeys[$i]];
+    }
+
+    return $finalKey;
 }
 
-function set_csrf()
+/**
+ * Set csrf token input for form
+ */
+function csrf()
 {
-    if ( ! isset($_SESSION["csrf"]) ) { $_SESSION["csrf"] = bin2hex(random_bytes(50)); }
-    return '<input type="hidden" name="csrf" value="'.$_SESSION["csrf"].'">';
+    if (!isset($_SESSION['csrf'])) {
+        $_SESSION['csrf'] = bin2hex(random_bytes(50));
+    }
+
+    return '<input type="hidden" name="csrf" value="' . $_SESSION['csrf'] . '">';
 }
 
-function is_csrf_valid()
+/**
+ * Check csrf data from form is valid
+ */
+function csrfValid()
 {
-    if ( ! isset($_SESSION['csrf']) || ! isset($_POST['csrf'])) { return false; }
-    if ( $_SESSION['csrf'] != $_POST['csrf']) { return false; }
+    if (!isset($_SESSION['csrf']) || !isset($_POST['csrf'])) {
+        return false;
+    }
+    if ($_SESSION['csrf'] != $_POST['csrf']) {
+        return false;
+    }
+
     return true;
 }
 
@@ -80,18 +94,4 @@ function dd($data)
     var_dump($data);
     echo '</pre>';
     die();
-}
-
-// access config values by using '.' as the nesting delimiter
-function config(string $configPath)
-{
-    $configKeys = explode('.', $configPath);
-    $config = (new Config($_ENV))->get();
-    $finalKey = $config;
-
-    for ($i = 0; $i < count($configKeys); $i++) {
-        $finalKey = $finalKey[$configKeys[$i]];
-    }
-
-    return $finalKey;
 }
