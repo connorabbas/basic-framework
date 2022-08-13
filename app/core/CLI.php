@@ -76,8 +76,8 @@ class CLI
      */
     public static function createEnvFile()
     {
-        $source = '../.env.example'; 
-        $destination = '../.env'; 
+        $source = './.env.example'; 
+        $destination = './.env'; 
         copy($source, $destination);
     }
 }
