@@ -78,6 +78,10 @@ class CLI
     {
         $source = './.env.example'; 
         $destination = './.env'; 
-        copy($source, $destination);
+
+        // only create the file if it doesn't exist (initial install)
+        if (!file_exists($destination)) {
+            copy($source, $destination);
+        }
     }
 }
