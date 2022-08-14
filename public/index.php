@@ -7,7 +7,7 @@ use Dotenv\Exception\InvalidPathException;
 /**
  * PHP Mini Framework
  * Developed and maintained by: Connor Abbas 
- * Source code: https://github.com/connorabbas/php-mini-framework#php-mini-framework
+ * Docs: https://github.com/connorabbas/php-mini-framework#php-mini-framework
  */
 
 // Composer autoload
@@ -16,8 +16,8 @@ if (file_exists('../vendor/autoload.php')) {
 }
 
 // Register .env data into $_ENV super global
-$dotenv = Dotenv::createImmutable(dirname(__DIR__));
 try {
+    $dotenv = Dotenv::createImmutable(dirname(__DIR__));
     $dotenv->load();
 } catch (InvalidPathException) {
     echo '.env file not configured for site.';
@@ -41,5 +41,4 @@ if (config('site.environment') == 'local') {
 }
 
 // Invoke the site
-$site = new SiteController();
-$site->invoke();
+(new SiteController())->invoke();
