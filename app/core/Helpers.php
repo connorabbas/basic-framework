@@ -47,6 +47,57 @@ function csrfValid()
     return true;
 }
 
+/**
+ * Redirect to a different route
+ */
+function redirect(string $route)
+{
+    header("location: " . $route);
+    exit();
+}
+
+function successFlashMessage()
+{
+    $successAlert = '';
+    if (isset($_SESSION['flash_success_msg']) && $_SESSION['flash_success_msg'] != '') {
+        ob_start();
+        ?>
+        <div class="alert alert-success mb-3" role="alert">
+            <?= $_SESSION['flash_success_msg'] ?>
+        </div>
+        <?php
+        $successAlert = ob_get_clean();
+        unset($_SESSION["flash_success_msg"]);
+    }
+
+    return $successAlert;
+}
+
+function errorFlashMessage()
+{
+    $errorAlert = '';
+    if (isset($_SESSION['flash_error_msg']) && $_SESSION['flash_error_msg'] != '') {
+        ob_start();
+        ?>
+        <div class="alert alert-danger mb-3" role="alert">
+            <?php
+            if (is_array($_SESSION['flash_error_msg'])) {
+                foreach ($_SESSION['flash_error_msg'] as $message) {
+                    echo $message . '<br>';
+                }
+            } else {
+                echo $_SESSION['flash_error_msg'];
+            }
+            ?>
+        </div>
+        <?php
+        $errorAlert = ob_get_clean();
+        unset($_SESSION["flash_error_msg"]);
+    }
+
+    return $errorAlert;
+}
+
 function dump($data)
 {
     ?>

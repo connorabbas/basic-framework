@@ -151,9 +151,9 @@ Helper functions are meant to be accessed anywhere within the application. There
 
 ## Environmental and Configuration Data
 ### .env
-The framework will provide an example .env file for you upon installation, create a new .env file with the same content to start.
+The project .env file should be created on install when using composer. If not, a provided example file is included.
 
-This file is to be used for your private data such as API keys, database access credentials, etc. It is added to the .gitignore by default.
+This file is for your custom configuration settings that may differ from each environment your site is being used (local, staging, production). It is also used to store private data such as API keys, database access credentials, etc. It is added to the .gitignore by default.
 
 Data from the .env file is accessible in the $_ENV super global.
 
