@@ -28,8 +28,14 @@ class Router
         array_shift($requestUrlParts);
     
         if ($routeParts[0] == '' && count($requestUrlParts) == 0 ) {
-            $this->callRoute($callback);
-            exit();
+            $returned = $this->callRoute($callback);
+
+            if (is_string($returned)) {
+                echo $returned;
+                return;
+            } else {
+                return $returned;
+            }
         }
         if (count($routeParts) != count($requestUrlParts)) {
             return;
@@ -43,14 +49,23 @@ class Router
                 array_push($parameters, $requestUrlParts[$i]);
                 $$routePart = $requestUrlParts[$i];
                 // Set dynamic route variables
-                $_REQUEST[$routePart] = $$routePart;
+                if (!isset($_REQUEST[$routePart])) {
+                    $_REQUEST[$routePart] = $$routePart;
+                }
             }
             else if ($routeParts[$i] != $requestUrlParts[$i]) {
                 return;
             } 
         }
-        $this->callRoute($callback);
-        exit();
+
+        $returned = $this->callRoute($callback);
+
+        if (is_string($returned)) {
+            echo $returned;
+            return;
+        } else {
+            return $returned;
+        }
     }
 
     public function callRoute($callback)
@@ -63,7 +78,7 @@ class Router
                 $fullClassName = "\\$className";
                 $obj = new $fullClassName();
                 $this->validRoute = true;
-                return call_user_func([$obj, $methodName],  $callback[1]);
+                return call_user_func_array([$obj, $methodName],  []);
             } 
         }
         else if (is_callable($callback)) {
@@ -79,7 +94,7 @@ class Router
     public function checkRoute()
     {
         if (!$this->validRoute) {
-            return View::show('pages/404');
+            return View::show('pages.404');
         }
     }
 
