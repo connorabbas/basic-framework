@@ -12,7 +12,7 @@ A full-stack PHP framework that gives you the basics for starting a web project 
 ## Installation
 Download using composer.
 ``` bash command-line
-composer create-project connora/php-mf <your-project-name>
+composer create-project connora/basic <your-project-name>
 ```
 The project .env file should be created on install when using composer. If not, a provided example file is included.
 
