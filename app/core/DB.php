@@ -50,7 +50,7 @@ class DB
 		// Create a new PDO instance
 		try {
 			$this->dbh = new PDO($dsn, $this->user, $this->pass, $options);
-		} // Catch any errors
+		}
 		catch (PDOException $e) {
 			$this->error = $e->getMessage();
 		}
@@ -112,7 +112,7 @@ class DB
 	public function resultset()
     {
 		$this->execute();
-		return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $this->stmt->fetchAll(PDO::FETCH_OBJ);
 	}
 	
 	/**
@@ -121,7 +121,7 @@ class DB
 	public function single()
     {
 		$this->execute();
-		return $this->stmt->fetch(PDO::FETCH_ASSOC);
+		return $this->stmt->fetch(PDO::FETCH_OBJ);
 	}
 	
 	/**

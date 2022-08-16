@@ -39,7 +39,7 @@ $router->delete($uri, $callback);
 The callback will either be a self contained function, where you can execute your routes logic, or it will be an array where the first item is the class you want to reference (usually a controller), and the second item is the method name.
 ``` php
 // Basic route using a closure
-$router->get('/home', function() {
+$router->get('/home', function () {
     echo 'Hello World';
 });
 // Alternatively, use a controller class and a method to store your logic in
@@ -49,7 +49,7 @@ $router->get('/home-alt', [HomeController::class, 'index']);
 You can set dynamic values in your routes slug that will be available in the $_REQUEST super global. The index will be the same name you used for your variable in the route uri.
 ``` php
 // Ex: yoursite.com/blog/1
-$router->get('/blog/$id', function() {
+$router->get('/blog/$id', function () {
     // Reference the dynamic variable
     $id = $_REQUEST['id'];
 });
@@ -72,7 +72,7 @@ By default, PHP Mini Framework uses [Plates](https://platesphp.com/) for it's vi
 ### Static Page?
 The router class also has a method for calling your view directly, so you don't have to bother with closures or controllers for your more simple pages:
 ``` php
-$router->view('/', 'pages/welcome');
+$router->view('/', 'pages.welcome');
 ```
 ### In Your Controller Method
 When calling your view within a controller, you will use the static show() method from the View class. The method accepts the view file path (no file extension) and an array of data variables you want accessible in the view.
@@ -81,7 +81,7 @@ public function index()
 {
     $foo = 'bar';
 
-    View::show('pages/example', [
+    return View::show('pages.example', [
         'foo' => $foo,
     ]);
 }
@@ -137,7 +137,7 @@ class TesterController
         $exampleModel = new Example($this->db);
         $exampleData = $exampleModel->exampleQuery('test_data_123');
 
-        View::show('pages/example', [
+        return View::show('pages.example', [
             'exampleData' => $exampleData,
         ]);
     }
@@ -145,9 +145,9 @@ class TesterController
 ```
 
 ## Helper functions
-Helper functions are meant to be accessed anywhere within the application. There are few included with the framework, and feel free to add our own as well!
+Helper functions are meant to be accessed anywhere within the application. There are few included with the framework, feel free to add our own as well.
 
-/app/core/Helpers.php
+/app/utilities/Helpers.php
 
 ## Environmental and Configuration Data
 ### .env

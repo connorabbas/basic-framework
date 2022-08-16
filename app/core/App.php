@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Core;
 
 use App\Core\Router;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 
-class SiteController
+class App
 {
-    public function invoke()
+    public function run()
     {
         // Site routing
         $router = new Router();

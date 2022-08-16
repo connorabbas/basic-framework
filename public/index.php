@@ -1,7 +1,7 @@
 <?php
 
+use App\Core\App;
 use Dotenv\Dotenv;
-use App\Controllers\SiteController;
 use Dotenv\Exception\InvalidPathException;
 
 /**
@@ -25,7 +25,7 @@ try {
 }
 
 // Global helper functions and constants
-require_once('../app/core/Helpers.php');
+require_once('../app/utilities/Helpers.php');
 require_once('../app/data/Constants.php');
 
 // Session
@@ -41,4 +41,4 @@ if (config('site.environment') == 'local') {
 }
 
 // Invoke the site
-(new SiteController())->invoke();
+(new App)->run();
