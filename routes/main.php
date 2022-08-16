@@ -7,7 +7,7 @@ use App\Controllers\ExampleController;
 $router->view('/', 'pages.welcome');
 
 $router->get('/json/$test', function () {
-    return json_encode(
+    echo json_encode(
         [
             'foo' => 'bar',
             'test' => $_REQUEST['test'],

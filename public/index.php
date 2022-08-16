@@ -5,9 +5,9 @@ use Dotenv\Dotenv;
 use Dotenv\Exception\InvalidPathException;
 
 /**
- * PHP Mini Framework
+ * PHP Basic Framework
  * Developed and maintained by: Connor Abbas 
- * Docs: https://github.com/connorabbas/php-mini-framework#php-mini-framework
+ * Docs: https://github.com/connorabbas/basic-framework#php-basic-framework
  */
 
 // Composer autoload

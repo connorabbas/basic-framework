@@ -12,7 +12,8 @@ class Config
             'site' => [
                 'environment' => $env['ENV'],
                 'title' => 'Welcome!',
-                'description' => 'This is a mini framework with the basic php application essentials.',
+                'description' => 'A full-stack PHP framework that gives you the basics for starting a web project in a lightweight package.
+                ',
             ],
             'database' => [
                 'main' => [

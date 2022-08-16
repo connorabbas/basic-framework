@@ -1,6 +1,6 @@
 {
-    "name": "connora/php-mini-framework",
-    "description": "A full-stack PHP framework that gives you the basics for starting a web project in a lightweight \"mini\" package",
+    "name": "connora/basic",
+    "description": "A full-stack PHP framework that gives you the basics for starting a web project in a lightweight package.",
     "keywords": [
         "framework",
         "php"
