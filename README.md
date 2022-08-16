@@ -1,5 +1,5 @@
-# PHP Mini Framework
-A full-stack PHP framework that gives you the basics for starting a web project in a lightweight "mini" package.
+# PHP Basic Framework
+A full-stack PHP framework that gives you the basics for starting a web project in a lightweight package.
 
 ## Key Features
 - Simple routing
@@ -20,7 +20,7 @@ The project .env file should be created on install when using composer. If not, 
 If you want to serve your site locally for quick testing or development and you have php installed locally, use the "serve" command while working in the root of your project. Note: this will only serve your site with php, not MySQL.
 
 ``` bash command-line
-php mini serve
+php basic serve
 ```
 
 Alternatively, use Docker or XAMPP with a vhost configuration.
@@ -64,11 +64,11 @@ Note: In the current state, controller methods should NOT accept parameters, the
 
 Creating a controller is easy with the built in cli tools included with the framework. Just open a command line interface at the root directory of your project and enter the command:
 ``` bash command-line
-php mini new:controller YourControllerName
+php basic new:controller YourControllerName
 ```
 
 ## Views
-By default, PHP Mini Framework uses [Plates](https://platesphp.com/) for it's view template system.
+By default, the framework uses [Plates](https://platesphp.com/) for it's view template system.
 ### Static Page?
 The router class also has a method for calling your view directly, so you don't have to bother with closures or controllers for your more simple pages:
 ``` php
@@ -94,7 +94,7 @@ It's recommended that the database connection only be established once (usually 
 
 You can create a model using the cli tools just like you can with controllers:
 ``` bash command-line
-php mini new:model YourModelName
+php basic new:model YourModelName
 ```
 ### Example
 ``` php
@@ -175,15 +175,15 @@ $host = config('database.main.host');
 
 Create a controller:
 ``` bash command-line
-php mini new:controller YourControllerName
+php basic new:controller YourControllerName
 ```
 
 Create a model:
 ``` bash command-line
-php mini new:model YourModelName
+php basic new:model YourModelName
 ```
 
 Serve your site locally:
 ``` bash command-line
-php mini serve
+php basic serve
 ```
