@@ -7,7 +7,7 @@ use Dotenv\Exception\InvalidPathException;
 /**
  * PHP Basic Framework
  * Developed and maintained by: Connor Abbas 
- * Docs: https://github.com/connorabbas/basic-framework
+ * Docs: https://github.com/connorabbas/basic-framework#php-basic-framework
  */
 
 // Composer autoload
