@@ -10,7 +10,7 @@ class CLI
             $content = "";
             $content .= "<?php" . PHP_EOL;
             $content .= PHP_EOL;
-            $content .= "namespace App\Controllers;" . PHP_EOL;
+            $content .= "namespace App\MVC\Controllers;" . PHP_EOL;
             $content .= PHP_EOL;
             $content .= "use App\Core\DB;" . PHP_EOL;
             $content .= PHP_EOL;
@@ -30,15 +30,15 @@ class CLI
             $content .= "}" . PHP_EOL;
 
             // Write to the file
-            $controllerFile = fopen("app/controllers/" . $name . ".php", "w") or die("Unable to open file!");
+            $controllerFile = fopen("app/mvc/controllers/" . $name . ".php", "w") or die("Unable to open file!");
             fwrite($controllerFile, $content);
             fclose($controllerFile);
 
             // Output Success
-            print_r("Controller: app/controllers/" . $name . ".php created!");
+            print_r("Controller: app/mvc/controllers/" . $name . ".php created!");
         } else {
             // Output Failure
-            print_r("FAILED. app/controllers/" . $name . ".php already exists.");
+            print_r("FAILED. app/mvc/controllers/" . $name . ".php already exists.");
         }
     }
 
@@ -48,7 +48,7 @@ class CLI
             $content = "";
             $content .= "<?php" . PHP_EOL;
             $content .= PHP_EOL;
-            $content .= "namespace App\Models;" . PHP_EOL;
+            $content .= "namespace App\MVC\Models;" . PHP_EOL;
             $content .= PHP_EOL;
             $content .= "class ".$name." extends Model" . PHP_EOL;
             $content .= "{" . PHP_EOL;
@@ -59,15 +59,15 @@ class CLI
             $content .= "}" . PHP_EOL;
 
             // Write to the file
-            $modelFile = fopen("app/models/" . $name . ".php", "w") or die("Unable to open file!");
+            $modelFile = fopen("app/mvc/models/" . $name . ".php", "w") or die("Unable to open file!");
             fwrite($modelFile, $content);
             fclose($modelFile);
 
             // Output Success
-            print_r("Model: app/models/" . $name . ".php created!");
+            print_r("Model: app/mvc/models/" . $name . ".php created!");
         } else {
             // Output Failure
-            print_r("FAILED. app/models/" . $name . ".php already exists.");
+            print_r("FAILED. app/mvc/models/" . $name . ".php already exists.");
         }
     }
 

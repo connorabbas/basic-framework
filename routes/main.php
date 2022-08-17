@@ -1,6 +1,6 @@
 <?php
 
-use App\Controllers\ExampleController;
+use App\MVC\Controllers\ExampleController;
 
 // Valid Routes for Site
 

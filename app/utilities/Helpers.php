@@ -37,10 +37,10 @@ function csrf()
  */
 function csrfValid()
 {
-    if (!isset($_SESSION['csrf']) || !isset($_POST['csrf'])) {
+    if (!isset($_SESSION['csrf']) || !isset($_REQUEST['csrf'])) {
         return false;
     }
-    if ($_SESSION['csrf'] != $_POST['csrf']) {
+    if ($_SESSION['csrf'] != $_REQUEST['csrf']) {
         return false;
     }
 
