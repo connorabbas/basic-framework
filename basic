@@ -41,7 +41,7 @@ else if (strpos($command, 'new:') !== false && isset($argv[2])) {
     }
 
 } else {
-    print_r("Not a valid Mini Framework command.");
+    print_r("Not a valid Basic Framework command.");
 }
 
 echo "\n";

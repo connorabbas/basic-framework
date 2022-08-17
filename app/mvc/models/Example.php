@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\MVC\Models;
 
 class Example extends Model
 {
