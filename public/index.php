@@ -24,9 +24,8 @@ try {
     die;
 }
 
-// Global helper functions and constants
-require_once('../app/utilities/Helpers.php');
-require_once('../app/data/Constants.php');
+// Global constants
+require_once('../app/data/constants.php');
 
 // Session
 if (session_status() === PHP_SESSION_NONE) {
