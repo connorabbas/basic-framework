@@ -1,13 +1,13 @@
 <?php
 
-use App\MVC\Controllers\ExampleController;
+use App\Controllers\ExampleController;
 
 // Valid Routes for Site
 
 $router->view('/', 'pages.welcome');
 
 $router->get('/json/$test', function () {
-    echo json_encode(
+    return json_encode(
         [
             'foo' => 'bar',
             'test' => $_REQUEST['test'],

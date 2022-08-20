@@ -100,7 +100,7 @@ php basic new:model YourModelName
 ``` php
 <?php
 
-namespace App\MVC\Models;
+namespace App\Models;
 
 class Example extends Model
 {
@@ -121,7 +121,7 @@ class Example extends Model
 
 use App\Core\DB;
 use App\Core\View;
-use App\MVC\Models\Example;
+use App\Models\Example;
 
 class TesterController
 {
