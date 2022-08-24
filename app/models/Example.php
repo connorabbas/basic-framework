@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Core\Model;
+
 class Example extends Model
 {
     public function exampleQuery($data)
