@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Core;
 
 use App\Core\DB;
 
-class Model
+abstract class Model
 {
     protected $db;
 

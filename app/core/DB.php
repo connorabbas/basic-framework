@@ -109,7 +109,7 @@ class DB
 	/**
      * Get result set as array of objects
      */
-	public function resultset()
+	public function resultSet()
     {
 		$this->execute();
 		return $this->stmt->fetchAll(PDO::FETCH_OBJ);
