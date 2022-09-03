@@ -10,9 +10,9 @@ A full-stack PHP framework that gives you the basics for starting a web project 
 - Bootstrap 5 included
 
 ## Installation
-Download using composer.
+Download using [Composer](https://getcomposer.org/).
 ``` bash command-line
-composer create-project connora/basic <your-project-name>
+composer create-project connora/basic your-project-name
 ```
 The project .env file should be created on install when using composer. If not, a provided example file is included.
 
@@ -35,18 +35,20 @@ $router->put($uri, $callback);
 $router->patch($uri, $callback);
 $router->delete($uri, $callback);
 ```
+Note: the standard html ``` <form> ``` tag only accepts ``` GET ``` and ``` POST ``` as valid request methods.
+
 ### Callback functions
 The callback will either be a self contained function, where you can execute your routes logic, or it will be an array where the first item is the class you want to reference (usually a controller), and the second item is the method name.
 ``` php
 // Basic route using a closure
 $router->get('/home', function () {
-    echo 'Hello World';
+    return 'Hello World';
 });
 // Alternatively, use a controller class and a method to store your logic in
 $router->get('/home-alt', [HomeController::class, 'index']);
 ```
 ### Parameters
-You can set dynamic values in your routes slug that will be available in the $_REQUEST super global. The index will be the same name you used for your variable in the route uri.
+You can set dynamic values in your routes slug that will be available in the ``` $_REQUEST ``` super global. The index will be the same name you used for your variable in the route uri.
 ``` php
 // Ex: yoursite.com/blog/1
 $router->get('/blog/$id', function () {
@@ -75,20 +77,20 @@ The router class also has a method for calling your view directly, so you don't 
 $router->view('/', 'pages.welcome');
 ```
 ### In Your Controller Method
-When calling your view within a controller, you will use the static show() method from the View class. The method accepts the view file path (no file extension) and an array of data variables you want accessible in the view.
+When calling your view within a controller, you will use the static ``` show() ``` method from the View class. The method accepts the view file path (no file extension) and an array of data variables you want accessible in the view.
 ``` php
 public function index()
 {
     $foo = 'bar';
 
-    return View::show('pages.example', [
+    return View::render('pages.example', [
         'foo' => $foo,
     ]);
 }
 ```
 
 ## Models and Database
-Models are meant to interact with your database. The included DB class is used to connect and execute your DB queries. The DB class uses PDO, and is setup to accept a dsn of stored credentials to connect using MySQL as the default (This could be changed to another PDO supported driver like ODBC).
+Models are meant to interact with your database. The included DB class is used to connect to a data source and execute your queries. The DB class uses PDO, and is setup to accept a configuration of stored dsn credentials and PDO options to connect using MySQL as the default (This could be changed to another PDO supported driver like ODBC).
 
 It's recommended that the database connection only be established once (usually in the controller) and passed throughout the application using dependency injection wherever it is needed.
 
@@ -106,7 +108,7 @@ use App\Core\Model;
 
 class Example extends Model
 {
-    public function exampleQuery($data)
+    public function getData($data)
     {
         $sql = "SELECT * FROM schema.table Where column = :data";
 
@@ -137,9 +139,9 @@ class TesterController
     public function index()
     {
         $exampleModel = new Example($this->db);
-        $exampleData = $exampleModel->exampleQuery('test_data_123');
+        $exampleData = $exampleModel->getData('test_data_123');
 
-        return View::show('pages.example', [
+        return View::render('pages.example', [
             'exampleData' => $exampleData,
         ]);
     }
@@ -149,7 +151,7 @@ class TesterController
 ## Helper functions
 Helper functions are meant to be accessed anywhere within the application. There are few included with the framework, feel free to add our own as well.
 
-/app/utilities/Helpers.php
+``` /app/utilities/Helpers.php ```
 
 ## Environmental and Configuration Data
 ### .env
@@ -157,16 +159,16 @@ The project .env file should be created on install when using composer. If not, 
 
 This file is for your custom configuration settings that may differ from each environment your site is being used (local, staging, production). It is also used to store private data such as API keys, database access credentials, etc. It is added to the .gitignore by default.
 
-Data from the .env file is accessible in the $_ENV super global.
+Data from the .env file is accessible in the ``` $_ENV ``` super global.
 
 ### config()
 It's best practice that the data from your .env should only be accessed in the config class.
 
-/app/data/Config.php
+``` /app/data/Config.php ```
 
 The config class allows you to set your options for things like database or mail connections, site settings, etc.
 
-The config() helper function is used to access the desired data. Use a period as the delimiter for accessing the nested value in the configuration array.
+The ``` config() ``` helper function is used to access the desired data. Use a period as the delimiter for accessing the nested value in the configuration array.
 
 ```php
 // get the database host name

@@ -6,14 +6,14 @@ use App\Core\View;
 
 class Router
 {
-    public $validRoute;
+    private $validRoute;
 
     public function __construct()
     {
         $this->validRoute = false;
     }
 
-    public function set($route, $callback)
+    private function set(string $route, $callback)
     {
         $dirParts = explode('\\', __DIR__);
         $projectName = $dirParts[count($dirParts) - 3];
@@ -28,14 +28,7 @@ class Router
         array_shift($requestUrlParts);
     
         if ($routeParts[0] == '' && count($requestUrlParts) == 0 ) {
-            $returned = $this->callRoute($callback);
-
-            if (is_string($returned)) {
-                echo $returned;
-                return;
-            } else {
-                return $returned;
-            }
+            $this->completeRoute($callback);
         }
         if (count($routeParts) != count($requestUrlParts)) {
             return;
@@ -58,17 +51,10 @@ class Router
             } 
         }
 
-        $returned = $this->callRoute($callback);
-
-        if (is_string($returned)) {
-            echo $returned;
-            return;
-        } else {
-            return $returned;
-        }
+        $this->completeRoute($callback);
     }
 
-    public function callRoute($callback)
+    private function callRoute($callback)
     {
         if (is_array($callback)) {
             if (is_string($callback[0]) && is_string($callback[1]) && count($callback) == 2) {
@@ -87,14 +73,30 @@ class Router
         }
         else if (is_string($callback)) {
             $this->validRoute = true;
-            return View::show($callback);
+            return View::render($callback);
         }
+    }
+
+    private function completeRoute($callback)
+    {
+        $returned = $this->callRoute($callback);
+        if (is_string($returned)) {
+            $testJson = json_decode($returned);
+            if (json_last_error() === JSON_ERROR_NONE) {
+                header('Content-type: application/json');
+            }
+            echo $returned;
+            return;
+        } 
+
+        return $returned;
     }
 
     public function checkRoute()
     {
         if (!$this->validRoute) {
-            return View::show('pages.404');
+            echo View::render('pages.404');
+            return;
         }
     }
 
