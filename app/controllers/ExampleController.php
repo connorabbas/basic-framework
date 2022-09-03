@@ -11,7 +11,7 @@ class ExampleController
     {
         $foo = 'bar';
 
-        return View::show('pages.example', [
+        return View::render('pages.example', [
             'foo' => $foo,
         ]);
     }

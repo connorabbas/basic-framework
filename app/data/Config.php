@@ -4,7 +4,7 @@ namespace App\Data;
 
 class Config
 {
-    protected $config = [];
+    private $config = [];
 
     public function __construct(array $env)
     {
@@ -22,7 +22,11 @@ class Config
                     'username' => $env['DB_USERNAME'],
                     'password' => $env['DB_PASSWORD'],
                     'name' => $env['DB_NAME'],
-                    'pdo_persistent' => $env['DB_PDO_PERSISTENT'],
+                ],
+            ],
+            'plates_templates' => [
+                'folders' => [
+                    'template' => 'templates/',
                 ],
             ],
         ];

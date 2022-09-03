@@ -2,21 +2,20 @@
 
 namespace App\Core;
 
+use Exception;
 use League\Plates\Engine;
 
 class View
 {
-    public static function show($view, $data = [])
+    public static function render($view, $data = [])
     {
-        $realPath = str_replace('.', '/', $view);
-
         // View templates using Plates: https://platesphp.com/
-        if (file_exists('../app/views/' . $realPath . '.php')) {
-            $templates = new Engine('../app/views/');
-            $templates->addFolder('template', '../app/views/templates/');
-            echo $templates->render($realPath, $data);
-        } else {
-            self::show('pages.404');
-        } 
+        $realPath = str_replace('.', '/', $view);
+        $templates = new Engine('../app/views/');
+        foreach (config('plates_templates.folders') as $name => $folder) {
+            $templates->addFolder($name, '../app/views/' . $folder);
+        }
+        
+        return $templates->render($realPath, $data);
     }
 }

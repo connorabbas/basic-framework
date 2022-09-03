@@ -20,13 +20,12 @@ class DB
     private $pass;
     private $dbname;
     private $driver;
-    private $dbh;
+    private $conn;
     private $stmt;
-    private $error;
 	
-	public function __construct(array $config = null)
+	public function __construct(array $config = null, array $pdoOptions = null)
     {
-        // for the sake of the framework, use helper function for default configuration
+        // for the sake of the framework, use the config helper function for the default configuration
         if (is_null($config)) {
             $config = config('database.main');
         }
@@ -42,17 +41,20 @@ class DB
 		$dsn = $this->driver . ':host=' . $this->host . ';dbname=' . $this->dbname;
 
         // PDO Options
-		$options = [
-			PDO::ATTR_PERSISTENT => $config['pdo_persistent'],
-			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION 
-        ];
+        if (is_null($pdoOptions)) {
+            $pdoOptions = [
+                PDO::ATTR_PERSISTENT => false,
+                PDO::ATTR_EMULATE_PREPARES => false,
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
+            ];
+        }
 
 		// Create a new PDO instance
 		try {
-			$this->dbh = new PDO($dsn, $this->user, $this->pass, $options);
-		}
-		catch (PDOException $e) {
-			$this->error = $e->getMessage();
+			$this->conn = new PDO($dsn, $this->user, $this->pass, $pdoOptions);
+		} catch (PDOException $e) {
+			throw new PDOException($e->getMessage(), (int) $e->getCode());
 		}
 	}
 
@@ -61,7 +63,7 @@ class DB
      */
 	public function conn()
     {
-		return $this->dbh;
+		return $this->conn;
 	}
 	
     /**
@@ -69,7 +71,7 @@ class DB
      */
 	public function query($query)
     {
-		$this->stmt = $this->dbh->prepare($query);
+		$this->stmt = $this->conn->prepare($query);
         return $this;
 	}
 	
@@ -80,16 +82,16 @@ class DB
     {
 		if (is_null($type)) {
 			switch (true) {
-				case is_int ($value) :
+				case is_int ($value):
 					$type = PDO::PARAM_INT;
 					break;
-				case is_bool ($value) :
+				case is_bool ($value):
 					$type = PDO::PARAM_BOOL;
 					break;
-				case is_null ($value) :
+				case is_null ($value):
 					$type = PDO::PARAM_NULL;
 					break;
-				default :
+				default:
 					$type = PDO::PARAM_STR;
 			}
 		}
@@ -107,21 +109,21 @@ class DB
 	}
 	
 	/**
-     * Get result set as array of objects
+     * Get result set as array
      */
-	public function resultSet()
+	public function resultSet($fetchMode = null)
     {
 		$this->execute();
-		return $this->stmt->fetchAll(PDO::FETCH_OBJ);
+        return $this->stmt->fetchAll($fetchMode ?? $this->conn->getAttribute(PDO::ATTR_DEFAULT_FETCH_MODE));
 	}
 	
 	/**
-     * Get single record as object
+     * Get single record
      */
-	public function single()
+	public function single($fetchMode = null)
     {
 		$this->execute();
-		return $this->stmt->fetch(PDO::FETCH_OBJ);
+		return $this->stmt->fetch($fetchMode ?? $this->conn->getAttribute(PDO::ATTR_DEFAULT_FETCH_MODE));
 	}
 	
 	/**
@@ -137,6 +139,6 @@ class DB
      */
 	public function lastInsertId()
     {
-		return $this->dbh->lastInsertId();
+		return $this->conn->lastInsertId();
 	}
 }

@@ -6,7 +6,7 @@ use App\Core\Model;
 
 class Example extends Model
 {
-    public function exampleQuery($data)
+    public function getData($data)
     {
         $sql = "SELECT * FROM schema.table Where column = :data";
 
