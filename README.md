@@ -77,7 +77,7 @@ The router class also has a method for calling your view directly, so you don't 
 $router->view('/', 'pages.welcome');
 ```
 ### In Your Controller Method
-When calling your view within a controller, you will use the static ``` show() ``` method from the View class. The method accepts the view file path (no file extension) and an array of data variables you want accessible in the view.
+When calling your view within a controller, you will use the static ``` render() ``` method from the View class. The method accepts the view file path (no file extension) and an array of data variables you want accessible in the view.
 ``` php
 public function index()
 {
