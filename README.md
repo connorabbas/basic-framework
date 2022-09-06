@@ -43,8 +43,7 @@ For example:
 ```php
 $router->patch('/update-example', [ExampleClass::class, 'updateMethod']);
 ```
-```php
-?>
+```html
 <!-- Example form request to update data -->
 <form action="/update-example" method="POST">
     <?= csrf() ?>
@@ -53,7 +52,6 @@ $router->patch('/update-example', [ExampleClass::class, 'updateMethod']);
     <input name="exampleField" value="<?= $originalValue ?>" required>
     <button type="submit" name="updateSubmit">Update</button>
 </form>
-<?php
 ```
 
 It's also recommended to use the included ```csrf()``` and ```csrfValid()``` helper functions to ensure your requests are safe from any potential [Cross Site Request Forgery](https://owasp.org/www-community/attacks/csrf).
