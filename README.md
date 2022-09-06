@@ -43,7 +43,7 @@ For example:
 ```php
 $router->patch('/update-example', [ExampleClass::class, 'updateMethod']);
 ```
-```html
+```php
 <!-- Example form request to update data -->
 <form action="/update-example" method="POST">
     <?= csrf() ?>
