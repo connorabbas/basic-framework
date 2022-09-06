@@ -100,6 +100,13 @@ class Router
         }
     }
 
+    public function handleMethodSpoof(string $method)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_REQUEST['_method']) && $_REQUEST['_method'] === $method) {
+            $_SERVER['REQUEST_METHOD'] = $method;
+        }
+    }
+
     public function view($route, $view)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -123,6 +130,7 @@ class Router
 
     public function patch($route, $callback)
     {
+        $this->handleMethodSpoof('PATCH');
         if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
             $this->set($route, $callback);
         } 
@@ -130,6 +138,7 @@ class Router
 
     public function put($route, $callback)
     {
+        $this->handleMethodSpoof('PUT');
         if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
             $this->set($route, $callback);
         } 
@@ -137,6 +146,7 @@ class Router
 
     public function delete($route, $callback)
     {
+        $this->handleMethodSpoof('DELETE');
         if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
             $this->set($route, $callback);
         } 
