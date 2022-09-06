@@ -58,7 +58,7 @@ if (!function_exists('csrf')) {
         ?>
         <input type="hidden" name="csrf" value="<?= $_SESSION['csrf'] ?>">
         <?php
-        $input = ob_clean();
+        $input = ob_get_clean();
 
         return $input;
     }
