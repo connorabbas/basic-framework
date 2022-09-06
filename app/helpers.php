@@ -26,7 +26,7 @@ if (!function_exists('config')) {
  * Spoof the request method for an html form
  */
 if (!function_exists('methodSpoof')) {
-    function methodSpoof($method): string
+    function methodSpoof(string $method): string
     {
         $validMethods = ['PUT', 'PATCH', 'DELETE'];
         $method = strtoupper($method);

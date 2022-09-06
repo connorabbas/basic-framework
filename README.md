@@ -37,7 +37,7 @@ $router->delete($uri, $callback);
 ```
 
 ### Form requests
-The standard html ``` <form> ``` tag only accepts ``` GET ``` and ``` POST ``` as valid request methods. We can overcome this by using the ``` methodSpoof() ``` helper function. This requires our form to use the ```POST``` method request and to specify the "spoofed" method inside the form using ```PUT```, ```PATCH```, or ```DELETE```. 
+The standard html ``` <form> ``` tag only accepts ``` GET ``` and ``` POST ``` as valid request methods. We can overcome this by using the ``` methodSpoof(string $method) ``` helper function. This requires our form to use the ```POST``` method request and to specify the "spoofed" method inside the form using ```PUT```, ```PATCH```, or ```DELETE```. 
 
 For example:
 ```php
