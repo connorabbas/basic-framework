@@ -2,12 +2,11 @@
 
 namespace App\Core;
 
-use Exception;
 use League\Plates\Engine;
 
 class View
 {
-    public static function render($view, $data = [])
+    public static function render(string $view, array $data = [])
     {
         // View templates using Plates: https://platesphp.com/
         $realPath = str_replace('.', '/', $view);

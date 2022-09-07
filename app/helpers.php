@@ -23,6 +23,28 @@ if (!function_exists('config')) {
 }
 
 /**
+ * Spoof the request method for an html form
+ */
+if (!function_exists('methodSpoof')) {
+    function methodSpoof(string $method): string
+    {
+        $validMethods = ['PUT', 'PATCH', 'DELETE'];
+        $method = strtoupper($method);
+        $input = '';
+
+        if (in_array($method, $validMethods)) {
+            ob_start();
+            ?>
+            <input type="hidden" name="_method" value="<?= $method ?>">
+            <?php
+            $input = ob_get_clean();
+        }
+
+        return $input;
+    }
+}
+
+/**
  * Set csrf token input for form
  */
 if (!function_exists('csrf')) {
@@ -36,7 +58,7 @@ if (!function_exists('csrf')) {
         ?>
         <input type="hidden" name="csrf" value="<?= $_SESSION['csrf'] ?>">
         <?php
-        $input = ob_clean();
+        $input = ob_get_clean();
 
         return $input;
     }
@@ -66,6 +88,17 @@ if (!function_exists('redirect')) {
     function redirect(string $route)
     {
         header("location: " . $route);
+        exit();
+    }
+}
+
+/**
+ * Redirect to previous page
+ */
+if (!function_exists('back')) {
+    function back()
+    {
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit();
     }
 }
