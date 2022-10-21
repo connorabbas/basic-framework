@@ -4,11 +4,11 @@ namespace App\Data;
 
 class Config
 {
-    private $config = [];
+    private $data = [];
 
     public function __construct(array $env)
     {
-        $this->config = [
+        $this->data = [
             'site' => [
                 'environment' => $env['ENV'],
                 'title' => 'Welcome!',
@@ -34,6 +34,6 @@ class Config
 
     public function get()
     {
-        return $this->config;
+        return $this->data;
     }
 }
