@@ -15,15 +15,15 @@ use PDOException;
 
 class DB
 {
-	private $host;
+    private $host;
     private $user;
     private $pass;
     private $dbname;
     private $driver;
     private $conn;
     private $stmt;
-	
-	public function __construct(array $config = null, array $pdoOptions = null)
+
+    public function __construct(array $config = null, array $pdoOptions = null)
     {
         // for the sake of the framework, use the config helper function for the default configuration
         if (is_null($config)) {
@@ -31,14 +31,14 @@ class DB
         }
 
         // Set connection vars
-        $this->driver = $config['driver'];  
-        $this->host = $config['host'];  
-        $this->user = $config['username'];     
+        $this->driver = $config['driver'];
+        $this->host = $config['host'];
+        $this->user = $config['username'];
         $this->pass = $config['password'];
         $this->dbname = $config['name'];
 
-		// Set DSN
-		$dsn = $this->driver . ':host=' . $this->host . ';dbname=' . $this->dbname;
+        // Set DSN
+        $dsn = $this->driver . ':host=' . $this->host . ';dbname=' . $this->dbname;
 
         // PDO Options
         if (is_null($pdoOptions)) {
@@ -50,95 +50,95 @@ class DB
             ];
         }
 
-		// Create a new PDO instance
-		try {
-			$this->conn = new PDO($dsn, $this->user, $this->pass, $pdoOptions);
-		} catch (PDOException $e) {
-			throw new PDOException($e->getMessage(), (int) $e->getCode());
-		}
-	}
+        // Create a new PDO instance
+        try {
+            $this->conn = new PDO($dsn, $this->user, $this->pass, $pdoOptions);
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage(), (int) $e->getCode());
+        }
+    }
 
     /**
      * Just the connection
      */
-	public function conn()
+    public function conn()
     {
-		return $this->conn;
-	}
-	
+        return $this->conn;
+    }
+
     /**
      * Prepare statement with query
      */
-	public function query($query)
+    public function query($query)
     {
-		$this->stmt = $this->conn->prepare($query);
+        $this->stmt = $this->conn->prepare($query);
         return $this;
-	}
-	
-	/**
+    }
+
+    /**
      * Bind values
      */
-	public function bind($param, $value, $type = null)
+    public function bind($param, $value, $type = null)
     {
-		if (is_null($type)) {
-			switch (true) {
-				case is_int ($value):
-					$type = PDO::PARAM_INT;
-					break;
-				case is_bool ($value):
-					$type = PDO::PARAM_BOOL;
-					break;
-				case is_null ($value):
-					$type = PDO::PARAM_NULL;
-					break;
-				default:
-					$type = PDO::PARAM_STR;
-			}
-		}
-		$this->stmt->bindValue($param, $value, $type);
+        if (is_null($type)) {
+            switch (true) {
+                case is_int($value):
+                    $type = PDO::PARAM_INT;
+                    break;
+                case is_bool($value):
+                    $type = PDO::PARAM_BOOL;
+                    break;
+                case is_null($value):
+                    $type = PDO::PARAM_NULL;
+                    break;
+                default:
+                    $type = PDO::PARAM_STR;
+            }
+        }
+        $this->stmt->bindValue($param, $value, $type);
 
         return $this;
-	}
-	
-	/**
+    }
+
+    /**
      * Execute the prepared statement
      */
-	public function execute()
+    public function execute()
     {
-		return $this->stmt->execute();
-	}
-	
-	/**
+        return $this->stmt->execute();
+    }
+
+    /**
      * Get result set as array
      */
-	public function resultSet($fetchMode = null)
+    public function resultSet($fetchMode = null)
     {
-		$this->execute();
+        $this->execute();
         return $this->stmt->fetchAll($fetchMode ?? $this->conn->getAttribute(PDO::ATTR_DEFAULT_FETCH_MODE));
-	}
-	
-	/**
+    }
+
+    /**
      * Get single record
      */
-	public function single($fetchMode = null)
+    public function single($fetchMode = null)
     {
-		$this->execute();
-		return $this->stmt->fetch($fetchMode ?? $this->conn->getAttribute(PDO::ATTR_DEFAULT_FETCH_MODE));
-	}
-	
-	/**
+        $this->execute();
+        return $this->stmt->fetch($fetchMode ?? $this->conn->getAttribute(PDO::ATTR_DEFAULT_FETCH_MODE));
+    }
+
+    /**
      * Get record row count
      */
-	public function rowCount()
+    public function rowCount()
     {
-		return $this->stmt->rowCount();
-	}
-	
-	/**
+        return $this->stmt->rowCount();
+    }
+
+    /**
      * Returns the last inserted ID
      */
-	public function lastInsertId()
+    public function lastInsertId()
     {
-		return $this->conn->lastInsertId();
-	}
+        return $this->conn->lastInsertId();
+    }
 }
