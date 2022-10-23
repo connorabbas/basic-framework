@@ -92,6 +92,7 @@ class Router
     public function checkRoute()
     {
         if (!$this->validRoute) {
+            http_response_code(404);
             echo View::render('pages.404');
             return;
         }
