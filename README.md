@@ -7,7 +7,7 @@ A full-stack PHP framework that gives you the basics for starting a web project 
 - View templates using [Plates](https://platesphp.com/)
 - Class auto loading
 - PDO database class
-- Bootstrap 5 included
+- [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) 5.2 included
 
 ## Installation
 Download using [Composer](https://getcomposer.org/).
