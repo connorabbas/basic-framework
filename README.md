@@ -36,8 +36,6 @@ $router->patch($uri, $callback);
 $router->delete($uri, $callback);
 ```
 
-It's also recommended to use the included ```csrf()``` and ```csrfValid()``` helper functions to ensure your requests are safe from any potential [Cross Site Request Forgery](https://owasp.org/www-community/attacks/csrf).
-
 ### Callback functions
 The callback will either be a self contained function, where you can execute your routes logic, or it will be an array where the first item is the class you want to reference (usually a controller), and the second item is the method name.
 ``` php
@@ -81,6 +79,7 @@ $router->patch('/update-example', [ExampleClass::class, 'updateMethod']);
     <button type="submit" name="updateSubmit">Update</button>
 </form>
 ```
+It's also recommended to use the included ```csrf()``` and ```csrfValid()``` helper functions to ensure your requests are safe from any potential [Cross Site Request Forgery](https://owasp.org/www-community/attacks/csrf).
 
 ### Organization
 As your application grows, you will probably want to better organize your routes instead of having them all in one file. Feel free to organize any file/folder structure you wish! By default, you can define routes within any .php file that resides inside of the /routes directory.
