@@ -11,8 +11,9 @@ class ExampleController
     {
         $foo = 'bar';
 
-        return View::render('pages.example', [
-            'foo' => $foo,
-        ]);
+        return View::render(
+            'pages.example',
+            ['foo' => $foo]
+        );
     }
 }

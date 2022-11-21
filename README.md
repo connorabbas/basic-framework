@@ -60,9 +60,12 @@ It's also recommended to use the included ```csrf()``` and ```csrfValid()``` hel
 The callback will either be a self contained function, where you can execute your routes logic, or it will be an array where the first item is the class you want to reference (usually a controller), and the second item is the method name.
 ``` php
 // Basic route using a closure
-$router->get('/home', function () {
-    return 'Hello World';
-});
+$router->get(
+    '/home',
+    function () {
+        return 'Hello World';
+    }
+);
 // Alternatively, use a controller class and a method to store your logic in
 $router->get('/home-alt', [HomeController::class, 'index']);
 ```
@@ -70,10 +73,13 @@ $router->get('/home-alt', [HomeController::class, 'index']);
 You can set dynamic values in your routes slug that will be available in the ``` $_REQUEST ``` super global. The index will be the same name you used for your variable in the route uri.
 ``` php
 // Ex: yoursite.com/blog/1
-$router->get('/blog/$id', function () {
-    // Reference the dynamic variable
-    $id = $_REQUEST['id'];
-});
+$router->get(
+    '/blog/$id',
+    function () {
+        // Reference the dynamic variable
+        $id = $_REQUEST['id'];
+    }
+);
 ```
 ### Organization
 As your application grows, you will probably want to better organize your routes instead of having them all in one file. Feel free to organize any file/folder structure you wish! By default, you can define routes within any .php file that resides inside of the /routes directory.
@@ -102,9 +108,10 @@ public function index()
 {
     $foo = 'bar';
 
-    return View::render('pages.example', [
-        'foo' => $foo,
-    ]);
+    return View::render(
+        'pages.example',
+        ['foo' => $foo]
+    );
 }
 ```
 
@@ -131,8 +138,7 @@ class Example extends Model
     {
         $sql = "SELECT * FROM schema.table Where column = :data";
 
-        $this->db->query($sql)
-            ->bind(':data', $data);
+        $this->db->query($sql)->bind(':data', $data);
 
         return $this->db->resultSet();
     }
@@ -160,9 +166,10 @@ class TesterController
         $exampleModel = new Example($this->db);
         $exampleData = $exampleModel->getData('test_data_123');
 
-        return View::render('pages.example', [
-            'exampleData' => $exampleData,
-        ]);
+        return View::render(
+            'pages.example',
+            ['exampleData' => $exampleData]
+        );
     }
 }
 ```

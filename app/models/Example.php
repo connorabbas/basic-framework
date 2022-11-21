@@ -10,8 +10,7 @@ class Example extends Model
     {
         $sql = "SELECT * FROM schema.table Where column = :data";
 
-        $this->db->query($sql)
-            ->bind(':data', $data);
+        $this->db->query($sql)->bind(':data', $data);
 
         return $this->db->resultSet();
     }
