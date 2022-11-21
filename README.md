@@ -36,26 +36,6 @@ $router->patch($uri, $callback);
 $router->delete($uri, $callback);
 ```
 
-### Form requests
-The standard html ``` <form> ``` tag only accepts ``` GET ``` and ``` POST ``` as valid request methods. We can overcome this by using the ``` methodSpoof(string $method) ``` helper function. This requires our form to use the ```POST``` method request and to specify the "spoofed" method inside the form using ```PUT```, ```PATCH```, or ```DELETE```. 
-
-For example:
-```php
-$router->patch('/update-example', [ExampleClass::class, 'updateMethod']);
-```
-```html
-<!-- Example form request to update data -->
-<form action="/update-example" method="POST">
-    <?= csrf() ?>
-    <?= methodSpoof('PATCH') ?>
-    <label class="form-label">Field to update</label>
-    <input name="exampleField" value="<?= $originalValue ?>" required>
-    <button type="submit" name="updateSubmit">Update</button>
-</form>
-```
-
-It's also recommended to use the included ```csrf()``` and ```csrfValid()``` helper functions to ensure your requests are safe from any potential [Cross Site Request Forgery](https://owasp.org/www-community/attacks/csrf).
-
 ### Callback functions
 The callback will either be a self contained function, where you can execute your routes logic, or it will be an array where the first item is the class you want to reference (usually a controller), and the second item is the method name.
 ``` php
@@ -81,6 +61,26 @@ $router->get(
     }
 );
 ```
+
+### Form requests
+The standard html ``` <form> ``` tag only accepts ``` GET ``` and ``` POST ``` as valid request methods. We can overcome this by using the ``` methodSpoof(string $method) ``` helper function. This requires our form to use the ```POST``` method request and to specify the "spoofed" method inside the form using ```PUT```, ```PATCH```, or ```DELETE```. 
+
+For example:
+```php
+$router->patch('/update-example', [ExampleClass::class, 'updateMethod']);
+```
+```html
+<!-- Example form request to update data -->
+<form action="/update-example" method="POST">
+    <?= csrf() ?>
+    <?= methodSpoof('PATCH') ?>
+    <label class="form-label">Field to update</label>
+    <input name="exampleField" value="<?= $originalValue ?>" required>
+    <button type="submit" name="updateSubmit">Update</button>
+</form>
+```
+It's also recommended to use the included ```csrf()``` and ```csrfValid()``` helper functions to ensure your requests are safe from any potential [Cross Site Request Forgery](https://owasp.org/www-community/attacks/csrf).
+
 ### Organization
 As your application grows, you will probably want to better organize your routes instead of having them all in one file. Feel free to organize any file/folder structure you wish! By default, you can define routes within any .php file that resides inside of the /routes directory.
 
