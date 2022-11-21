@@ -7,14 +7,26 @@ class CLI
     public function createController($name)
     {
         if (!file_exists("app/controllers/" . $name . ".php")) {
+            $nameSpace = '';
+            $dirParts = explode('/', $name);
+            $className = array_pop($dirParts);
+            if (count($dirParts) >= 1) {
+                $newDir = implode('/', $dirParts);
+                array_unshift($dirParts, '');
+                $nameSpace = implode('\\', $dirParts);
+                if (!is_dir("app/controllers/" . $newDir)) {
+                    mkdir("app/controllers/" . $newDir, 0777, true) or die("Unable to create directory!");       
+                }
+            }
+
             $content = "";
             $content .= "<?php" . PHP_EOL;
             $content .= PHP_EOL;
-            $content .= "namespace App\Controllers;" . PHP_EOL;
+            $content .= "namespace App\Controllers" . $nameSpace . ";" . PHP_EOL;
             $content .= PHP_EOL;
             $content .= "use App\Core\DB;" . PHP_EOL;
             $content .= PHP_EOL;
-            $content .= "class ".$name."" . PHP_EOL;
+            $content .= "class " . $className . PHP_EOL;
             $content .= "{" . PHP_EOL;
             $content .= "    protected \$db;" . PHP_EOL;
             $content .= PHP_EOL;
@@ -45,12 +57,26 @@ class CLI
     public function createModel($name)
     {
         if (!file_exists("app/models/" . $name . ".php")) {
+            $nameSpace = '';
+            $dirParts = explode('/', $name);
+            $className = array_pop($dirParts);
+            if (count($dirParts) >= 1) {
+                $newDir = implode('/', $dirParts);
+                array_unshift($dirParts, '');
+                $nameSpace = implode('\\', $dirParts);
+                if (!is_dir("app/models/" . $newDir)) {
+                    mkdir("app/models/" . $newDir, 0777, true) or die("Unable to create directory!");       
+                }
+            }
+
             $content = "";
             $content .= "<?php" . PHP_EOL;
             $content .= PHP_EOL;
-            $content .= "namespace App\Models;" . PHP_EOL;
+            $content .= "namespace App\Models" . $nameSpace . ";" . PHP_EOL;
             $content .= PHP_EOL;
-            $content .= "class ".$name." extends Model" . PHP_EOL;
+            $content .= "use App\Core\Model;" . PHP_EOL;
+            $content .= PHP_EOL;
+            $content .= "class " . $className . " extends Model" . PHP_EOL;
             $content .= "{" . PHP_EOL;
             $content .= "    public function modelMethod()" . PHP_EOL;
             $content .= "    {" . PHP_EOL;
