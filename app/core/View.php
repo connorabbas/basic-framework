@@ -14,7 +14,7 @@ class View
         foreach (config('plates_templates.folders') as $name => $folder) {
             $templates->addFolder($name, '../app/views/' . $folder);
         }
-        
+
         return $templates->render($realPath, $data);
     }
 }

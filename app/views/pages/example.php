@@ -1,9 +1,12 @@
 
 <?php
-$this->layout('template::main', [
-    'pageTitle' => 'Example',
-    'pageDesc' => "An Example Page...",
-]);
+$this->layout(
+    'template::main',
+    [
+        'pageTitle' => 'Example',
+        'pageDesc' => "An Example Page...",
+    ]
+);
 ?>
 <div class="d-flex align-items-center justify-content-center" style="height: 90vh">
     <div class="text-center">

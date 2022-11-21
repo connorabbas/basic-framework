@@ -1,6 +1,6 @@
 .env
-env.php
 /node_modules
 /vendor
 /.idea
 /.vscode
+/cache

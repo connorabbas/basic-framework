@@ -40,4 +40,4 @@ if (config('site.environment') == 'local') {
 }
 
 // Invoke the site
-(new App)->run();
+(new App())->run();
