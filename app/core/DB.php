@@ -23,11 +23,21 @@ class DB
     private $conn;
     private $stmt;
 
-    public function __construct(array $config = null, array $pdoOptions = null)
+    public function __construct(array $config = null)
     {
         // for the sake of the framework, use the config helper function for the default configuration
         if (is_null($config)) {
             $config = config('database.main');
+        }
+        
+        // PDO Options
+        if (!isset($config['pdo_options'])) {
+            $config['pdo_options'] = [
+                PDO::ATTR_PERSISTENT => false,
+                PDO::ATTR_EMULATE_PREPARES => false,
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
+            ];
         }
 
         // Set connection vars
@@ -40,19 +50,9 @@ class DB
         // Set DSN
         $dsn = $this->driver . ':host=' . $this->host . ';dbname=' . $this->dbname;
 
-        // PDO Options
-        if (is_null($pdoOptions)) {
-            $pdoOptions = [
-                PDO::ATTR_PERSISTENT => false,
-                PDO::ATTR_EMULATE_PREPARES => false,
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
-            ];
-        }
-
         // Create a new PDO instance
         try {
-            $this->conn = new PDO($dsn, $this->user, $this->pass, $pdoOptions);
+            $this->conn = new PDO($dsn, $this->user, $this->pass, $config['pdo_options']);
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(), (int) $e->getCode());
         }

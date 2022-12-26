@@ -2,6 +2,8 @@
 
 namespace App\Data;
 
+use PDO;
+
 class Config
 {
     private $data = [];
@@ -22,6 +24,12 @@ class Config
                     'username' => $env['DB_USERNAME'],
                     'password' => $env['DB_PASSWORD'],
                     'name' => $env['DB_NAME'],
+                    'pdo_options' => [
+                        PDO::ATTR_PERSISTENT => false,
+                        PDO::ATTR_EMULATE_PREPARES => false,
+                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
+                    ]
                 ],
             ],
             'plates_templates' => [

@@ -8,16 +8,22 @@ use RecursiveDirectoryIterator;
 
 class App
 {
+    private $router;
+
+    public function __construct(Router $router)
+    {
+        $this->router = $router;
+    }
+
     public function run()
     {
         // Site routing
-        $router = new Router();
         $di = new RecursiveDirectoryIterator('../routes/');
         foreach (new RecursiveIteratorIterator($di) as $filename) {
             if (strpos($filename, '.php') !== false) {
                 require_once($filename);
             }
         }
-        $router->checkRoute();
+        $this->router->checkRoute();
     }
 }
