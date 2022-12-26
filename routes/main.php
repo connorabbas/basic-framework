@@ -4,9 +4,9 @@ use App\Controllers\ExampleController;
 
 // Valid Routes for Site
 
-$router->view('/', 'pages.welcome');
+$this->router->view('/', 'pages.welcome');
 
-$router->get(
+$this->router->get(
     '/json/$test',
     function () {
         return json_encode(
@@ -18,4 +18,4 @@ $router->get(
     }
 );
 
-$router->get('/example', [ExampleController::class, 'index']);
+$this->router->get('/example', [ExampleController::class, 'index']);

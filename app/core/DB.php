@@ -18,31 +18,21 @@ class DB
     private $host;
     private $user;
     private $pass;
-    private $dbname;
+    private $dbName;
     private $driver;
     private $conn;
     private $stmt;
 
-    public function __construct(array $config = null, array $pdoOptions = null)
+    public function __construct(array $connectionSettings = null)
     {
         // for the sake of the framework, use the config helper function for the default configuration
-        if (is_null($config)) {
+        if (is_null($connectionSettings)) {
             $config = config('database.main');
         }
-
-        // Set connection vars
-        $this->driver = $config['driver'];
-        $this->host = $config['host'];
-        $this->user = $config['username'];
-        $this->pass = $config['password'];
-        $this->dbname = $config['name'];
-
-        // Set DSN
-        $dsn = $this->driver . ':host=' . $this->host . ';dbname=' . $this->dbname;
-
+        
         // PDO Options
-        if (is_null($pdoOptions)) {
-            $pdoOptions = [
+        if (!isset($config['pdo_options'])) {
+            $config['pdo_options'] = [
                 PDO::ATTR_PERSISTENT => false,
                 PDO::ATTR_EMULATE_PREPARES => false,
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -50,9 +40,19 @@ class DB
             ];
         }
 
+        // Set connection vars
+        $this->driver = $config['driver'];
+        $this->host = $config['host'];
+        $this->user = $config['username'];
+        $this->pass = $config['password'];
+        $this->dbName = $config['name'];
+
+        // Set DSN
+        $dsn = $this->driver . ':host=' . $this->host . ';dbName=' . $this->dbName;
+
         // Create a new PDO instance
         try {
-            $this->conn = new PDO($dsn, $this->user, $this->pass, $pdoOptions);
+            $this->conn = new PDO($dsn, $this->user, $this->pass, $config['pdo_options']);
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(), (int) $e->getCode());
         }
@@ -61,7 +61,7 @@ class DB
     /**
      * Just the connection
      */
-    public function conn()
+    public function getConnection()
     {
         return $this->conn;
     }

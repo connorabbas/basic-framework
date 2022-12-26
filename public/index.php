@@ -2,6 +2,8 @@
 
 use App\Core\App;
 use Dotenv\Dotenv;
+use App\Core\Router;
+use App\Core\Container;
 use Dotenv\Exception\InvalidPathException;
 
 /**
@@ -40,4 +42,6 @@ if (config('site.environment') == 'local') {
 }
 
 // Invoke the site
-(new App())->run();
+$container = new Container();
+$router = new Router($container);
+(new App($router))->run();

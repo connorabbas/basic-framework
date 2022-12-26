@@ -3,14 +3,16 @@
 namespace App\Core;
 
 use App\Core\View;
+use App\Core\Container;
 
 class Router
 {
-    private $validRoute;
+    private $validRoute = false;
+    private $container;
 
-    public function __construct()
+    public function __construct(Container $container)
     {
-        $this->validRoute = false;
+        $this->container = $container;
     }
 
     private function set(string $route, $callback)
@@ -61,7 +63,8 @@ class Router
                 $className = $callback[0];
                 $methodName = $callback[1];
                 $fullClassName = "\\$className";
-                $obj = new $fullClassName();
+                // use the container to get the class
+                $obj = $this->container->get($fullClassName);
                 $this->validRoute = true;
                 return call_user_func_array([$obj, $methodName],  []);
             }
