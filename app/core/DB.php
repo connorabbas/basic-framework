@@ -23,10 +23,10 @@ class DB
     private $conn;
     private $stmt;
 
-    public function __construct(array $connectionSettings = null)
+    public function __construct(array $config = null)
     {
         // for the sake of the framework, use the config helper function for the default configuration
-        if (is_null($connectionSettings)) {
+        if (is_null($config)) {
             $config = config('database.main');
         }
         
