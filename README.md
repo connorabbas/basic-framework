@@ -95,7 +95,7 @@ php basic new:controller YourControllerName
 ```
 
 ## Dependency Injection Container
-By default you can type hint any class in your controller `__construct()` method to have the container handle it's dependencies for you.
+By default you can type hint any class in a controller `__construct()` method to have the container handle it's dependencies for you.
 
 You can also instantiate the `App\Core\Container` class yourself and use the `get()` and `set` methods to easily manage your class dependencies. The class will use reflection and recursion to automatically instantiate and set all the needed dependencies your classes may have.
 
