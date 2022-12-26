@@ -63,7 +63,7 @@ class Router
                 $className = $callback[0];
                 $methodName = $callback[1];
                 $fullClassName = "\\$className";
-                //$obj = new $fullClassName();
+                // use the container to get the class
                 $obj = $this->container->get($fullClassName);
                 $this->validRoute = true;
                 return call_user_func_array([$obj, $methodName],  []);

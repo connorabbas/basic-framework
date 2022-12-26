@@ -57,15 +57,15 @@ class Container implements ContainerInterface
 
                 if (!$type) {
                     throw new Exception(
-                        'Failed to resolve class: "' . $id . '" because "' . $name . '"' .
-                        ' is missing a type hint in the constructor.'
+                        'Failed to resolve class: "' . $id . '" because "' . $name . '" ' .
+                        'is missing a type hint in the constructor.'
                     );
                 }
 
                 if ($type instanceof ReflectionUnionType) {
                     throw new Exception(
-                        'Failed to resolve class: "' . $id . '" because param: "' . $name . '"' .
-                        ' is a union type.'
+                        'Failed to resolve class: "' . $id . '" because param: "' . $name . '" ' .
+                        'is a union type.'
                     );
                 }
 
@@ -73,8 +73,13 @@ class Container implements ContainerInterface
                     return $this->get($type->getName());
                 }
 
+                if ($type->isBuiltin() && $parameter->isDefaultValueAvailable()) {
+                    return $parameter->getDefaultValue();
+                }
+
                 throw new Exception(
-                    'Failed to resolve class: "' . $id . '" because invalid param: "' . $name . '"'
+                    'Failed to resolve class: "' . $id . '" because invalid param: "' . $name . '". ' .
+                    'If you are using a built-in type, please provide a default value.'
                 );
             },
             $parameters
