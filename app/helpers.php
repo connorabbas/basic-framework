@@ -5,7 +5,7 @@ use App\Data\Config;
 // Helper functions available anywhere within the application
 
 /**
- * access config values by using '.' as the nesting delimiter
+ * access config values by using "." as the nesting delimiter
  */
 if (!function_exists('config')) {
     function config(string $configPath)

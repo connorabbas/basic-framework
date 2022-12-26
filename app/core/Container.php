@@ -4,10 +4,10 @@ namespace App\Core;
 
 use Exception;
 use ReflectionClass;
-use ReflectionParameter;
-use Psr\Container\ContainerInterface;
 use ReflectionNamedType;
+use ReflectionParameter;
 use ReflectionUnionType;
+use Psr\Container\ContainerInterface;
 
 class Container implements ContainerInterface
 {

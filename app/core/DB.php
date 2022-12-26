@@ -18,15 +18,15 @@ class DB
     private $host;
     private $user;
     private $pass;
-    private $dbname;
+    private $dbName;
     private $driver;
     private $conn;
     private $stmt;
 
-    public function __construct(array $config = null)
+    public function __construct(array $connectionSettings = null)
     {
         // for the sake of the framework, use the config helper function for the default configuration
-        if (is_null($config)) {
+        if (is_null($connectionSettings)) {
             $config = config('database.main');
         }
         
@@ -45,10 +45,10 @@ class DB
         $this->host = $config['host'];
         $this->user = $config['username'];
         $this->pass = $config['password'];
-        $this->dbname = $config['name'];
+        $this->dbName = $config['name'];
 
         // Set DSN
-        $dsn = $this->driver . ':host=' . $this->host . ';dbname=' . $this->dbname;
+        $dsn = $this->driver . ':host=' . $this->host . ';dbName=' . $this->dbName;
 
         // Create a new PDO instance
         try {
@@ -61,7 +61,7 @@ class DB
     /**
      * Just the connection
      */
-    public function conn()
+    public function getConnection()
     {
         return $this->conn;
     }
