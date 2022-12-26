@@ -48,7 +48,7 @@ class DB
         $this->dbName = $config['name'];
 
         // Set DSN
-        $dsn = $this->driver . ':host=' . $this->host . ';dbName=' . $this->dbName;
+        $dsn = $this->driver . ':host=' . $this->host . ';dbname=' . $this->dbName;
 
         // Create a new PDO instance
         try {
