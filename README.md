@@ -117,7 +117,6 @@ public function setClassBindings(): self
 
     return $this;
 }
-
 ```
 
 ## Views
