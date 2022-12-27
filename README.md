@@ -126,13 +126,12 @@ Models are meant to interact with your database. The included `App\Core\DB` clas
 
 There is a `config('database.main')` connection included and used by default.
 
-It's recommended that the database connection only be established once (usually in the controller) and passed throughout the application using dependency injection wherever it is needed.
-
 You can create a model using the cli tools just like you can with controllers:
 ``` bash command-line
 php basic new:model YourModelName
 ```
-### Example
+
+### Basic Example
 ``` php
 <?php
 
@@ -142,7 +141,7 @@ use App\Core\Model;
 
 class Example extends Model
 {
-    public function getData($data)
+    public function getData(string $data)
     {
         $sql = "SELECT * FROM schema.table Where column = :data";
 
@@ -156,23 +155,23 @@ class Example extends Model
 ``` php
 <?php
 
-use App\Core\DB;
+namespace App\Controllers;
+
 use App\Core\View;
 use App\Models\Example;
 
 class TesterController
 {
-    protected $db;
+    public $example;
 
-    public function __construct()
+    public function __construct(Example $example)
     {
-        $this->db = new DB();
+        $this->example = $example;
     }
 
     public function index()
     {
-        $exampleModel = new Example($this->db);
-        $exampleData = $exampleModel->getData('test_data_123');
+        $exampleData = $this->example->getData('test_data_123');
 
         return View::render(
             'pages.example',
@@ -185,7 +184,7 @@ class TesterController
 ## Helper functions
 Helper functions are meant to be accessed anywhere within the application. There are few included with the framework, feel free to add our own as well.
 
-` /app/utilities/helpers.php `
+` /app/helpers.php `
 
 ## Environmental and Configuration Data
 ### .env
@@ -225,3 +224,8 @@ Serve your site locally:
 ``` bash command-line
 php basic serve
 ```
+
+## Example Project
+For more in-depth code examples, and to see a fully working application using the framework I have made an example project to reference.
+
+[PHP User Auth](https://github.com/connorabbas/php-user-auth)

@@ -50,6 +50,7 @@ class Container implements ContainerInterface
             return new $id();
         }
 
+        // gather dependencies
         $dependencies = array_map(
             function (ReflectionParameter $parameter) use ($id) {
                 $name = $parameter->getName();
@@ -85,6 +86,15 @@ class Container implements ContainerInterface
             $parameters
         );
 
-        return $reflectionClass->newInstanceArgs($dependencies);
+        // set the class for possible later use, so classes are not created multiple times over
+        $fullyQualifiedClass = $reflectionClass->newInstanceArgs($dependencies);
+        $this->set(
+            $reflectionClass->name, 
+            function () use ($fullyQualifiedClass) {
+                return $fullyQualifiedClass;
+            }
+        );
+
+        return $fullyQualifiedClass;
     }
 }

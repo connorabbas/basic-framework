@@ -44,4 +44,5 @@ if (config('site.environment') == 'local') {
 // Invoke the site
 $container = new Container();
 $router = new Router($container);
-(new App($router))->run();
+$app = new App($router);
+$app->run();

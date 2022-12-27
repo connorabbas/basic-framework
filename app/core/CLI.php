@@ -24,15 +24,11 @@ class CLI
             $content .= PHP_EOL;
             $content .= "namespace App\Controllers" . $nameSpace . ";" . PHP_EOL;
             $content .= PHP_EOL;
-            $content .= "use App\Core\DB;" . PHP_EOL;
-            $content .= PHP_EOL;
             $content .= "class " . $className . PHP_EOL;
             $content .= "{" . PHP_EOL;
-            $content .= "    protected \$db;" . PHP_EOL;
-            $content .= PHP_EOL;
             $content .= "    public function __construct()" . PHP_EOL;
             $content .= "    {" . PHP_EOL;
-            $content .= "        \$this->db = new DB();" . PHP_EOL;
+            $content .= "        //" . PHP_EOL;
             $content .= "    }" . PHP_EOL;
             $content .= PHP_EOL;
             $content .= "    public function index()" . PHP_EOL;
