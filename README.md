@@ -95,9 +95,30 @@ php basic new:controller YourControllerName
 ```
 
 ## Dependency Injection Container
-By default you can type hint any class in a controller `__construct()` method to have the container handle it's dependencies for you.
+By default you can type hint any class in a controller `__construct()` method to have the container handle it's dependencies for you. The container will use reflection and recursion to automatically instantiate and set all the needed parameters/dependencies your classes may have.
 
-You can also instantiate the `App\Core\Container` class yourself and use the `get()` and `set()` methods to easily manage your class dependencies. The class will use reflection and recursion to automatically instantiate and set all the needed dependencies your classes may have.
+If you need to manually set up a class and it's binding, you may do so in the `App\Core\App::setClassBindings()` method utilizing `App\Core\Container::set()`.
+
+This is useful when you would possibly need to bind a class to an interface, an alternative db connection class, or any other edge case in your application.
+
+### Example
+```php
+/**
+ * Establish any container class bindings for the application
+ */
+public function setClassBindings(): self
+{
+    $this->container->set(
+        UserServiceInterface::class,
+        function () {
+            return new UserService();
+        }
+    );
+
+    return $this;
+}
+
+```
 
 ## Views
 By default, the framework uses [Plates](https://platesphp.com/) for it's view template system. The `App\Core\View` class is used as a basic wrapper.
