@@ -1,9 +1,12 @@
 
 <?php
-$this->layout('template::main', [
-    'pageTitle' => 'Welcome',
-    'pageDesc' => "Welcome to a basic php framework",
-]);
+$this->layout(
+    'template::main',
+    [
+        'pageTitle' => 'Welcome',
+        'pageDesc' => "Welcome to a basic php framework",
+    ]
+);
 ?>
 <div class="d-flex align-items-center justify-content-center" style="height: 90vh">
     <div class="text-center">

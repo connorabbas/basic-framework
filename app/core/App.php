@@ -35,8 +35,6 @@ class App
 
     /**
      * Establish any container class bindings for the application
-     *
-     * @return self
      */
     public function setClassBindings(): self
     {
