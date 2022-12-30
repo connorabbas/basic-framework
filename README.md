@@ -99,7 +99,7 @@ By default, you can type hint any class in a controller's `__construct()` method
 
 If you need to manually set up a class and it's binding, you may do so in the `App\Core\App::setClassBindings()` method utilizing `App\Core\Container::set()`. This will create and resolve the bound class anytime the set class is referenced in the container.
 
-If you want your bound class to only be instantiated once, and then used on all subsequent calls in the container, use `App\Core\Container::setOnce()`. By default, the `App\Core\DB` class is set once, so we can ensure that there is only database connection created per request lifecycle.
+If you want your bound class to only be instantiated once, and then used on all subsequent calls in the container, use `App\Core\Container::setOnce()`. By default, the `App\Core\DB` class is set once, so we can ensure that there is only one database connection created per request lifecycle.
 
 ```php
 /**
