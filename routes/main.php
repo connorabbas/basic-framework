@@ -2,7 +2,9 @@
 
 use App\Controllers\ExampleController;
 
-// Valid Routes for Site
+/**
+ * Valid Routes for Site
+ */
 
 $this->router->view('/', 'pages.welcome');
 

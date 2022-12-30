@@ -1,8 +1,16 @@
 <?php
 
-use App\Data\Config;
+/**
+ * Helper functions available anywhere within the application (in the current request)
+ */
 
-// Helper functions available anywhere within the application
+if (!function_exists('container')) {
+    function container(string $classReference)
+    {
+        global $container;
+        return $container->get($classReference);
+    }
+}
 
 /**
  * access config values by using "." as the nesting delimiter
@@ -11,7 +19,7 @@ if (!function_exists('config')) {
     function config(string $configPath)
     {
         $configKeys = explode('.', $configPath);
-        $config = (new Config($_ENV))->get();
+        $config = (new App\Data\Config($_ENV))->get();
         $finalKey = $config;
 
         for ($i = 0; $i < count($configKeys); $i++) {
@@ -25,8 +33,8 @@ if (!function_exists('config')) {
 /**
  * Spoof the request method for an html form
  */
-if (!function_exists('methodSpoof')) {
-    function methodSpoof(string $method): string
+if (!function_exists('method_spoof')) {
+    function method_spoof(string $method): string
     {
         $validMethods = ['PUT', 'PATCH', 'DELETE'];
         $method = strtoupper($method);
@@ -67,8 +75,8 @@ if (!function_exists('csrf')) {
 /**
  * Check csrf data from form is valid
  */
-if (!function_exists('csrfValid')) {
-    function csrfValid()
+if (!function_exists('csrf_valid')) {
+    function csrf_valid()
     {
         if (!isset($_SESSION['csrf']) || !isset($_REQUEST['csrf'])) {
             return false;
@@ -78,6 +86,16 @@ if (!function_exists('csrfValid')) {
         }
 
         return true;
+    }
+}
+
+if (!function_exists('handle_csrf')) {
+    function handle_csrf()
+    {
+        if (!csrf_valid()) {
+            $_SESSION['flash_error_msg'] = 'Invalid request. Possible cross site request forgery detected.';
+            back();
+        }
     }
 }
 
@@ -103,8 +121,8 @@ if (!function_exists('back')) {
     }
 }
 
-if (!function_exists('successFlashMessage')) {
-    function successFlashMessage()
+if (!function_exists('success_flash_message')) {
+    function success_flash_message()
     {
         $successAlert = '';
         if (isset($_SESSION['flash_success_msg']) && $_SESSION['flash_success_msg'] != '') {
@@ -122,8 +140,8 @@ if (!function_exists('successFlashMessage')) {
     }
 }
 
-if (!function_exists('errorFlashMessage')) {
-    function errorFlashMessage()
+if (!function_exists('error_flash_message')) {
+    function error_flash_message()
     {
         $errorAlert = '';
         if (isset($_SESSION['flash_error_msg']) && $_SESSION['flash_error_msg'] != '') {

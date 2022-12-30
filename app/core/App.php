@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use App\Core\DB;
 use App\Core\Router;
 use App\Core\Container;
 use RecursiveIteratorIterator;
@@ -38,7 +39,12 @@ class App
      */
     public function setClassBindings(): self
     {
-        // $this->container->set()
+        $this->container->setOnce(
+            DB::class,
+            function () {
+                return new DB();
+            }
+        );
 
         return $this;
     }
