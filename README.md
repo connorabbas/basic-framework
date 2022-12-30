@@ -63,7 +63,7 @@ $this->router->get(
 ```
 
 ### Form requests
-The standard html ` <form> ` tag only accepts ` GET ` and ` POST ` as valid request methods. We can overcome this by using the ` methodSpoof(string $method) ` helper function. This requires our form to use the `POST` method request and to specify the "spoofed" method inside the form using `PUT`, `PATCH`, or `DELETE`. 
+The standard html ` <form> ` tag only accepts ` GET ` and ` POST ` as valid request methods. We can overcome this by using the ` method_spoof(string $method) ` helper function. This requires our form to use the `POST` method request and to specify the "spoofed" method inside the form using `PUT`, `PATCH`, or `DELETE`. 
 
 For example:
 ```php
@@ -73,13 +73,13 @@ $this->router->patch('/update-example', [ExampleClass::class, 'updateMethod']);
 <!-- Example form request to update data -->
 <form action="/update-example" method="POST">
     <?= csrf() ?>
-    <?= methodSpoof('PATCH') ?>
+    <?= method_spoof('PATCH') ?>
     <label class="form-label">Field to update</label>
     <input name="exampleField" value="<?= $originalValue ?>" required>
     <button type="submit" name="updateSubmit">Update</button>
 </form>
 ```
-It's also recommended to use the included `csrf()` and `csrfValid()` helper functions to ensure your requests are safe from any potential [Cross Site Request Forgery](https://owasp.org/www-community/attacks/csrf).
+It's also recommended to use the included `csrf()` and `csrf_valid()` helper functions to ensure your requests are safe from any potential [Cross Site Request Forgery](https://owasp.org/www-community/attacks/csrf).
 
 ### Organization
 As your application grows, you will probably want to better organize your routes instead of having them all in one file. Feel free to organize any file/folder structure you wish! By default, you can define routes within any .php file that resides inside of the /routes directory.
@@ -87,7 +87,7 @@ As your application grows, you will probably want to better organize your routes
 ## Controllers
 Controllers are where you should store your routes logic for handling the incoming HTTP request. There is an example controller class provided.
 
-Note: In the current state, controller methods should NOT accept any parameters, the included dependency injection container will only resolve classes established in the class constructor.
+Note: In the current state, controller methods should NOT accept any parameters, the included dependency injection container will only resolve classes established in the constructor.
 
 Creating a controller is easy with the built in cli tools included with the framework. Just open a command line interface at the root directory of your project and enter the command:
 ``` bash command-line
@@ -95,19 +95,27 @@ php basic new:controller YourControllerName
 ```
 
 ## Dependency Injection Container
-By default you can type hint any class in a controller `__construct()` method to have the container handle it's dependencies for you. The container will use reflection and recursion to automatically instantiate and set all the needed parameters/dependencies your classes may have.
+By default, you can type hint any class in a controller's `__construct()` method to have the container handle it's dependencies for you. The container will use reflection and recursion to automatically instantiate and set all the needed parameters/dependencies your classes may have.
 
-If you need to manually set up a class and it's binding, you may do so in the `App\Core\App::setClassBindings()` method utilizing `App\Core\Container::set()`.
+If you need to manually set up a class and it's binding, you may do so in the `App\Core\App::setClassBindings()` method utilizing `App\Core\Container::set()`. This will create and resolve the bound class anytime the set class is referenced in the container.
 
-This is useful when you would possibly need to bind a class to an interface, an alternative db connection class, or any other edge case in your application.
+If you want your bound class to only be instantiated once, and then used on all subsequent calls in the container, use `App\Core\Container::setOnce()`. By default, the `App\Core\DB` class is set once, so we can ensure that there is only database connection created per request lifecycle.
 
-### Example
 ```php
 /**
  * Establish any container class bindings for the application
  */
 public function setClassBindings(): self
 {
+    // included by default
+    $this->container->setOnce(
+        DB::class,
+        function () {
+            return new DB();
+        }
+    );
+
+    // reference the actual service whenever the interface is injected
     $this->container->set(
         UserServiceInterface::class,
         function () {
@@ -116,6 +124,62 @@ public function setClassBindings(): self
     );
 
     return $this;
+}
+```
+```php
+<?php
+
+namespace App\Controllers;
+
+use App\Core\View;
+use App\Models\User;
+
+class UserController
+{
+    protected $userData;
+
+    // utilizing the containers automatic resolution
+    public function __construct(User $userData)
+    {
+        $this->userData = $userData;
+    }
+
+    public function index()
+    {
+        $users = $this->userData->getAll();
+
+        return View::render(
+            'pages.users.list',
+            ['users' => $users]
+        );
+    }
+}
+```
+
+If you don't want to set/resolve certain classes in your controller's constructor because not all it's methods will use the properties/classes, or any other reason, you can use the included `container()` helper function to access the `App\Core\Container::get()` method.
+
+```php
+<?php
+
+namespace App\Controllers;
+
+use App\Core\View;
+use App\Models\User;
+
+class ExampleController
+{
+    public function index()
+    {
+        // get/resolve the User class from the container without injecting into the constructor
+        // dependencies automatically resolved, pretty neat
+        $userData = container(User::class);
+        $user = $userData->getById($_REQUEST['id']);
+
+        return View::render(
+            'pages.example',
+            ['user' => $user]
+        );
+    }
 }
 ```
 

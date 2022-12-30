@@ -41,8 +41,11 @@ if (config('site.environment') == 'local') {
     error_reporting(E_ALL);
 }
 
-// Invoke the site
+// using global to reference in container() helper function
+global $container;
 $container = new Container();
+
+// Invoke the site
 $router = new Router($container);
 $app = new App($container, $router);
 $app->setClassBindings()->run();

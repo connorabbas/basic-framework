@@ -11,13 +11,24 @@ use Psr\Container\ContainerInterface;
 
 class Container implements ContainerInterface
 {
-    private array $entries = [];
+    private array $bindings = [];
+    private array $singles = [];
+    private array $bound = [];
 
     public function get(string $id)
     {
         if ($this->has($id)) {
-            $entry = $this->entries[$id];
-            return $entry($this);
+            if (array_key_exists($id, $this->singles)) {
+                if (array_key_exists($id, $this->bound)) {
+                    return $this->bound[$id];
+                }
+                $bound = $this->singles[$id]($this);
+                $this->bound[$id] = $bound;
+
+                return $bound;
+            }
+
+            return $this->bindings[$id]($this);
         }
 
         return $this->resolve($id);
@@ -25,12 +36,17 @@ class Container implements ContainerInterface
 
     public function set(string $id, callable $callback)
     {
-        $this->entries[$id] = $callback;
+        $this->bindings[$id] = $callback;
+    }
+
+    public function setOnce(string $id, callable $callback)
+    {
+        $this->singles[$id] = $callback;
     }
 
     public function has(string $id): bool
     {
-        return isset($this->entries[$id]);
+        return (isset($this->bindings[$id]) || isset($this->singles[$id]));
     }
 
     public function resolve(string $id)
@@ -86,15 +102,6 @@ class Container implements ContainerInterface
             $parameters
         );
 
-        // set the class for possible later use, so classes are not created multiple times over
-        $fullyQualifiedClass = $reflectionClass->newInstanceArgs($dependencies);
-        $this->set(
-            $reflectionClass->name, 
-            function () use ($fullyQualifiedClass) {
-                return $fullyQualifiedClass;
-            }
-        );
-
-        return $fullyQualifiedClass;
+        return $reflectionClass->newInstanceArgs($dependencies);
     }
 }
