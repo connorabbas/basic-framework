@@ -69,9 +69,9 @@ class DB
     /**
      * Prepare statement with query
      */
-    public function query($query)
+    public function query(string $sql)
     {
-        $this->stmt = $this->conn->prepare($query);
+        $this->stmt = $this->conn->prepare($sql);
         return $this;
     }
 
