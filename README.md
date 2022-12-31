@@ -132,7 +132,7 @@ If you need to manually set up a class or interface and it's binding, you may do
 
 You can set a binding using `App\Core\Container::set()`, passing in the class or interface you want registered, and a closure that will return the new class instance.
 
-If you want your bound class to only be instantiated once, and referenced on all subsequent calls in the container, use `App\Core\Container::setOnce()`.
+If you want your bound class to only be instantiated once, and used in all the subsequent references in the container, use `App\Core\Container::setOnce()`.
 
 For example, the `App\Core\DB` class is set once by default. This way we can ensure that there is only one database connection created per request lifecycle.
 
