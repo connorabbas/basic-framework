@@ -48,4 +48,4 @@ $container = new Container();
 // Invoke the site
 $router = new Router($container);
 $app = new App($container, $router);
-$app->setClassBindings()->run();
+$app->containerSetup()->run();

@@ -37,11 +37,11 @@ class App
     /**
      * Establish any container class bindings for the application
      */
-    public function setClassBindings(): self
+    public function containerSetup(): self
     {
         $this->container->setOnce(
             DB::class,
-            function () {
+            function ($container) {
                 return new DB();
             }
         );
