@@ -130,7 +130,7 @@ class UserController
 
 If you need to manually set up a class or interface and it's binding, you may do so in the `App\Core\App::containerSetup()` method.
 
-You can set a binding using `App\Core\Container::set()`, passing in the class or interface we want registered, and a closure that will return the new class instance.
+You can set a binding using `App\Core\Container::set()`, passing in the class or interface you want registered, and a closure that will return the new class instance.
 
 If you want your bound class to only be instantiated once, and referenced on all subsequent calls in the container, use `App\Core\Container::setOnce()`.
 
