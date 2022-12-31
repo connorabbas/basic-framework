@@ -220,7 +220,7 @@ Models are classes that are meant to interact with your database. The included `
 
 To follow MVC conventions, and for better organization in your application, it is highly recommended to only use the DB class and execute queries within your model classes.
 
-To make things easier, your model classes should extend the included `App\Core\Model` abstract class to include the `$this->db` property and have it's database connection created automatically for you.
+To make things easier, your model classes should extend the included `App\Core\Model` abstract class to include the `$this->db` property, to have it's database connection created automatically for you.
 
 ``` php
 <?php
