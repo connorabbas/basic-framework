@@ -4,6 +4,9 @@
  * Helper functions available anywhere within the application (in the current request)
  */
 
+/**
+ * Access classes in the container
+ */
 if (!function_exists('container')) {
     function container(string $classReference)
     {
@@ -13,7 +16,7 @@ if (!function_exists('container')) {
 }
 
 /**
- * access config values by using "." as the nesting delimiter
+ * Access config values by using "." as the nesting delimiter
  */
 if (!function_exists('config')) {
     function config(string $configPath)
@@ -149,9 +152,15 @@ if (!function_exists('error_flash_message')) {
             ?>
             <div class="alert alert-danger mb-3" role="alert">
                 <?php if(is_array($_SESSION['flash_error_msg'])): ?>
-                    <?php foreach ($_SESSION['flash_error_msg'] as $message): ?>
-                        <?= $message ?><br>
-                    <?php endforeach ?>
+                    <?php if(count($_SESSION['flash_error_msg']) > 1): ?>
+                        <ul class="mb-0">
+                            <?php foreach ($_SESSION['flash_error_msg'] as $message): ?>
+                                <li><?= $message ?></li>
+                            <?php endforeach ?>
+                        </ul>
+                    <?php elseif(count($_SESSION['flash_error_msg']) == 1): ?>
+                        <?= $_SESSION['flash_error_msg'][0] ?>
+                    <?php endif ?>
                 <?php else: ?>
                     <?= $_SESSION['flash_error_msg'] ?>
                 <?php endif ?>
