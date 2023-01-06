@@ -9,14 +9,9 @@ use App\Controllers\ExampleController;
 $this->router->view('/', 'pages.welcome');
 
 $this->router->get(
-    '/json/$test',
+    '/json/#foo',
     function () {
-        return json_encode(
-            [
-                'foo' => 'bar',
-                'test' => $_REQUEST['test'],
-            ]
-        );
+        return json_encode(['foo' => $_REQUEST['foo']]);
     }
 );
 
