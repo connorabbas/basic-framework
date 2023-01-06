@@ -31,7 +31,7 @@ class App
                 require_once($filename);
             }
         }
-        $this->router->checkRoute();
+        $this->router->run();
     }
 
     /**

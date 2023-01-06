@@ -7,79 +7,110 @@ use App\Core\Container;
 
 class Router
 {
-    private $validRoute = false;
+    private $routes = [];
     private $container;
+    private const NEEDS_SPOOF = ['PUT', 'PATCH', 'DELETE'];
 
     public function __construct(Container $container)
     {
         $this->container = $container;
     }
 
-    private function set(string $route, $callback)
+    private function set(string $httpMethod, string $route, $callback)
     {
-        $dirParts = explode('\\', __DIR__);
-        $projectName = $dirParts[count($dirParts) - 3];
-        $publicPath = '/' . $projectName . '/public/';
-        $requestUrl = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
-        $requestUrl = str_replace(ltrim($publicPath, '/'), '',  $requestUrl);
-        $requestUrl = rtrim($requestUrl, '/');
-        $requestUrl = strtok($requestUrl, '?');
-        $routeParts = explode('/', $route);
-        $requestUrlParts = explode('/', $requestUrl);
-        array_shift($routeParts);
-        array_shift($requestUrlParts);
+        $this->routes[$httpMethod][$route] = $callback;
+    }
 
-        if ($routeParts[0] == '' && count($requestUrlParts) == 0) {
-            $this->completeRoute($callback);
-        }
-        if (count($routeParts) != count($requestUrlParts)) {
-            return;
-        }
+    public function run()
+    {
+        $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
+        $uriParts = explode('/', $uri);
 
-        $parameters = [];
-        for ($i = 0; $i < count($routeParts); $i++) {
-            $routePart = $routeParts[$i];
-            if (preg_match("/^[$]/", $routePart)) {
-                $routePart = ltrim($routePart, '$');
-                array_push($parameters, $requestUrlParts[$i]);
-                $$routePart = $requestUrlParts[$i];
-                // Set dynamic route variables
-                if (!isset($_REQUEST[$routePart])) {
-                    $_REQUEST[$routePart] = $$routePart;
+        foreach ($this->routes as $httpMethod => $routes) {
+            foreach ($routes as $route => $callback) {
+                $routeParts = explode('/', $route);
+                // account for method spoofing
+                if (in_array($httpMethod, self::NEEDS_SPOOF)) {
+                    $this->handleMethodSpoof($httpMethod);
                 }
-            } else if ($routeParts[$i] != $requestUrlParts[$i]) {
-                return;
+                // if identical matched uri to route
+                if (
+                    $route === $uri &&
+                    array_key_exists($uri, $routes) &&
+                    $_SERVER['REQUEST_METHOD'] == $httpMethod
+                ) {
+                    return $this->resolveRoute($callback);
+                }
+                // if the route has wildcard parameters
+                else if (
+                    (count($routeParts) == count($uriParts)) && 
+                    stripos(json_encode($routeParts), '#') !== false
+                ) {
+                    $matchedIndexes = [];
+                    $noMatchIndexes = [];
+                    $wildCardIndexes = [];
+                    $nonWildCardIndexes = [];
+                    $wildCards = [];
+                    if (count($routeParts)) {
+                        for ($i = 0; $i < count($routeParts); $i++) {
+                            $routePart = $routeParts[$i];
+                            if ($routePart != '') {
+                                if (preg_match("/^[#]/", $routePart)) {
+                                    $wildCardIndexes[] = $i;
+                                    $wildCard = ltrim($routePart, '#');
+                                    $$wildCard = $uriParts[$i];
+                                    $wildCards[$wildCard] = $$wildCard;
+                                } else {
+                                    $nonWildCardIndexes[] = $i;
+                                }
+                                if ($routePart === $uriParts[$i]) {
+                                    $matchedIndexes[] = $i;
+                                } else {
+                                    $noMatchIndexes[] = $i;
+                                }
+                            }
+                        }
+                        if (
+                            (count($wildCardIndexes) > 0) &&
+                            ($noMatchIndexes === $wildCardIndexes) &&
+                            ($matchedIndexes === $nonWildCardIndexes)  &&
+                            $_SERVER['REQUEST_METHOD'] == $httpMethod
+                        ) {
+                            foreach ($wildCards as $wildCard => $value) {
+                                if (!isset($_REQUEST[$wildCard])) {
+                                    $_REQUEST[$wildCard] = $value;
+                                }
+                            }
+                            return $this->resolveRoute($callback);
+                        }
+                    }
+                }
             }
         }
 
-        $this->completeRoute($callback);
+        return $this->routeNotFound();
     }
 
-    private function callRoute($callback)
+    public function handleCallback($callback)
     {
         if (is_array($callback)) {
             if (is_string($callback[0]) && is_string($callback[1]) && count($callback) == 2) {
-                // Instantiate class and call method
                 $className = $callback[0];
                 $methodName = $callback[1];
                 $fullClassName = "\\$className";
-                // use the container to get the class
                 $obj = $this->container->get($fullClassName);
-                $this->validRoute = true;
                 return call_user_func_array([$obj, $methodName],  []);
             }
         } else if (is_callable($callback)) {
-            $this->validRoute = true;
             return call_user_func($callback);
         } else if (is_string($callback)) {
-            $this->validRoute = true;
             return View::render($callback);
         }
     }
 
-    private function completeRoute($callback)
+    private function resolveRoute($callback)
     {
-        $returned = $this->callRoute($callback);
+        $returned = $this->handleCallback($callback);
         if (is_string($returned)) {
             $testJson = json_decode($returned);
             if (json_last_error() === JSON_ERROR_NONE) {
@@ -92,13 +123,11 @@ class Router
         return $returned;
     }
 
-    public function checkRoute()
+    public function routeNotFound()
     {
-        if (!$this->validRoute) {
-            http_response_code(404);
-            echo View::render('pages.404');
-            return;
-        }
+        http_response_code(404);
+        echo View::render('pages.404');
+        return;
     }
 
     public function handleMethodSpoof(string $method)
@@ -108,48 +137,33 @@ class Router
         }
     }
 
-    public function view($route, $view)
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $this->set($route, $view);
-        }
-    }
-
     public function get($route, $callback)
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $this->set($route, $callback);
-        }
+        $this->set('GET', $route, $callback);
     }
 
     public function post($route, $callback)
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->set($route, $callback);
-        }
+        $this->set('POST', $route, $callback);
     }
 
     public function patch($route, $callback)
     {
-        $this->handleMethodSpoof('PATCH');
-        if ($_SERVER['REQUEST_METHOD'] === 'PATCH') {
-            $this->set($route, $callback);
-        }
+        $this->set('PATCH', $route, $callback);
     }
 
     public function put($route, $callback)
     {
-        $this->handleMethodSpoof('PUT');
-        if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-            $this->set($route, $callback);
-        }
+        $this->set('PUT', $route, $callback);
     }
 
     public function delete($route, $callback)
     {
-        $this->handleMethodSpoof('DELETE');
-        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-            $this->set($route, $callback);
-        }
+        $this->set('DELETE', $route, $callback);
+    }
+
+    public function view($route, $view)
+    {
+        $this->get($route, $view);
     }
 }
