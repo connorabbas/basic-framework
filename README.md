@@ -51,7 +51,7 @@ $this->router->get(
 $this->router->get('/home-alt', [HomeController::class, 'index']);
 ```
 ### Parameters
-You can set wildcard values in your routes uri by prefixing the slug with a hashtag `#`. The actual slug value will be available in the ` $_REQUEST ` super global. The index reference will be the named slug you used in the route uri.
+You can set dynamic parameters in your routes uri by prefixing the slug with a hashtag `#`. The parameters value will be available in the ` $_REQUEST ` super global. The index will be the parameter name you used, without the hashtag `#`.
 ``` php
 // Ex: yoursite.com/products/99/edit
 $this->router->get(
