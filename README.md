@@ -1,4 +1,5 @@
 # PHP Basic Framework
+## About
 A full-stack PHP framework that gives you the basics for starting a web project.
 
 PHP 8 is required.
@@ -11,6 +12,11 @@ PHP 8 is required.
 - Dependency Injection Container
 - PDO database wrapper class
 - [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) 5.2 included
+
+## Example Project
+For more in-depth code examples, and to see a fully working application using the framework I have made an example project to reference.
+
+[PHP User Auth](https://github.com/connorabbas/php-user-auth)
 
 ## Installation
 Download using [Composer](https://getcomposer.org/).
@@ -513,8 +519,3 @@ Serve your site locally:
 ``` bash command-line
 php basic serve
 ```
-
-## Example Project
-For more in-depth code examples, and to see a fully working application using the framework I have made an example project to reference.
-
-[PHP User Auth](https://github.com/connorabbas/php-user-auth)
