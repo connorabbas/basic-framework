@@ -1,6 +1,8 @@
 # PHP Basic Framework
 A full-stack PHP framework that gives you the basics for starting a web project.
 
+PHP 8 is required.
+
 ## Key Features
 - MVC architecture
 - Simple routing
