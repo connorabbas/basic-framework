@@ -18,6 +18,9 @@ For more in-depth code examples, and to see a fully working application using th
 
 [PHP User Auth](https://github.com/connorabbas/php-user-auth)
 
+---
+# Documentation
+
 ## Installation
 Download using [Composer](https://getcomposer.org/).
 ``` bash command-line
