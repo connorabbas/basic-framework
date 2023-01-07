@@ -68,8 +68,10 @@ $this->router->get(
 );
 ```
 
-### Batching
-You can batch routes together that share similar qualities such as a controller, a uri prefix, or both. When batching routes, it's required to chain on the `batch()` method at the end, which accepts a closure argument containing the routes you want the batch properties to apply to.
+### Batch Registering
+You can register routes in batches that share similar qualities, such as a controller, a uri prefix, or both. The intent here is to reduce boilerplate code, and provide better organization.
+
+When batching routes, it's required to chain on the `batch()` method at the end, which accepts a closure argument containing the routes you want the batch properties to apply to.
 
 Batch related methods available to you:
 
