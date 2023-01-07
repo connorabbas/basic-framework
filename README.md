@@ -1,5 +1,8 @@
 # PHP Basic Framework
+## About
 A full-stack PHP framework that gives you the basics for starting a web project.
+
+PHP 8 is required.
 
 ## Key Features
 - MVC architecture
@@ -10,6 +13,14 @@ A full-stack PHP framework that gives you the basics for starting a web project.
 - PDO database wrapper class
 - [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) 5.2 included
 
+## Example Project
+For more in-depth code examples, and to see a fully working application using the framework I have made an example project to reference.
+
+[PHP User Auth](https://github.com/connorabbas/php-user-auth)
+
+---
+# Documentation
+
 ## Installation
 Download using [Composer](https://getcomposer.org/).
 ``` bash command-line
@@ -18,7 +29,7 @@ composer create-project connora/basic your-project-name
 The project `.env` file should be created on install when using composer. An `.env.example` file is included as well.
 
 ### Serving Your Site Locally
-If you want to serve your site locally for quick testing or development and you have php installed on your machine, use the "serve" command while working in the root of your project. Note: this will only serve your site with php, not MySQL.
+If you want to serve your site locally for quick testing or development and you have PHP installed on your machine, use the "serve" command while working in the root of your project. Note: this will only serve your site with php, not MySQL.
 
 ``` bash command-line
 php basic serve
@@ -56,7 +67,7 @@ $this->router->get(
 $this->router->get('/home-alt', [HomeController::class, 'index']);
 ```
 ### Parameters
-You can set dynamic parameters in your routes uri by prefixing with a hashtag `#`. The parameter's value will be available in the ` $_REQUEST ` super global. The index will be the parameter name you used, without the hashtag `#`.
+You can set dynamic parameters in your routes uri by prefixing with a hashtag `#`. The parameter's value will be available in the ` $_REQUEST ` superglobal. The index will be the parameter name you used, without the hashtag `#`.
 ``` php
 // Ex: yoursite.com/blog/post/123
 $this->router->get(
@@ -107,8 +118,8 @@ $this->router
     );
 ```
 When batching routes with the `controller()` method, take note that:
- - The register method's second argument inside the closure will be a string referencing the endpoint method, instead of the default array syntax
- - The `$this->router->view()` method is unavailable within the batch closure, since we are required to reference a controller method
+- The register method's second argument inside the closure will be a string referencing the endpoint method, instead of the default array syntax
+- The `$this->router->view()` method is unavailable within the batch closure, since we are required to reference a controller method
 
 For example:
 ```php
@@ -167,17 +178,16 @@ $this->router->patch('/update-example', [ExampleClass::class, 'updateMethod']);
 It's also recommended to use the included `csrf()` and `csrf_valid()` helper functions to ensure your requests are safe from any potential [Cross Site Request Forgery](https://owasp.org/www-community/attacks/csrf).
 
 ### Organization
-As your application grows, you will probably want to better organize your routes instead of having them all in the `/routes/main.php` file. By default, you have access to the `$this->router` property within any php file that resides inside of the `/routes` directory. So feel free to organize any file/folder structure you wish!
+As your application grows, you will probably want to better organize your routes instead of having them all in the `/routes/main.php` file. By default, you have access to the `$this->router` property within any PHP file that resides inside of the `/routes` directory. So feel free to organize any file/folder structure you wish!
 
 ## Controllers
-Controllers are where you should store your routes logic for handling the incoming HTTP request. There is an example controller class provided.
+Controllers are classes meant to handle the logic for an incoming HTTP request. Make sure to set your controller methods access modifiers to `public` so the router can execute them successfully. 
 
-Note: In the current state, controller methods should NOT accept any parameters, the included dependency injection container will only resolve classes established in the constructor.
+Controllers should be named and organized based on the subject matter the request is pertaining too. Is is also recommended, but not required to include the word "Controller" in your class name.
 
-Creating a controller is easy with the built in cli tools included with the framework. Just open a command line interface at the root directory of your project and run:
-``` bash command-line
-php basic new:controller YourControllerName
-```
+There is an example controller class provided.
+
+Note: Controller methods should not accept any arguments, the included dependency injection container will only resolve classes established in the constructor. User input can be obtained from within your controller methods using PHP's superglobals.
 
 ## Dependency Injection Container
 By default, you can type hint any class in a controller's `__construct()` method to have the container handle it's dependencies for you. The container will use reflection and recursion to automatically instantiate and set all the needed dependencies your classes may have.
@@ -220,7 +230,7 @@ $this->container->setOnce(string $id, callable $callback);
 ```
 To create a class binding, use the `set()` method, passing in the class or interface you want registered, and a closure that should return the new class instance.
 
-If you want your bound class to only be instantiated once, and used in all the subsequent references in the container, use the `setOnce()` method. For example, the `App\Core\DB` class is set once by default. This way we can ensure that there is only one database connection created per request lifecycle.
+If you want your bound class to only be instantiated once, and used in all the subsequent references in the container, use the `setOnce()` method. For example, the `App\Core\DB` class is set once by default.
 
 To return/resolve a class instance from the container, use the `get()` method. This is what the container uses internally when using automatic resolution with your injected classes.
 
@@ -254,7 +264,7 @@ public function containerSetup(): self
 }
 ```
 
-If you don't want to resolve certain classes in your controller's constructor, you can use the included `container()` helper function to access the `App\Core\Container::get()` method.
+If you don't want to resolve certain classes in your controller's constructor, you can use the included `container()` helper function to access the `get()` method.
 
 ```php
 <?php
@@ -280,6 +290,7 @@ class ExampleController
     }
 }
 ```
+Note: You are not required to use the included DI Container. Feel free to manually instantiate your classes and pass them around wherever needed using traditional dependency injection techniques.
 
 ## Views
 By default, the framework uses [Plates](https://platesphp.com/) for it's view template system. The `App\Core\View` class is used as a basic wrapper.
@@ -304,9 +315,10 @@ public function index()
 ```
 
 ## Models and Database
-Models are classes that are meant to interact with your database. The included `App\Core\DB` class acts as a wrapper around [PDO](https://www.php.net/manual/en/intro.pdo.php) and is intended to make connecting to a database and executing your queries easier. The class is setup to accept a connection configuration array of credentials and options. You can change the default options, or setup multiple connections using the `App\Data\Config` class and your application's `.env` file, more on that later.
+Models are classes that are meant to interact with your database.
 
-To follow MVC conventions, and for better organization in your application, it is highly recommended to only use the DB class and execute queries within your model classes.
+### The DB Class
+The included `App\Core\DB` class acts as a wrapper around [PDO](https://www.php.net/manual/en/intro.pdo.php) and is intended to make connecting to a database and executing your queries easier. The class is setup to accept a connection configuration array of credentials and options. You can change the default options, or setup multiple connections using the `App\Data\Config` class and your application's `.env` file, more on that later.
 
 To make things easier, your model classes should extend the included `App\Core\Model` abstract class to include the `$this->db` property, and have it's database connection created automatically for you.
 
@@ -460,11 +472,14 @@ class User extends Model
     }
 }
 ```
+To follow MVC conventions, and for better organization in your application, it is highly recommended to only use the DB class and execute queries within your model classes.
 
-You can create a model using the cli tools just like you can with controllers:
-``` bash command-line
-php basic new:model YourModelName
-```
+### Establishing a Connection
+There are multiple approaches to creating and using a database connection within a PHP web application.
+
+As stated previously, the `App\Core\DB` class is what creates our database connection, and it is registered into the container by default using the `setOnce()` method within `/app/core/App.php`. With this approach, we can ensure that there is only one database class/connection created per request lifecycle.
+
+This approach is beneficial if you intend on using the container to resolve needed classes within your controllers. However, if this is not the approach you want/need in your application, feel free to remove the binding.
 
 ## Helper Functions
 Helper functions are meant to be accessed anywhere within the application. There are few included with the framework, feel free to add our own as well.
@@ -477,7 +492,7 @@ The project `.env` file should be created on install when using composer. If not
 
 This file is for your settings variables that may differ from each environment your site is being used (local, staging, production). It is also used to store private data such as API keys, database access credentials, etc. It is added to the `.gitignore` by default.
 
-Data from the `.env` file is accessible in the ` $_ENV ` super global.
+Data from the `.env` file is accessible in the ` $_ENV ` superglobal.
 
 ### config()
 It's best practice that the data from your .env should only be accessed in the config class. `App\Data\Config`
@@ -507,8 +522,3 @@ Serve your site locally:
 ``` bash command-line
 php basic serve
 ```
-
-## Example Project
-For more in-depth code examples, and to see a fully working application using the framework I have made an example project to reference.
-
-[PHP User Auth](https://github.com/connorabbas/php-user-auth)
