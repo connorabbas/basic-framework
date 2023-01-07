@@ -2,8 +2,8 @@
 A full-stack PHP framework that gives you the basics for starting a web project.
 
 ## Key Features
-- Simple routing
 - MVC architecture
+- Simple routing
 - View templates using [Plates](https://platesphp.com/)
 - Class auto loading
 - Dependency Injection Container
