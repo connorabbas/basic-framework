@@ -3,7 +3,7 @@
 use App\Controllers\ExampleController;
 
 /**
- * Registered Routes for the site
+ * Registered routes for the site
  */
 
 $this->router->view('/', 'pages.welcome');
