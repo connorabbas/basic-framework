@@ -1,5 +1,5 @@
 # PHP Basic Framework
-A full-stack PHP framework that gives you the basics for starting a web project in a lightweight package.
+A full-stack PHP framework that gives you the basics for starting a web project.
 
 ## Key Features
 - Simple routing
@@ -17,7 +17,7 @@ composer create-project connora/basic your-project-name
 ```
 The project `.env` file should be created on install when using composer. If not, a provided example file is included.
 
-### Serving your site
+### Serving Your Site Locally
 If you want to serve your site locally for quick testing or development and you have php installed on your machine, use the "serve" command while working in the root of your project. Note: this will only serve your site with php, not MySQL.
 
 ``` bash command-line
@@ -27,8 +27,12 @@ php basic serve
 Alternatively, use Docker or XAMPP with a vhost configuration.
 
 ## Routing
-### Request Methods
-The framework's router offers the following methods for the common http site requests:
+### Registering Your Routes
+By default you will register your routes within `/routes/main.php`.
+
+You will have access to the `$this->router` property which supplies an instance of the `App\Core\Router` class.
+
+The `App\Core\Router` class offers the following register methods that align with the common HTTP verbs:
 ``` php
 $this->router->get($uri, $callback);
 $this->router->post($uri, $callback);
@@ -36,9 +40,10 @@ $this->router->put($uri, $callback);
 $this->router->patch($uri, $callback);
 $this->router->delete($uri, $callback);
 ```
+These methods will register your routes as valid endpoints within your application. If you try to access a url/route that isn't registered, a `404` page will be displayed.
 
-### Callback functions
-The callback will either be a self contained function, where you can execute your routes logic, or it will be an array where the first item is the class you want to reference (a controller), and the second item is the method name.
+### Callback Functions
+The route's callback will either be a closure where you can execute your endpoint logic directly, or an array where the first item is the class you want to reference (a controller), and the second item is the method name that will be called.
 ``` php
 // Basic route using a closure
 $this->router->get(
@@ -51,7 +56,7 @@ $this->router->get(
 $this->router->get('/home-alt', [HomeController::class, 'index']);
 ```
 ### Parameters
-You can set dynamic parameters in your routes uri by prefixing with a hashtag `#`. The parameters value will be available in the ` $_REQUEST ` super global. The index will be the parameter name you used, without the hashtag `#`.
+You can set dynamic parameters in your routes uri by prefixing with a hashtag `#`. The parameter's value will be available in the ` $_REQUEST ` super global. The index will be the parameter name you used, without the hashtag `#`.
 ``` php
 // Ex: yoursite.com/products/99/edit
 $this->router->get(
@@ -63,7 +68,84 @@ $this->router->get(
 );
 ```
 
-### Form requests
+### Batching
+You can batch routes together that share similar qualities such as a controller, a uri prefix, or both. When batching routes, it's required to chain on the `batch()` method at the end, which accepts a closure argument containing the routes you want the batch properties to apply to.
+
+Batch related methods:
+
+```php
+$this->router->controller(string $className);
+$this->router->prefixUri(string $uri);
+$this->router->batch(callable $closure);
+```
+When batching routes with the `prefixUri()` method, the routes within the closure will all be prepended by your defined uri prefix.
+
+For example:
+```php
+$this->router
+    ->prefixUri('/users')
+    ->batch(
+        function () {
+            $this->router
+                // /users GET (show all users)
+                ->get('/', [UserController::class, 'index'])
+                // /users/create GET (form to create a user)
+                ->get('/create', [UserController::class, 'create'])
+                // /users POST (endpoint to store a new user)
+                ->post('/', [UserController::class, 'store'])
+                // /users/123 GET (show a single user)
+                ->get('/#id', [UserController::class, 'show'])
+                // /users/123/edit GET (form to edit user properties)
+                ->get('/#id/edit', [UserController::class, 'edit'])
+                // /users/123 PATCH (endpoint to update user properties)
+                ->patch('/#id', [UserController::class, 'update'])
+                // /users/123 DELETE (endpoint to remove a user record)
+                ->delete('/#id', [UserController::class, 'destroy']);
+        }
+    );
+```
+When batching routes with the `controller()` method, take note that:
+ - The register method's second argument inside the closure will be a string referencing the endpoint method, instead of the default array syntax
+ - The `$this->router->view()` method is unavailable within the batch closure, since we are required to reference a controller method
+
+For example:
+```php
+$this->router
+    ->controller(UserController::class)
+    ->batch(
+        function () {
+            $this->router
+                ->get('/users', 'index')
+                ->get('/users/create', 'create')
+                ->post('/users', 'store')
+                ->get('/users/#id', 'show')
+                ->get('/users/#id/edit', 'edit')
+                ->patch('/users/#id', 'update')
+                ->delete('/users/#id', 'destroy');
+        }
+    );
+```
+Or use both when needed:
+```php
+$this->router
+    ->controller(UserController::class)
+    ->prefixUri('/users')
+    ->batch(
+        function () {
+            $this->router
+                ->get('/', 'index')
+                ->get('/create', 'create')
+                ->post('/', 'store')
+                ->get('/#id', 'show')
+                ->get('/#id/edit', 'edit')
+                ->patch('/#id', 'update')
+                ->delete('/#id', 'destroy');
+        }
+    );
+```
+NOTE: you cannot nest a `batch()` method within itself.
+
+### Form Requests
 The standard html ` <form> ` tag only accepts ` GET ` and ` POST ` as valid request methods. We can overcome this by using the ` method_spoof(string $method) ` helper function. This requires our form to use the `POST` method request and to specify the "spoofed" method inside the form using `PUT`, `PATCH`, or `DELETE`. 
 
 For example:
@@ -83,7 +165,7 @@ $this->router->patch('/update-example', [ExampleClass::class, 'updateMethod']);
 It's also recommended to use the included `csrf()` and `csrf_valid()` helper functions to ensure your requests are safe from any potential [Cross Site Request Forgery](https://owasp.org/www-community/attacks/csrf).
 
 ### Organization
-As your application grows, you will probably want to better organize your routes instead of having them all in one file. Feel free to organize any file/folder structure you wish! By default, you can define routes within any .php file that resides inside of the /routes directory.
+As your application grows, you will probably want to better organize your routes instead of having them all in the `/routes/main.php` file. By default, you have access to the `$this->router` property within any php file that resides inside of the `/routes` directory. So feel free to organize any file/folder structure you wish!
 
 ## Controllers
 Controllers are where you should store your routes logic for handling the incoming HTTP request. There is an example controller class provided.
@@ -378,7 +460,7 @@ You can create a model using the cli tools just like you can with controllers:
 php basic new:model YourModelName
 ```
 
-## Helper functions
+## Helper Functions
 Helper functions are meant to be accessed anywhere within the application. There are few included with the framework, feel free to add our own as well.
 
 ` /app/helpers.php `
