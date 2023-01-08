@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Helper functions available anywhere within the application (in the current request)
+ * Helper functions available anywhere within the application (within the current request)
  */
 
 /**
@@ -92,12 +92,15 @@ if (!function_exists('csrf_valid')) {
     }
 }
 
+/**
+ * Handle the logic to check for CSRF
+ */
 if (!function_exists('handle_csrf')) {
     function handle_csrf()
     {
         if (!csrf_valid()) {
             $_SESSION['flash_error_msg'] = 'Invalid request. Possible cross site request forgery detected.';
-            back();
+            return back();
         }
     }
 }
@@ -124,6 +127,9 @@ if (!function_exists('back')) {
     }
 }
 
+/**
+ * Flash a success message
+ */
 if (!function_exists('success_flash_message')) {
     function success_flash_message()
     {
@@ -143,6 +149,9 @@ if (!function_exists('success_flash_message')) {
     }
 }
 
+/**
+ * Flash error message/s
+ */
 if (!function_exists('error_flash_message')) {
     function error_flash_message()
     {
