@@ -11,7 +11,9 @@ class ExampleController
         //
     }
 
-    // simple example of passing data to a view
+    /**
+     * simple example of passing data to a view
+     */
     public function index()
     {
         $foo = 'bar';

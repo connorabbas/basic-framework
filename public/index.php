@@ -1,21 +1,19 @@
 <?php
 
+/**
+ * PHP Basic Framework
+ * Developed and maintained by: Connor Abbas 
+ * Docs: https://github.com/connorabbas/basic-framework#documentation
+ */
+
 use App\Core\App;
 use Dotenv\Dotenv;
 use App\Core\Router;
 use App\Core\Container;
 use Dotenv\Exception\InvalidPathException;
 
-/**
- * PHP Basic Framework
- * Developed and maintained by: Connor Abbas 
- * Docs: https://github.com/connorabbas/basic-framework#php-basic-framework
- */
-
 // Composer autoload
-if (file_exists('../vendor/autoload.php')) {
-    require '../vendor/autoload.php';
-}
+require __DIR__ . '/../vendor/autoload.php';
 
 // Register .env data into $_ENV super global
 try {
@@ -27,12 +25,7 @@ try {
 }
 
 // Global constants
-require_once('../app/data/constants.php');
-
-// Session
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once __DIR__ . '/../app/data/constants.php';
 
 // Error Reporting
 if (config('site.environment') == 'local') {

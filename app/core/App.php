@@ -24,11 +24,10 @@ class App
      */
     public function run(): void
     {
-        // Site routing
         $iterator = new RecursiveDirectoryIterator('../routes/');
         foreach (new RecursiveIteratorIterator($iterator) as $filename) {
             if (strpos($filename, '.php') !== false) {
-                require_once($filename);
+                require_once $filename;
             }
         }
         $this->router->run();

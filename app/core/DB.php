@@ -1,17 +1,17 @@
 <?php
 
+/**
+ * PDO DATABASE CLASS
+ * Connects Database Using PDO
+ * Creates Prepared Statements
+ * Binds params to values
+ * Returns rows and results
+ */
+
 namespace App\Core;
 
 use PDO;
 use PDOException;
-
-/* 
-*  PDO DATABASE CLASS
-*  Connects Database Using PDO
-*  Creates Prepared Statements
-*  Binds params to values
-*  Returns rows and results
-*/
 
 class DB
 {
@@ -25,7 +25,7 @@ class DB
 
     public function __construct(array $config = null)
     {
-        // for the sake of the framework, use the config helper function for the default configuration
+        // for the sake of the framework, rely on the config helper function and default configuration
         if (is_null($config)) {
             $config = config('database.main');
         }

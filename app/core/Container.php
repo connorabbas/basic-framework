@@ -16,10 +16,7 @@ class Container implements ContainerInterface
     private array $bound = [];
 
     /**
-     * Retrieve the needed class, resolve the class if needed
-     *
-     * @param string $id
-     * @return void
+     * Retrieve the requested class, resolve if necessary
      */
     public function get(string $id)
     {
@@ -42,10 +39,6 @@ class Container implements ContainerInterface
 
     /**
      * Set a class and it's binding into the container
-     *
-     * @param string $id
-     * @param callable $callback
-     * @return void
      */
     public function set(string $id, callable $callback)
     {
@@ -55,26 +48,22 @@ class Container implements ContainerInterface
     /**
      * Set a class and it's binding into the container just once
      * Use the instantiated class on all subsequent references in the container
-     *
-     * @param string $id
-     * @param callable $callback
-     * @return void
      */
     public function setOnce(string $id, callable $callback)
     {
         $this->singles[$id] = $callback;
     }
 
+    /**
+     * Check if we have the class registered
+     */
     public function has(string $id): bool
     {
         return (isset($this->bindings[$id]) || isset($this->singles[$id]));
     }
 
     /**
-     * Using Reflection to create the class we need
-     *
-     * @param string $id
-     * @return void
+     * Using Reflection to create the requested class
      */
     public function resolve(string $id)
     {
