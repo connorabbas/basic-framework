@@ -35,7 +35,7 @@ If you want to serve your site locally for quick testing or development and you 
 php basic serve
 ```
 
-Alternatively, use Docker or XAMPP with a vhost configuration.
+Alternatively, use Laragon, Docker, or XAMPP with a vhost configuration.
 
 ## Routing
 ### Registering Your Routes
