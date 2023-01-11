@@ -21,6 +21,10 @@
         "symfony/var-dumper": "^6.0"
     },
     "require-dev": {
+        "ext-curl": "*",
+		"ext-dom": "*",
+		"ext-json": "*",
+		"ext-sqlite3": "*",
         "phpunit/phpunit": "^9.5",
         "guzzlehttp/guzzle": "^7.5"
     },
