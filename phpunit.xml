@@ -2,20 +2,20 @@
 <phpunit 
     colors="true" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
-    bootstrap="./vendor/autoload.php" 
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+    bootstrap="vendor/autoload.php" 
 >
     <testsuites>
         <testsuite name="Unit Tests">
-            <directory suffix=".php">./tests/Unit</directory>
+            <directory suffix=".php">tests/Unit</directory>
         </testsuite>
         <testsuite name="Feature Tests">
-            <directory suffix=".php">./tests/Feature</directory>
+            <directory suffix=".php">tests/Feature</directory>
         </testsuite>
     </testsuites>
     <coverage processUncoveredFiles="true">
         <include>
-            <directory suffix=".php">./app</directory>
+            <directory suffix=".php">app</directory>
         </include>
     </coverage>
 </phpunit>
