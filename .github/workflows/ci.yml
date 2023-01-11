@@ -23,8 +23,6 @@ jobs:
     #- name: Serve Site
       #run: php -S 127.0.0.1:8000
     - name: Execute tests (Unit and Feature tests) via PHPUnit
-      with:
-        configuration: phpunit.xml
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
