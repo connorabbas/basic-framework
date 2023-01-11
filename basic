@@ -1,11 +1,11 @@
 #!/usr/bin/env php
 <?php
 
-use App\Core\CLI;
-
 // Basic CLI actions for PHP Mini Framework
 
-require './vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
+
+use App\Core\CLI;
 
 $cli = new CLI();
 
