@@ -20,8 +20,8 @@ jobs:
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
       run: composer install --ignore-platform-reqs
-    - name: Serve Site
-      run: php -S 127.0.0.1:8000
+    #- name: Serve Site
+      #run: php -S 127.0.0.1:8000
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: sqlite
