@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit colors="true" bootstrap="./vendor/autoload.php">
+<phpunit 
+    colors="true" 
+    xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+    bootstrap="./vendor/autoload.php" 
+>
     <testsuites>
         <testsuite name="Unit Tests">
             <directory suffix=".php">./tests/Unit</directory>
@@ -8,4 +12,9 @@
             <directory suffix=".php">./tests/Feature</directory>
         </testsuite>
     </testsuites>
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./app</directory>
+        </include>
+    </coverage>
 </phpunit>
