@@ -11,18 +11,23 @@ jobs:
     - uses: shivammathur/setup-php@v2
       with:
         php-version: '8.0'
+        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, redis
+        tools: composer:v2
+        coverage: none
     - uses: actions/checkout@v3
+    - uses: php-actions/composer@v6
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
-      run: composer install
+      run: composer install -n --prefer-dist
     - name: Create Database
       run: |
         mkdir -p database
         touch database/database.sqlite
-    - name: Execute tests (Unit and Feature tests) via PHPUnit
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
-      run: vendor/bin/phpunit
+    - name: PHPUnit Tests
+        uses: php-actions/phpunit@master
+        with:
+          bootstrap: vendor/autoload.php
+          configuration: phpunit.xml
+          args: --coverage-text
 
