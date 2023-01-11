@@ -18,7 +18,7 @@ class RouterTest extends TestCase
 
     public function testRegisterRoute()
     {
-        $container = new Container();
+        $container = new \App\Core\Container();
         $router = new Router($container);
         $expected = [
             'GET' => [

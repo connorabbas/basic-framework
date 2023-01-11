@@ -29,13 +29,12 @@
             "app/helpers.php"
         ],
         "psr-4": {
-            "App\\": "./app",
-            "Tests\\": "./tests"
+            "App\\": "app/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "./tests"
+            "Tests\\": "tests/"
         }
     },
     "scripts": {
