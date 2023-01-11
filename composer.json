@@ -40,7 +40,7 @@
     "scripts": {
         "post-install-cmd": [
             "App\\Core\\CLI::createEnvFile"
-        ]
-    },
-    "test": "vendor/bin/phpunit"
+        ],
+        "test": "vendor/bin/phpunit"
+    }
 }
