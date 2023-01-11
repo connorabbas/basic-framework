@@ -34,5 +34,5 @@ jobs:
         DB_DATABASE: database/database.sqlite
       run: |
         pwd
-        vendor/bin/phpunit
+        ./vendor/bin/phpunit
 
