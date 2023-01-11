@@ -19,7 +19,7 @@ jobs:
       #- name: Copy .env
         #run: php -r "file_exists('.env') || copy('.env.example', '.env');"
       - name: Install Dependencies
-        run: composer install -n --prefer-dist
+        run: composer install
       - name: Create Database
         run: |
           mkdir -p database
