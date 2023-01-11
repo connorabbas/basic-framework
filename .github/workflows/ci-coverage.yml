@@ -1,4 +1,4 @@
-name: CI
+name: CI-coverage
 
 on: [push]
 
@@ -12,9 +12,11 @@ jobs:
       - uses: php-actions/composer@v6
 
       - name: PHPUnit Tests
-        uses: php-actions/phpunit@master
+        uses: php-actions/phpunit@v3
         with:
+          php_extensions: xdebug
           bootstrap: vendor/autoload.php
           configuration: test/phpunit.xml
           args: --coverage-text
-          #php_version: "8.0"
+        env:
+          XDEBUG_MODE: coverage
