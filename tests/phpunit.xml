@@ -6,19 +6,19 @@
 >
     <testsuites>
         <testsuite name="Unit Tests">
-            <directory suffix=".php">./Unit</directory>
+            <directory suffix="Test.php">./Unit</directory>
         </testsuite>
         <testsuite name="Feature Tests">
-            <directory suffix=".php">./Feature</directory>
+            <directory suffix="Test.php">./Feature</directory>
         </testsuite>
     </testsuites>
     <coverage processUncoveredFiles="true">
         <include>
             <directory suffix=".php">../../app</directory>
         </include>
-        <report>
+        <!-- <report>
 			<html outputDirectory="./_coverage" lowUpperBound="35" highLowerBound="70"/>
 			<text outputFile="php://stdout" showUncoveredFiles="true"/>
-		</report>
+		</report> -->
     </coverage>
 </phpunit>
