@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use PHPUnit\Framework\TestCase;
 
-class RouterTest extends TestCase
+class ContainerTest extends TestCase
 {
     public function testCase()
     {
