@@ -32,5 +32,9 @@
         "post-install-cmd": [
             "App\\Core\\CLI::createEnvFile"
         ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "guzzlehttp/guzzle": "^7.5"
     }
 }
