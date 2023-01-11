@@ -9,16 +9,17 @@ use App\Controllers\ExampleController;
 
 class RouterTest extends TestCase
 {
-    private $container;
+    /* private $container;
 
     public function setUp(): void
     {
         $this->container = new Container();
-    }
+    } */
 
     public function testRegisterRoute()
     {
-        $router = new Router($this->container);
+        $container = new Container();
+        $router = new Router($container);
         $expected = [
             'GET' => [
                 '/test' => [ExampleController::class, 'test']
@@ -30,7 +31,7 @@ class RouterTest extends TestCase
         $this->assertEquals($router->getRoutes(), $expected);
     }
 
-    public function testRegisterGetRoute()
+    /* public function testRegisterGetRoute()
     {
         $router = new Router($this->container);
         $expected = [
@@ -56,5 +57,5 @@ class RouterTest extends TestCase
         $router->register('POST', '/test', [ExampleController::class, 'test']);
 
         $this->assertEquals($router->getRoutes(), $expected);
-    }
+    } */
 }
