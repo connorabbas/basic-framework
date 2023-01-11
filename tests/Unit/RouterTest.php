@@ -43,4 +43,18 @@ class RouterTest extends TestCase
 
         $this->assertEquals($router->getRoutes(), $expected);
     }
+
+    public function testRegisterPostRoute()
+    {
+        $router = new Router($this->container);
+        $expected = [
+            'POST' => [
+                '/test' => [ExampleController::class, 'test']
+            ]
+        ];
+
+        $router->register('POST', '/test', [ExampleController::class, 'test']);
+
+        $this->assertEquals($router->getRoutes(), $expected);
+    }
 }
