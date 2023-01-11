@@ -16,6 +16,8 @@ jobs:
       with:
         php-version: '8.0'
     - uses: actions/checkout@v3
+    - uses: php-actions/composer@v6
+    - uses: php-actions/phpunit@v3
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
@@ -23,6 +25,9 @@ jobs:
     #- name: Serve Site
       #run: php -S 127.0.0.1:8000
     - name: Execute tests (Unit and Feature tests) via PHPUnit
+      uses: php-actions/phpunit@v3
+      with:
+        configuration: phpunit.xml
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
