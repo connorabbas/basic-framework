@@ -33,6 +33,6 @@ jobs:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: |
-        cd /home/runner/work/basic-framework/basic-framework
+        pwd
         vendor/bin/phpunit
 
