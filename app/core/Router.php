@@ -18,7 +18,12 @@ class Router
         $this->container = $container;
     }
 
-    private function set(string $httpVerb, string $route, $callback): self
+    public function getRoutes(): array
+    {
+        return $this->routes;
+    }
+
+    public function register(string $httpVerb, string $route, $callback): self
     {
         if (!is_null($this->controllerBatch)) {
             $callback = [$this->controllerBatch, $callback];
@@ -153,27 +158,27 @@ class Router
 
     public function get($route, $callback)
     {
-        return $this->set('GET', $route, $callback);
+        return $this->register('GET', $route, $callback);
     }
 
     public function post($route, $callback)
     {
-        return $this->set('POST', $route, $callback);
+        return $this->register('POST', $route, $callback);
     }
 
     public function patch($route, $callback)
     {
-        return $this->set('PATCH', $route, $callback);
+        return $this->register('PATCH', $route, $callback);
     }
 
     public function put($route, $callback)
     {
-        return $this->set('PUT', $route, $callback);
+        return $this->register('PUT', $route, $callback);
     }
 
     public function delete($route, $callback)
     {
-        return $this->set('DELETE', $route, $callback);
+        return $this->register('DELETE', $route, $callback);
     }
 
     public function view($route, $view)
