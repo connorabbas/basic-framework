@@ -15,6 +15,6 @@ jobs:
         uses: php-actions/phpunit@master
         with:
           bootstrap: vendor/autoload.php
-          configuration: test/phpunit.xml
+          configuration: phpunit.xml
           args: --coverage-text
           #php_version: "8.0"
