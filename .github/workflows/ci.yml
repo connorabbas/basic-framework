@@ -32,5 +32,6 @@ jobs:
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
+      run: cd /home/runner/work/basic-framework/basic-framework
       run: vendor/bin/phpunit
 
