@@ -21,7 +21,7 @@ jobs:
       run: composer install --prefer-dist --no-progress -vvv
 
     - name: Directory Permissions
-      run: chmod -R 777 storage app
+      run: chmod -R 777 app
 
     - name: Create Database
       run: |
