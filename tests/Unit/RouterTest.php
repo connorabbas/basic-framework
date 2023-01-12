@@ -13,7 +13,7 @@ class RouterTest extends TestCase
 
     public function setUp(): void
     {
-        require __DIR__ . '/../../vendor/autoload.php';
+        parent::setUp();
         $this->container = new Container();
     }
 

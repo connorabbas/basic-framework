@@ -20,9 +20,6 @@ jobs:
     - name: Install Dependencies
       run: composer install --prefer-dist --no-progress -vvv
 
-    - name: Directory Permissions
-      run: chmod -R 777 app
-
     - name: Create Database
       run: |
         mkdir -p database
@@ -32,8 +29,5 @@ jobs:
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
-      run: |
-        #pwd
-        #cd /home/runner/work/basic-framework
-        ./vendor/bin/phpunit
+      run: ./vendor/bin/phpunit
 
