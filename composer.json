@@ -29,7 +29,8 @@
             "app/helpers.php"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "": "app/"
         }
     },
     "autoload-dev": {

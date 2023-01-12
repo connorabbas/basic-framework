@@ -33,6 +33,6 @@ jobs:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: |
-        pwd
-        ./vendor/bin/phpunit
+        #pwd
+        ./vendor/bin/phpunit --bootstrap ./vendor/autoload.php
 
