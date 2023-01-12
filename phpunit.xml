@@ -7,10 +7,10 @@
 >
     <testsuites>
         <testsuite name="Unit Tests">
-            <directory suffix="Test.php">tests/unit</directory>
+            <directory suffix="Test.php">tests/Unit</directory>
         </testsuite>
         <testsuite name="Feature Tests">
-            <directory suffix="Test.php">tests/feature</directory>
+            <directory suffix="Test.php">tests/Feature</directory>
         </testsuite>
     </testsuites>
     <coverage processUncoveredFiles="true">
