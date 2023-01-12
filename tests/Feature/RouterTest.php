@@ -13,6 +13,11 @@ class RouterTest extends TestCase
 {
     private $client;
 
+    /**
+     * https://codeception.com/docs/ContinuousIntegration
+     * https://www.honeybadger.io/blog/php-testing/
+     */
+
     /* public function setUp(): void
     {
         $this->client = new Client(['base_uri' => 'http://127.0.0.1:8000']);

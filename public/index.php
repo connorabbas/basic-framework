@@ -34,8 +34,10 @@ if (config('site.environment') == 'local') {
     error_reporting(E_ALL);
 }
 
-// Invoke the site
+// Run the site
 $container = new Container();
-$router = new Router($container);
+$requestHttpMethod = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
+$requestUri = parse_url($_SERVER['REQUEST_URI'])['path'];
+$router = new Router($container, $requestHttpMethod, $requestUri);
 $app = new App($container, $router);
 $app->containerSetup()->run();
