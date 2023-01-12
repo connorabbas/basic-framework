@@ -19,7 +19,7 @@ class RouterTest extends TestCase
 
     public function testRegisterRoute()
     {
-        $router = new Router($this->container);
+        $router = new Router($this->container, 'GET', '/test');
         $expected = [
             'GET' => [
                 '/test' => [ExampleController::class, 'test']
@@ -33,7 +33,7 @@ class RouterTest extends TestCase
 
     public function testRegisterGetRoute()
     {
-        $router = new Router($this->container);
+        $router = new Router($this->container, 'GET', '/test');
         $expected = [
             'GET' => [
                 '/test' => [ExampleController::class, 'test']
@@ -47,7 +47,7 @@ class RouterTest extends TestCase
 
     public function testRegisterPostRoute()
     {
-        $router = new Router($this->container);
+        $router = new Router($this->container, 'GET', '/test');
         $expected = [
             'POST' => [
                 '/test' => [ExampleController::class, 'test']
