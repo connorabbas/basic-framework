@@ -13,6 +13,7 @@ class RouterTest extends TestCase
 
     public function setUp(): void
     {
+        parent::setUp();
         $this->container = new Container();
     }
 
@@ -40,6 +41,20 @@ class RouterTest extends TestCase
         ];
 
         $router->register('GET', '/test', [ExampleController::class, 'test']);
+
+        $this->assertEquals($router->getRoutes(), $expected);
+    }
+
+    public function testRegisterPostRoute()
+    {
+        $router = new Router($this->container);
+        $expected = [
+            'POST' => [
+                '/test' => [ExampleController::class, 'test']
+            ]
+        ];
+
+        $router->register('POST', '/test', [ExampleController::class, 'test']);
 
         $this->assertEquals($router->getRoutes(), $expected);
     }
