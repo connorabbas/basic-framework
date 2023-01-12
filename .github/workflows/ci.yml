@@ -21,7 +21,7 @@ jobs:
       run: composer install --prefer-dist --no-progress -vvv
 
     - name: serve site?
-      run: php -S 127.0.0.1:8000 -t public
+      run: php -S localhost:8000 -t public
 
     - name: Create Database
       run: |
