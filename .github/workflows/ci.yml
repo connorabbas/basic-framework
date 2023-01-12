@@ -35,5 +35,5 @@ jobs:
       run: |
         #pwd
         #cd /home/runner/work/basic-framework
-        vendor/bin/phpunit --bootstrap vendor/autoload.php
+        vendor/bin/phpunit
 
