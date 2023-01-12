@@ -9,17 +9,17 @@ use App\Controllers\ExampleController;
 
 class RouterTest extends TestCase
 {
-    /* private $container;
+    private $container;
 
     public function setUp(): void
     {
+        require __DIR__ . '/../../vendor/autoload.php';
         $this->container = new Container();
-    } */
+    }
 
     public function testRegisterRoute()
     {
-        $container = new \App\Core\Container();
-        $router = new Router($container);
+        $router = new Router($this->container);
         $expected = [
             'GET' => [
                 '/test' => [ExampleController::class, 'test']
@@ -31,7 +31,7 @@ class RouterTest extends TestCase
         $this->assertEquals($router->getRoutes(), $expected);
     }
 
-    /* public function testRegisterGetRoute()
+    public function testRegisterGetRoute()
     {
         $router = new Router($this->container);
         $expected = [
@@ -57,5 +57,5 @@ class RouterTest extends TestCase
         $router->register('POST', '/test', [ExampleController::class, 'test']);
 
         $this->assertEquals($router->getRoutes(), $expected);
-    } */
+    }
 }
