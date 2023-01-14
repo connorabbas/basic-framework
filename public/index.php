@@ -36,8 +36,6 @@ if (config('site.environment') == 'local') {
 
 // Run the site
 $container = new Container();
-$requestHttpMethod = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
-$requestUri = parse_url($_SERVER['REQUEST_URI'])['path'];
-$router = new Router($container, $requestHttpMethod, $requestUri);
+$router = new Router($container);
 $app = new App($container, $router);
 $app->containerSetup()->run();
