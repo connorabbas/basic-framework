@@ -12,11 +12,11 @@ class View
      */
     public static function render(string $view, array $data = [])
     {
-        $templates = new Engine('../app/views/');
+        $templates = new Engine(__DIR__ . '/../views');
 
         $realPath = str_replace('.', '/', $view);
         foreach (config('plates_templates.folders') as $name => $folder) {
-            $templates->addFolder($name, '../app/views/' . $folder);
+            $templates->addFolder($name, __DIR__ . '/../views' . $folder);
         }
 
         return $templates->render($realPath, $data);

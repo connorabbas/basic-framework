@@ -14,11 +14,11 @@ class Router
     private $controllerBatch = null;
     private $prefixUriBatch = null;
 
-    public function __construct(Container $container, string $requestHttpMethod, string $requestUri)
+    public function __construct(Container $container)
     {
         $this->container = $container;
-        $this->requestHttpMethod = $requestHttpMethod;
-        $this->requestUri = $requestUri;
+        $this->requestHttpMethod = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
+        $this->requestUri = parse_url($_SERVER['REQUEST_URI'])['path'];
     }
 
     public function getRoutes(): array

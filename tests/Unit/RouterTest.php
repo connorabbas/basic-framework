@@ -7,6 +7,10 @@ use App\Core\Container;
 use PHPUnit\Framework\TestCase;
 use App\Controllers\ExampleController;
 
+/**
+ * @covers App\Core\Router
+ * https://github.com/bramus/router/blob/master/tests/RouterTest.php
+ */
 class RouterTest extends TestCase
 {
     private $container;
@@ -17,9 +21,11 @@ class RouterTest extends TestCase
         $this->container = new Container();
     }
 
-    public function testRegisterRoute()
+    public function test_register_get_route()
     {
-        $router = new Router($this->container, 'GET', '/test');
+        $_SERVER['REQUEST_URI'] = '/test';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $router = new Router($this->container);
         $expected = [
             'GET' => [
                 '/test' => [ExampleController::class, 'test']
@@ -31,23 +37,11 @@ class RouterTest extends TestCase
         $this->assertEquals($router->getRoutes(), $expected);
     }
 
-    public function testRegisterGetRoute()
+    public function test_register_post_route()
     {
-        $router = new Router($this->container, 'GET', '/test');
-        $expected = [
-            'GET' => [
-                '/test' => [ExampleController::class, 'test']
-            ]
-        ];
-
-        $router->register('GET', '/test', [ExampleController::class, 'test']);
-
-        $this->assertEquals($router->getRoutes(), $expected);
-    }
-
-    public function testRegisterPostRoute()
-    {
-        $router = new Router($this->container, 'GET', '/test');
+        $_SERVER['REQUEST_URI'] = '/test';
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $router = new Router($this->container);
         $expected = [
             'POST' => [
                 '/test' => [ExampleController::class, 'test']
@@ -58,4 +52,49 @@ class RouterTest extends TestCase
 
         $this->assertEquals($router->getRoutes(), $expected);
     }
+
+    public function test_valid_route_output()
+    {
+        $_SERVER['REQUEST_URI'] = '/test/123';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $output = 'test route output';
+        $router = new Router($this->container);
+        $router->get('/test/123', fn() => $output);
+
+        ob_start();
+        $router->run();
+        $this->assertEquals($output, ob_get_contents());
+        ob_end_clean();
+    }
+
+    public function test_wildcard_route_parameters_output()
+    {
+        $_SERVER['REQUEST_URI'] = '/test/123';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $router = new Router($this->container);
+        $router->get(
+            '/test/#param',
+            function () {
+                return 'test param: ' . $_REQUEST['param'];
+            }
+        );
+
+        ob_start();
+        $router->run();
+        $this->assertEquals('test param: 123', ob_get_contents());
+        ob_end_clean();
+    }
+
+    public function test_invalid_route_404_status()
+    {
+        $_SERVER['REQUEST_URI'] = '/test/123';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $router = new Router($this->container);
+
+        ob_start();
+        $router->run();
+        $this->assertEquals(404, http_response_code());
+        ob_end_clean();
+    }
+
 }
