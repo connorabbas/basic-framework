@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ContainerTest extends TestCase
 {
-    public function testCase()
+    public function test()
     {
         $this->assertTrue(true);
     }

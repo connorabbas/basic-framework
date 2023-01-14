@@ -25,13 +25,13 @@ class RouterTest extends TestCase
         $this->client = new Client(['base_uri' => 'http://basic-framework.test/']);
     }
 
-    public function testRegisteredRoute()
+    public function test_registered_route()
     {
         $response = $this->client->get('/example');
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    public function testNonRegisteredRoute()
+    public function test_non_registered_route()
     {
         $response = $this->client->get('/abc/123', ['http_errors' => false]);
         $this->assertEquals(404, $response->getStatusCode());
