@@ -51,13 +51,14 @@ class RouterTest extends TestCase
         $this->assertEquals($router->getRoutes(), $expected);
     }
 
-    public function test_route_valid_output()
+    public function test_valid_route_output()
     {
         // Fake some data
+        $_SERVER['REQUEST_URI'] = '/test/123';
         $_SERVER['SCRIPT_NAME'] = '/public/index.php';
 
         // Create Router
-        $router = new Router($this->container, 'GET', '/test/123');
+        $router = new Router($this->container, 'GET', $_SERVER['REQUEST_URI']);
         $router->get(
             '/test/123',
             function () {
@@ -65,11 +66,24 @@ class RouterTest extends TestCase
             }
         );
 
-        // Test the /test/123 route
         ob_start();
-        $_SERVER['REQUEST_URI'] = '/test/123';
         $router->run();
         $this->assertEquals('test', ob_get_contents());
+        ob_end_clean();
+    }
+
+    public function test_invalid_route_404_status()
+    {
+        // Fake some data
+        $_SERVER['REQUEST_URI'] = '/test/123';
+        $_SERVER['SCRIPT_NAME'] = '/public/index.php';
+
+        // Create Router
+        $router = new Router($this->container, 'GET', $_SERVER['REQUEST_URI']);
+
+        ob_start();
+        $router->run();
+        $this->assertEquals(404, http_response_code());
         ob_end_clean();
     }
 

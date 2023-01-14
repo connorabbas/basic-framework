@@ -24,7 +24,7 @@ class App
      */
     public function run(): void
     {
-        $iterator = new RecursiveDirectoryIterator('../routes/');
+        $iterator = new RecursiveDirectoryIterator(__DIR__ . '/../../routes');
         foreach (new RecursiveIteratorIterator($iterator) as $filename) {
             if (strpos($filename, '.php') !== false) {
                 require_once $filename;
