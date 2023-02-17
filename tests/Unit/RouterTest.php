@@ -9,7 +9,6 @@ use App\Controllers\ExampleController;
 
 /**
  * @covers App\Core\Router
- * https://github.com/bramus/router/blob/master/tests/RouterTest.php
  */
 class RouterTest extends TestCase
 {
