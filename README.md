@@ -57,12 +57,9 @@ These methods will register your routes as valid endpoints within your applicati
 The route's callback will either be a closure where you can execute your endpoint logic directly, or an array where the first item is the fully qualified class you want to reference (a controller), and the second item is the method name that will be called.
 ``` php
 // Basic route using a closure
-$this->router->get(
-    '/home',
-    function () {
-        return 'Hello World';
-    }
-);
+$this->router->get('/home', function () {
+    return 'Hello World';
+});
 // Alternatively, use a controller class and a method to store your logic in
 $this->router->get('/home-alt', [HomeController::class, 'index']);
 ```
@@ -70,13 +67,10 @@ $this->router->get('/home-alt', [HomeController::class, 'index']);
 You can set dynamic parameters in your routes uri by prefixing with a hashtag `#`. The parameter's value will be available in the ` $_REQUEST ` superglobal. The index will be the parameter name you used, without the hashtag `#`.
 ``` php
 // Ex: yoursite.com/blog/post/123
-$this->router->get(
-    '/blog/post/#id',
-    function () {
-        // Reference the dynamic variable
-        $id = $_REQUEST['id'];
-    }
-);
+$this->router->get('/blog/post/#id', function () {
+    // Reference the dynamic variable
+    $id = $_REQUEST['id'];
+});
 ```
 
 ### Batch Registering
@@ -97,25 +91,23 @@ For example:
 ```php
 $this->router
     ->prefixUri('/users')
-    ->batch(
-        function () {
-            $this->router
-                // /users GET (show all users)
-                ->get('/', [UserController::class, 'index'])
-                // /users/create GET (form to create a user)
-                ->get('/create', [UserController::class, 'create'])
-                // /users POST (endpoint to store a new user)
-                ->post('/', [UserController::class, 'store'])
-                // /users/123 GET (show a single user)
-                ->get('/#id', [UserController::class, 'show'])
-                // /users/123/edit GET (form to edit user properties)
-                ->get('/#id/edit', [UserController::class, 'edit'])
-                // /users/123 PATCH (endpoint to update user properties)
-                ->patch('/#id', [UserController::class, 'update'])
-                // /users/123 DELETE (endpoint to remove a user record)
-                ->delete('/#id', [UserController::class, 'destroy']);
-        }
-    );
+    ->batch(function () {
+        $this->router
+            // /users GET (show all users)
+            ->get('/', [UserController::class, 'index'])
+            // /users/create GET (form to create a user)
+            ->get('/create', [UserController::class, 'create'])
+            // /users POST (endpoint to store a new user)
+            ->post('/', [UserController::class, 'store'])
+            // /users/123 GET (show a single user)
+            ->get('/#id', [UserController::class, 'show'])
+            // /users/123/edit GET (form to edit user properties)
+            ->get('/#id/edit', [UserController::class, 'edit'])
+            // /users/123 PATCH (endpoint to update user properties)
+            ->patch('/#id', [UserController::class, 'update'])
+            // /users/123 DELETE (endpoint to remove a user record)
+            ->delete('/#id', [UserController::class, 'destroy']);
+    });
 ```
 When batching routes with the `controller()` method, take note that:
 - The register method's second argument inside the closure will be a string referencing the endpoint method, instead of the default array syntax
@@ -125,36 +117,32 @@ For example:
 ```php
 $this->router
     ->controller(UserController::class)
-    ->batch(
-        function () {
-            $this->router
-                ->get('/users', 'index')
-                ->get('/users/create', 'create')
-                ->post('/users', 'store')
-                ->get('/users/#id', 'show')
-                ->get('/users/#id/edit', 'edit')
-                ->patch('/users/#id', 'update')
-                ->delete('/users/#id', 'destroy');
-        }
-    );
+    ->batch(function () {
+        $this->router
+            ->get('/users', 'index')
+            ->get('/users/create', 'create')
+            ->post('/users', 'store')
+            ->get('/users/#id', 'show')
+            ->get('/users/#id/edit', 'edit')
+            ->patch('/users/#id', 'update')
+            ->delete('/users/#id', 'destroy');
+    });
 ```
 Or use both:
 ```php
 $this->router
     ->controller(UserController::class)
     ->prefixUri('/users')
-    ->batch(
-        function () {
-            $this->router
-                ->get('/', 'index')
-                ->get('/create', 'create')
-                ->post('/', 'store')
-                ->get('/#id', 'show')
-                ->get('/#id/edit', 'edit')
-                ->patch('/#id', 'update')
-                ->delete('/#id', 'destroy');
-        }
-    );
+    ->batch(function () {
+        $this->router
+            ->get('/', 'index')
+            ->get('/create', 'create')
+            ->post('/', 'store')
+            ->get('/#id', 'show')
+            ->get('/#id/edit', 'edit')
+            ->patch('/#id', 'update')
+            ->delete('/#id', 'destroy');
+    });
 ```
 NOTE: you cannot nest a `batch()` method within itself.
 
@@ -215,10 +203,7 @@ class UserController
     {
         $users = $this->userData->getAll();
 
-        return View::render(
-            'pages.users.list',
-            ['users' => $users]
-        );
+        return View::render('pages.users.list', ['users' => $users]);
     }
 }
 ```
@@ -283,10 +268,7 @@ class ExampleController
         $userData = container(User::class);
         $user = $userData->getById($_REQUEST['id']);
 
-        return View::render(
-            'pages.example',
-            ['user' => $user]
-        );
+        return View::render('pages.example', ['user' => $user]);
     }
 }
 ```
@@ -307,10 +289,7 @@ public function index()
 {
     $foo = 'bar';
 
-    return View::render(
-        'pages.example',
-        ['foo' => $foo]
-    );
+    return View::render('pages.example', ['foo' => $foo]);
 }
 ```
 
@@ -402,7 +381,8 @@ class User extends Model
         $sql = "SELECT * FROM $this->table 
             WHERE id = :id";
 
-        $this->db->query($sql)
+        $this->db
+            ->query($sql)
             ->bind(':id', $id);
 
         return $this->db->single();
@@ -413,7 +393,8 @@ class User extends Model
         $sql = "SELECT * FROM $this->table 
             WHERE username = :username OR email = :email";
 
-        $this->db->query($sql)
+        $this->db
+            ->query($sql)
             ->bind(':username', $username)
             ->bind(':email', $email);
 
@@ -426,7 +407,8 @@ class User extends Model
         $sql = "INSERT INTO $this->table(name, email, username, password) 
             VALUES(:name, :email, :username, :password)";
 
-        $this->db->query($sql)
+        $this->db
+            ->query($sql)
             ->bind(':name', $name)
             ->bind(':email', $email)
             ->bind(':username', $username)
@@ -465,7 +447,8 @@ class User extends Model
         $sql = "DELETE FROM $this->table
             WHERE id = :id";
 
-        $this->db->query($sql)
+        $this->db
+            ->query($sql)
             ->bind(':id', $userId);
 
         return $this->db->execute();
