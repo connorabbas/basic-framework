@@ -72,12 +72,9 @@ class RouterTest extends TestCase
         $_SERVER['REQUEST_URI'] = '/test/123';
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $router = new Router($this->container);
-        $router->get(
-            '/test/#param',
-            function () {
-                return 'test param: ' . $_REQUEST['param'];
-            }
-        );
+        $router->get('/test/#param', function () {
+            return 'test param: ' . $_REQUEST['param'];
+        });
 
         ob_start();
         $router->run();
