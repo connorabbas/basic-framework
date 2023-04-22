@@ -38,12 +38,9 @@ class App
      */
     public function containerSetup(): self
     {
-        $this->container->setOnce(
-            DB::class,
-            function ($container) {
-                return new DB();
-            }
-        );
+        $this->container->setOnce(DB::class, function ($container) {
+            return new DB();
+        });
 
         return $this;
     }

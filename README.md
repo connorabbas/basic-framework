@@ -230,20 +230,14 @@ If you need to manually set up a class or interface and it's binding, you may do
 public function containerSetup(): self
 {
     // included by default
-    $this->container->setOnce(
-        DB::class,
-        function ($container) {
-            return new DB();
-        }
-    );
+    $this->container->setOnce(DB::class, function ($container) {
+        return new DB();
+    });
 
     // reference the actual repository whenever the interface is referenced/injected
-    $this->container->set(
-        UserRepositoryInterface::class,
-        function ($container) {
-            return new UserRepository($container->get(User::class));
-        }
-    );
+    $this->container->set(UserRepositoryInterface::class, function ($container) {
+        return new UserRepository($container->get(User::class));
+    });
 
     return $this;
 }
