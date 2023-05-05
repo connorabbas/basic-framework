@@ -197,7 +197,7 @@ There is an example controller class provided.
 >__Note:__ Controller methods should only accept dynamic route parameter arguments, the included dependency injection container will only resolve classes established in the constructor.
 
 ### Requests / User Input
-The framework provides a default `App\Core\Request` class that can be used to interact with user input within your controllers. The class will provide basic sanitation on the incoming request inputs, and a simple methods for interacting with the data, rather than using PHP's super globals directly.
+The framework provides a default `App\Core\Request` class that can be used to interact with user input within your controllers. The class will provide basic sanitation on the incoming request inputs, and methods for interacting with the data, rather than using PHP's super globals directly.
 
 Available `App\Core\Request` methods:
 ```php
