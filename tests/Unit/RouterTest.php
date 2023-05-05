@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Core\Router;
+use App\Core\Request;
 use App\Core\Container;
 use PHPUnit\Framework\TestCase;
 use App\Controllers\ExampleController;
@@ -14,11 +15,13 @@ use App\Controllers\ExampleController;
 class RouterTest extends TestCase
 {
     private $container;
+    private $request;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->container = new Container();
+        $this->request = new Request();
     }
 
     public function test_register_get_route()
@@ -72,8 +75,8 @@ class RouterTest extends TestCase
         $_SERVER['REQUEST_URI'] = '/test/123';
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $router = new Router($this->container);
-        $router->get('/test/#param', function () {
-            return 'test param: ' . $_REQUEST['param'];
+        $router->get('/test/#param', function ($param) {
+            return 'test param: ' . $param;
         });
 
         ob_start();
