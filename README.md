@@ -8,10 +8,9 @@ PHP 8 is required.
 - MVC architecture
 - Simple routing
 - View templates using [Plates](https://platesphp.com/)
-- Class auto loading
+- Class auto loading and namespaces
 - Dependency Injection Container
 - PDO database wrapper class
-- [Bootstrap](https://getbootstrap.com/docs/5.2/getting-started/introduction/) 5.2 included
 
 ## Example Project
 For more in-depth code examples, and to see a fully working application using the framework I have made an example project to reference.
@@ -29,7 +28,9 @@ composer create-project connora/basic your-project-name
 The project `.env` file should be created on install when using composer. An `.env.example` file is included as well.
 
 ### Serving Your Site Locally
-If you want to serve your site locally for quick testing or development and you have PHP installed on your machine, use the "serve" command while working in the root of your project. Note: this will only serve your site with php, not MySQL.
+If you want to serve your site locally for quick testing or development and you have PHP installed on your machine, use the "serve" command while working in the root of your project.
+
+>__Note:__ this will only serve your site with php, not MySQL.
 
 ``` bash command-line
 php basic serve
@@ -38,7 +39,7 @@ php basic serve
 Alternatively, use Laragon, Docker, or XAMPP with a vhost configuration.
 
 ## Routing
-### Registering Your Routes
+### Registering
 By default, you will register your routes within `/routes/main.php`.
 
 You will have access to the `$this->router` property which supplies an instance of the `App\Core\Router` class.
@@ -54,7 +55,7 @@ $this->router->delete($uri, $callback);
 These methods will register your routes as valid endpoints within your application. If you try to access a url/route that isn't registered, a `404` page will be displayed.
 
 ### Callback Functions
-The route's callback will either be a closure where you can execute your endpoint logic directly, or an array where the first item is the fully qualified class you want to reference (a controller), and the second item is the method name that will be called.
+The route's callback will either be a closure (an anonymous function) where you can execute your endpoint logic directly, or a reference to an controller method using an array argument, where the first item is the fully qualified class you want to reference, and the second item is the method name that will be called.
 ``` php
 // Basic route using a closure
 $this->router->get('/home', function () {
@@ -63,13 +64,28 @@ $this->router->get('/home', function () {
 // Alternatively, use a controller class and a method to store your logic in
 $this->router->get('/home-alt', [HomeController::class, 'index']);
 ```
-### Parameters
-You can set dynamic parameters in your routes uri by prefixing with a hashtag `#`. The parameter's value will be available in the ` $_REQUEST ` superglobal. The index will be the parameter name you used, without the hashtag `#`.
-``` php
+### Dynamic Parameters
+You can set dynamic parameters in your routes uri by prefixing the slug with a hashtag `#`. The parameter's value will be available as an argument variable via your callback function.
+
+Using within a controller:
+```php
 // Ex: yoursite.com/blog/post/123
-$this->router->get('/blog/post/#id', function () {
-    // Reference the dynamic variable
-    $id = $_REQUEST['id'];
+// within /routes/main.php
+$this->router->get('/blog/post/#id', [BlogPostController::class, 'show']);
+
+// within /app/controllers/BlogPostController.php
+public function show($id)
+{
+    // $id = '123'
+    return View::render('pages.blog.post.single', [
+        'blogPostData' => $this->blogPostModel->findById($id)
+    ]);
+}
+```
+Or using a basic closure:
+``` php
+$this->router->get('/example/#id', function ($id) {
+    return $id
 });
 ```
 
@@ -144,7 +160,7 @@ $this->router
             ->delete('/#id', 'destroy');
     });
 ```
-NOTE: you cannot nest a `batch()` method within itself.
+>__Note:__ you cannot nest a `batch()` method within itself.
 
 ### Form Requests
 The standard html ` <form> ` tag only accepts ` GET ` and ` POST ` as valid request methods. We can overcome this by using the ` method_spoof(string $method) ` helper function. This requires our form to use the `POST` method request and to specify the "spoofed" method inside the form using `PUT`, `PATCH`, or `DELETE`. 
@@ -169,16 +185,57 @@ It's also recommended to use the included `csrf()` and `csrf_valid()` helper fun
 As your application grows, you will probably want to better organize your routes instead of having them all in the `/routes/main.php` file. By default, you have access to the `$this->router` property within any PHP file that resides inside of the `/routes` directory. So feel free to organize any file/folder structure you wish!
 
 ## Controllers
+### The Basics
 Controllers are classes meant to handle the logic for an incoming HTTP request. Make sure to set your controller methods access modifiers to `public` so the router can execute them successfully. 
+
+It is best practice to only handle the user input, and response logic within your controller methods. If you have more complicated business logic involved in your endpoint, it's recommended to abstract that into another class (typically a `Service` class).
 
 Controllers should be named and organized based on the subject matter the request is pertaining too. Is is also recommended, but not required to include the word "Controller" in your class name.
 
 There is an example controller class provided.
 
-Note: Controller methods should not accept any arguments, the included dependency injection container will only resolve classes established in the constructor. User input can be obtained from within your controller methods using PHP's superglobals.
+>__Note:__ Controller methods should only accept dynamic route parameter arguments, the included dependency injection container will only resolve classes established in the constructor.
+
+### Requests / User Input
+The framework provides a default `App\Core\Request` class that can be used to interact with user input in your controllers. The class will provide basic sanitation on the incoming request inputs, and provide a simple api for interacting with the data instead of using PHP's super globals directly.
+
+Available `App\Core\Request` methods:
+```php
+// return an array of all sanitized inputs from the request
+$request->all();
+// return the sanitized $_GET value by it's key, optional default value
+$request->get(string $key, string $default = null);
+// return the sanitized $_POST value by it's key, optional default value
+$request->post(string $key, string $default = null);
+// return the sanitized $_REQUEST value by it's key, optional default value
+$request->input(string $key, string $default = null);
+```
+
+The `App\Core\Request` class can be instantiated within each controller method that needs it, or by using the the included `request()` helper function:
+```php
+<?php
+
+namespace App\Controllers;
+
+use App\Core\Request;
+
+class ExampleController
+{
+    public function update()
+    {
+        // standard instantiation
+        $request = new Request();
+        $data = $request->input('data');
+
+        // or with the helper
+        $data = request()->input('data');
+    }
+}
+
+```
 
 ## Dependency Injection Container
-By default, you can type hint any class in a controller's `__construct()` method to have the container handle it's dependencies for you. The container will use reflection and recursion to automatically instantiate and set all the needed dependencies your classes may have.
+By default, you can type hint any class into a controller's `__construct()` method to have the container build out the class and it's dependencies for you. The container will use reflection and recursion to automatically instantiate and set all the needed dependencies your classes may have.
 
 ```php
 <?php
@@ -266,7 +323,7 @@ class ExampleController
     }
 }
 ```
-Note: You are not required to use the included DI Container. Feel free to manually instantiate your classes and pass them around wherever needed using traditional dependency injection techniques.
+>__Note:__ You are not required to use the included DI Container. Feel free to manually instantiate your classes and pass them around wherever needed using traditional dependency injection techniques.
 
 ## Views
 By default, the framework uses [Plates](https://platesphp.com/) for it's view template system. The `App\Core\View` class is used as a basic wrapper.

@@ -34,6 +34,16 @@ if (!function_exists('config')) {
 }
 
 /**
+ * Access config values by using "." as the nesting delimiter
+ */
+if (!function_exists('request')) {
+    function request()
+    {
+        return container(App\Core\Request::class);
+    }
+}
+
+/**
  * Spoof the request method for an html form
  */
 if (!function_exists('method_spoof')) {

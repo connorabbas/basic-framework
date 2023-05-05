@@ -4,6 +4,7 @@ namespace App\Core;
 
 use App\Core\DB;
 use App\Core\Router;
+use App\Core\Request;
 use App\Core\Container;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
@@ -38,6 +39,9 @@ class App
      */
     public function containerSetup(): self
     {
+        $this->container->setOnce(Request::class, function ($container) {
+            return new Request();
+        });
         $this->container->setOnce(DB::class, function ($container) {
             return new DB();
         });
