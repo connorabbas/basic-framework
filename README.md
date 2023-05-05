@@ -272,7 +272,7 @@ $this->container->setOnce(string $id, callable $callback);
 ```
 By default the container is used to easily instantiate a class you need, without you having to worry about instantiating it's dependencies. However, In certain situations your classes may not be resolvable by the container (requiring primitive constructor arguments, etc.), or perhaps you need a more custom implementation of the class returned from the container.
 
-To set a custom class binding into the container manually, use the `set()` method, passing in the class or interface you want registered, and a closure that should return the new class instance. Whenever the class needs to be resolved by the container, it will use your registered callback.
+To manually set a custom class binding into the container, use the `set()` method, passing in the class or interface you want registered, and a closure that should return the new class instance. Whenever the class needs to be resolved by the container, it will use your registered callback.
 
 If you want your configured class to only be instantiated once, and used in all the subsequent references in the container, you can use the `setOnce()` method. For example, the `App\Core\DB` & `App\Core\Request` classes are set once by default.
 
