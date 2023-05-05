@@ -55,7 +55,7 @@ $this->router->delete($uri, $callback);
 These methods will register your routes as valid endpoints within your application. If you try to access a url/route that isn't registered, a `404` page will be displayed.
 
 ### Callback Functions
-The route's callback will either be a closure (an anonymous function) where you can execute your endpoint logic directly, or a reference to an controller method using an array argument, where the first item is the fully qualified class you want to reference, and the second item is the method name that will be called.
+The route's callback will either be a closure (an anonymous function) where you can execute your endpoint logic directly, or a reference to a controller method using an array, where the first item is the fully qualified class you want to reference, and the second item is the method name that will be called.
 ``` php
 // Basic route using a closure
 $this->router->get('/home', function () {
