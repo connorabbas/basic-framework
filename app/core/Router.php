@@ -11,6 +11,7 @@ class Router
     private $requestHttpMethod;
     private $requestUri;
     private $routes = [];
+    private $wildCards = [];
     private $controllerBatch = null;
     private $prefixUriBatch = null;
 
@@ -24,19 +25,6 @@ class Router
     public function getRoutes(): array
     {
         return $this->routes;
-    }
-
-    public function register(string $httpVerb, string $route, $callback): self
-    {
-        if (!is_null($this->controllerBatch)) {
-            $callback = [$this->controllerBatch, $callback];
-        }
-        if (!is_null($this->prefixUriBatch)) {
-            $route = $this->prefixUriBatch . (($route == '/') ? '' : $route);
-        }
-        $this->routes[$httpVerb][$route] = $callback;
-
-        return $this;
     }
 
     public function run()
@@ -89,9 +77,7 @@ class Router
                             $this->requestHttpMethod == $httpVerb
                         ) {
                             foreach ($wildCards as $wildCard => $value) {
-                                if (!isset($_REQUEST[$wildCard])) {
-                                    $_REQUEST[$wildCard] = $value;
-                                }
+                                $this->wildCards[$wildCard] = $value;
                             }
                             return $this->resolveRoute($callback);
                         }
@@ -105,16 +91,19 @@ class Router
 
     public function handleCallback($callback)
     {
+        $args = (count($this->wildCards) > 0)
+            ? array_values($this->wildCards)
+            : [];
         if (is_array($callback)) {
             if (is_string($callback[0]) && is_string($callback[1]) && count($callback) == 2) {
                 $className = $callback[0];
                 $methodName = $callback[1];
                 $fullClassName = "\\$className";
                 $obj = $this->container->get($fullClassName);
-                return call_user_func_array([$obj, $methodName],  []);
+                return call_user_func_array([$obj, $methodName],  $args);
             }
         } else if (is_callable($callback)) {
-            return call_user_func($callback);
+            return call_user_func($callback, $args);
         } else if (is_string($callback)) {
             return View::render($callback);
         }
@@ -138,8 +127,21 @@ class Router
     private function routeNotFound()
     {
         http_response_code(404);
-        echo View::render('pages.404');
+        require __DIR__ . '/../../app/views/pages/404.php';
         return;
+    }
+
+    public function register(string $httpVerb, string $route, $callback): self
+    {
+        if (!is_null($this->controllerBatch)) {
+            $callback = [$this->controllerBatch, $callback];
+        }
+        if (!is_null($this->prefixUriBatch)) {
+            $route = $this->prefixUriBatch . (($route == '/') ? '' : $route);
+        }
+        $this->routes[$httpVerb][$route] = $callback;
+
+        return $this;
     }
 
     public function get($route, $callback)

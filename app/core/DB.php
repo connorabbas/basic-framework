@@ -1,144 +1,103 @@
 <?php
 
-/**
- * PDO DATABASE CLASS
- * Connects Database Using PDO
- * Creates Prepared Statements
- * Binds params to values
- * Returns rows and results
- */
-
 namespace App\Core;
 
 use PDO;
+use Exception;
 use PDOException;
 
-class DB
-{
-    private $host;
-    private $user;
-    private $pass;
-    private $dbName;
-    private $driver;
-    private $conn;
-    private $stmt;
+class DB {
 
-    public function __construct(array $config = null)
-    {
-        // for the sake of the framework, rely on the config helper function and default configuration
-        if (is_null($config)) {
-            $config = config('database.main');
-        }
-        
-        // PDO Options
-        if (!isset($config['pdo_options'])) {
-            $config['pdo_options'] = [
-                PDO::ATTR_PERSISTENT => false,
-                PDO::ATTR_EMULATE_PREPARES => false,
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
-            ];
-        }
+    private $pdo;
+    private $defaultPdoOptions = [
+        PDO::ATTR_PERSISTENT => false,
+        PDO::ATTR_EMULATE_PREPARES => false,
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
+    ];
 
-        // Set connection vars
-        $this->driver = $config['driver'];
-        $this->host = $config['host'];
-        $this->user = $config['username'];
-        $this->pass = $config['password'];
-        $this->dbName = $config['name'];
-
-        // Set DSN
-        $dsn = $this->driver . ':host=' . $this->host . ';dbname=' . $this->dbName;
-
-        // Create a new PDO instance
+    public function __construct(
+        $database,
+        $username,
+        $password,
+        $host = '127.0.0.1',
+        $port = '3306',
+        $driver = 'mysql',
+        $pdoOptions = null
+    ) {
         try {
-            $this->conn = new PDO($dsn, $this->user, $this->pass, $config['pdo_options']);
-        } catch (PDOException $e) {
-            throw new PDOException($e->getMessage(), (int) $e->getCode());
+            $dsn = "$driver:host=$host;port=$port;dbname=$database;charset=utf8mb4";
+            $this->pdo = new PDO($dsn, $username, $password, $pdoOptions ?? $this->defaultPdoOptions);
+        } catch(PDOException $e) {
+            throw new Exception('Failed to connect to database: ' . $e->getMessage());
         }
     }
 
     /**
-     * Just the connection
+     * Get the established PDO connection
      */
-    public function getConnection()
+    public function pdo(): PDO
     {
-        return $this->conn;
+        return $this->pdo;
     }
 
     /**
-     * Prepare statement with query
+     * Prepares the query, binds the params, executes, and runs a fetchAll()
      */
-    public function query(string $sql)
+    public function query(string $sql, array $params = []): array
     {
-        $this->stmt = $this->conn->prepare($sql);
-        return $this;
+        $stmt = $this->pdo->prepare($sql);
+        $this->bindParams($stmt, $params);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 
     /**
-     * Bind values
+     * Prepares the query, binds the params, executes, and runs a fetch()
      */
-    public function bind($param, $value, $type = null)
+    public function single(string $sql, array $params = []): mixed
     {
-        if (is_null($type)) {
-            switch (true) {
-                case is_int($value):
-                    $type = PDO::PARAM_INT;
-                    break;
-                case is_bool($value):
-                    $type = PDO::PARAM_BOOL;
-                    break;
-                case is_null($value):
-                    $type = PDO::PARAM_NULL;
-                    break;
-                default:
-                    $type = PDO::PARAM_STR;
+        $stmt = $this->pdo->prepare($sql);
+        $this->bindParams($stmt, $params);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+    /**
+     * Prepares the query, binds the params, and executes the query
+     */
+    public function execute(string $sql, array $params = []): bool
+    {
+        $stmt = $this->pdo->prepare($sql);
+        $this->bindParams($stmt, $params);
+        return $stmt->execute($this->getExecuteParams($params));
+    }
+
+    private function bindParams($stmt, array $params)
+    {
+        if (empty($params)) {
+            return;
+        }
+        if (is_array($params) && array_keys($params) !== range(0, count($params) - 1)) {
+            foreach($params as $param_name => $param_value) {
+                $stmt->bindValue(":$param_name", $param_value);
+            }
+        } else {
+            foreach($params as $index => $param_value) {
+                $stmt->bindValue($index + 1, $param_value);
             }
         }
-        $this->stmt->bindValue($param, $value, $type);
-
-        return $this;
     }
 
-    /**
-     * Execute the prepared statement
-     */
-    public function execute()
+    private function getExecuteParams(array $params)
     {
-        return $this->stmt->execute();
-    }
-
-    /**
-     * Get result set as array
-     */
-    public function resultSet($fetchMode = null)
-    {
-        $this->execute();
-        return $this->stmt->fetchAll($fetchMode ?? $this->conn->getAttribute(PDO::ATTR_DEFAULT_FETCH_MODE));
-    }
-
-    /**
-     * Get single record
-     */
-    public function single($fetchMode = null)
-    {
-        $this->execute();
-        return $this->stmt->fetch($fetchMode ?? $this->conn->getAttribute(PDO::ATTR_DEFAULT_FETCH_MODE));
-    }
-
-    /**
-     * Get record row count
-     */
-    public function rowCount()
-    {
-        return $this->stmt->rowCount();
-    }
-
-    /**
-     * Returns the last inserted ID
-     */
-    public function lastInsertId()
-    {
-        return $this->conn->lastInsertId();
+        if (count($params) == 0) {
+            return [];
+        }
+        if (is_array($params) && array_keys($params) !== range(0, count($params) - 1)) {
+            return $params;
+        } else {
+            return array_values($params);
+        }
     }
 }

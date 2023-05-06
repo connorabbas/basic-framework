@@ -8,8 +8,8 @@ use App\Controllers\ExampleController;
 
 $this->router->view('/', 'pages.welcome');
 
-$this->router->get('/json/#foo', function () {
-    return json_encode(['foo' => $_REQUEST['foo']]);
+$this->router->get('/json', function () {
+    return json_encode(['foo' => 'bar']);
 });
 
-$this->router->get('/example', [ExampleController::class, 'index']);
+$this->router->get('/example/#data', [ExampleController::class, 'index']);

@@ -1,35 +1,52 @@
 <?php
 
 /**
- * Helper functions available anywhere within the application (within the current request)
+ * Helper functions available anywhere within the application
  */
 
 /**
  * Access classes in the container
  */
 if (!function_exists('container')) {
-    function container(string $classReference)
+    function container(string $reference)
     {
-        global $container;
-        return $container->get($classReference);
+        global $container; // don't hate me
+        return $container->get($reference);
+    }
+}
+
+/**
+ * Passthrough method for using Config::get()
+ * Access values by using "." as the nesting delimiter for the $key
+ */
+if (!function_exists('config')) {
+    function config(string $file, string $key)
+    {
+        return container(App\Core\Config::class)->get($file, $key);
     }
 }
 
 /**
  * Access config values by using "." as the nesting delimiter
  */
-if (!function_exists('config')) {
-    function config(string $configPath)
+if (!function_exists('request')) {
+    function request()
     {
-        $configKeys = explode('.', $configPath);
-        $config = (new App\Data\Config($_ENV))->get();
-        $finalKey = $config;
+        return container(App\Core\Request::class);
+    }
+}
 
-        for ($i = 0; $i < count($configKeys); $i++) {
-            $finalKey = $finalKey[$configKeys[$i]];
-        }
+/**
+ * Access config values by using "." as the nesting delimiter
+ */
+if (!function_exists('current_url')) {
+    function current_url()
+    {
+        $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ||
+            $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-        return $finalKey;
+        return $url;
     }
 }
 
