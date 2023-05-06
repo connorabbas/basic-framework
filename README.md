@@ -253,7 +253,7 @@ use App\Models\UserModel;
 
 class UserController
 {
-    protected $userModel;
+    private $userModel;
 
     // utilizing the containers automatic resolution
     // by type hinting the class we want
