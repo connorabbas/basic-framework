@@ -127,7 +127,7 @@ class Router
     private function routeNotFound()
     {
         http_response_code(404);
-        echo View::render('pages.404');
+        require __DIR__ . '/../../app/views/pages/404.php';
         return;
     }
 

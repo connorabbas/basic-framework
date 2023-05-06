@@ -15,13 +15,11 @@ use App\Controllers\ExampleController;
 class RouterTest extends TestCase
 {
     private $container;
-    private $request;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->container = new Container();
-        $this->request = new Request();
     }
 
     public function test_register_get_route()
