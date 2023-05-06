@@ -590,7 +590,7 @@ Configuration data can be thought of as your site "settings". This could include
 
 When you need to set configuration settings that are related to your private `.env` data, you can use the `$this->env` property to access it's values.
 
-The `config()` helper function is used to access the desired data throughout the application. Using the config file reference as the first argument (without the file extension), and the value key location string as the second argument (using a period `.` as the nesting delimiter for accessing the nested values in the configuration array).
+The `config(string $file, string $key)` helper function is used to access the desired data throughout the application. Using the config file reference as the first argument (without the file extension), and the value key location string as the second argument (using a period `.` as the nesting delimiter for accessing the nested values in the configuration array).
 
 ```php
 // get the main database connection host name
