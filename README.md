@@ -201,13 +201,24 @@ The framework provides a default `App\Core\Request` class that can be used to in
 
 Available `App\Core\Request` methods:
 ```php
-// return an array of all sanitized inputs from the request
+/**
+ * Return an array of all sanitized inputs from the request
+ */
 $request->all();
-// return the sanitized $_GET value by it's key, optional default value
+
+/**
+ * Return the sanitized $_GET value by it's key, optional default value
+ */
 $request->get(string $key, string $default = null);
-// return the sanitized $_POST value by it's key, optional default value
+
+/**
+ * Return the sanitized $_POST value by it's key, optional default value
+ */
 $request->post(string $key, string $default = null);
-// return the sanitized $_REQUEST value by it's key, optional default value
+
+/**
+ * Return the sanitized $_REQUEST value by it's key, optional default value
+ */
 $request->input(string $key, string $default = null);
 ```
 
@@ -272,7 +283,7 @@ $this->container->setOnce(string $id, callable $callback);
 ```
 By default the container is used to easily instantiate a class you need, without you having to worry about instantiating it's dependencies. However, In certain situations your classes may not be resolvable by the container (requiring primitive constructor arguments, etc.), or perhaps you need a more custom implementation of the class returned from the container.
 
-To manually set a class binding into the container, use the `set()` method, passing in the fully qualified class or interface name you want registered as the `$id`, and a closure as the `$callback` which should return the new class instance. Whenever your set class needs to be resolved by the container, it will use your registered callback to return it's implementation.
+To manually set a class binding into the container, use the `set()` method, passing in a string reference `$id` (usually the fully qualified class name), and a closure as the `$callback` which should return the new class instance. Whenever your set class needs to be resolved by the container, it will use your registered callback to return it's implementation.
 
 If you want your configured class to only be instantiated once, and used in all the subsequent references in the container, you can use the `setOnce()` method. For example, the `App\Core\DB` & `App\Core\Request` classes are set once by default.
 
@@ -293,7 +304,13 @@ public function containerSetup(): self
         return new Request();
     });
     $this->container->setOnce(DB::class, function ($container) {
-        return new DB();
+        $dbConfig = config('database.main');
+        return new DB(
+            $dbConfig['name'],
+            $dbConfig['username'],
+            $dbConfig['password'],
+            $dbConfig['host']
+        );
     });
 
     // reference the actual repository whenever the interface is referenced/injected
@@ -353,9 +370,14 @@ public function index()
 Models are classes that are meant to interact with your database.
 
 ### The DB Class
-The included `App\Core\DB` class acts as a wrapper around [PDO](https://www.php.net/manual/en/intro.pdo.php) and is intended to make connecting to a database and executing your queries easier. The class is setup to accept a connection configuration array of credentials and options. You can change the default options, or setup multiple connections using the `App\Data\Config` class and your application's `.env` file, more on that later.
+The included `App\Core\DB` class acts as a wrapper around [PDO](https://www.php.net/manual/en/intro.pdo.php) and is intended to make connecting to a database and executing your queries easier. As mentioned earlier, the `App\Core\DB` class is set once into the container by default using the `database.main` configuration settings. You can change the default options, or setup multiple connections using the `App\Data\Config` class and your application's `.env` file, more on that later.
 
-To make things easier, your model classes should extend the included `App\Core\Model` abstract class to include the `$this->db` property, and have it's database connection created automatically for you.
+### Establishing a Connection
+There are multiple approaches to creating and using a database connection within a PHP web application.
+
+As stated previously, the `App\Core\DB` class is what creates our database connection, and it is registered into the container by default using the `setOnce()` method within `App\Core\App::containerSetup()`. With this approach, we can ensure that there is only one database class/connection created per request lifecycle, and it can be easily referenced in the application whenever it is needed.
+
+To make things easier, your model classes should extend the included `App\Core\Model` abstract class to include the `$this->db` property.
 
 ``` php
 <?php
@@ -364,51 +386,114 @@ namespace App\Models;
 
 use App\Core\Model;
 
-class Example extends Model
+/**
+ * $this->db available to use for your queries
+ */
+class ExampleModel extends Model
 {
-    // $this->db available to use for your queries
+    private $table = 'example';
+
+    public function getAll()
+    {
+        $sql = "SELECT * FROM $this->table";
+        return $this->db->query($sql);
+    }
 }
 ```
-
-If you don't extend the base model class, or you override the constructor, you will need to establish your own database property/connection.
 ```php
 <?php
 
-namespace App\Models;
+namespace App\Controllers;
 
-use App\Core\DB;
+use App\Core\View;
+use App\Models\ExampleModel;
 
-class Example
+class ExampleController
 {
-    protected $db;
+    private $exampleModel;
 
-    // using an alternative database connection
-    public function __construct()
+    public function __construct(ExampleModel $exampleModel)
     {
-        $this->db = new DB(config('database.alt'));
+        $this->exampleModel = $exampleModel;
+    }
+
+    public function index()
+    {
+        return View::render('pages.example', [
+            'data' => $this->exampleModel->getAll();
+        ]);
     }
 }
+```
 
+However, this may not be the approach you want/need in your application, so feel free to remove the binding or use more traditional dependency injection techniques for your database/models:
+```php
+<?php
+
+namespace App\Controllers;
+
+use App\Core\DB;
+use App\Models\ExampleModel;
+
+class ExampleController
+{
+    private $db;
+
+    public function __construct(DB $db)
+    {
+        // Ex.1
+        // Use the main DB connection that is configured in the container
+        // via the type-hinted constructor argument
+        $this->db = $db;
+
+        // Ex.2
+        // Create an alternative DB class binding in the container
+        // Useful for models that need a different database connection
+        $this->db = container('db_alt');
+
+        // Ex.3
+        // Create a connection on the fly
+        $dbConfig = config('database.alt');
+        $this->db = new DB(
+            $dbConfig['name'],
+            $dbConfig['username'],
+            $dbConfig['password'],
+            $dbConfig['host']
+        );
+    }
+
+    public function index()
+    {
+        $exampleModel = new ExampleModel($this->db);
+
+        return View::render('pages.example', [
+            'data' => $exampleModel->getAll();
+        ]);
+    }
+}
 ```
 
 The `App\Core\DB` class offers the following methods:
 ``` php
-// return the established PDO connection
-$this->db->getConnection();
-// create a prepared statement on the established connection
-$this->db->query(string $sql);
-// bind a value to the prepared statement query
-$this->db->bind($param, $value, $type = null);
-// execute the prepared statement, used for INSERT, UPDATE, DELETE, etc.
-$this->db->execute();
-// return an array of results, fetching objects by default
-$this->db->resultSet($fetchMode = null);
-// return a single result
-$this->db->single($fetchMode = null);
-// return the row count from the prepared statement
-$this->db->rowCount();
-// get the last inserted ID from the connection
-$this->db->lastInsertId();
+/**
+ * return the established PDO connection
+ */
+$this->db->pdo();
+
+/**
+ * Prepares the query, binds the params, executes, and runs a fetchAll()
+ */
+$this->db->query(string $sql, array $params = []);
+
+/**
+ * Prepares the query, binds the params, executes, and runs a fetch()
+ */
+$this->db->single(string $sql, array $params = []);
+
+/**
+ * Prepares the query, binds the params, and executes the query
+ */
+$this->db->execute(string $sql, array $params = []);
 ```
 
 ### Example
@@ -419,42 +504,26 @@ namespace App\Models;
 
 use App\Core\Model;
 
-class User extends Model
+class UserModel extends Model
 {
     private $table = 'users';
 
     public function getAll()
     {
         $sql = "SELECT * FROM $this->table";
-
-        $this->db->query($sql);
-
-        return $this->db->resultSet();
+        return $this->db->query($sql);
     }
 
     public function getById($id)
     {
-        $sql = "SELECT * FROM $this->table 
-            WHERE id = :id";
-
-        $this->db
-            ->query($sql)
-            ->bind(':id', $id);
-
-        return $this->db->single();
+        $sql = "SELECT * FROM $this->table WHERE id = ?";
+        return $this->db->single($sql, [$id]);
     }
 
-    public function getByUsername($username, $email)
+    public function getByEmail($email)
     {
-        $sql = "SELECT * FROM $this->table 
-            WHERE username = :username OR email = :email";
-
-        $this->db
-            ->query($sql)
-            ->bind(':username', $username)
-            ->bind(':email', $email);
-
-        return $this->db->single();
+        $sql = "SELECT * FROM $this->table WHERE email = ?";
+        return $this->db->single($sql, [$email]);
     }
 
     public function create($name, $email, $username, $password)
@@ -463,14 +532,12 @@ class User extends Model
         $sql = "INSERT INTO $this->table(name, email, username, password) 
             VALUES(:name, :email, :username, :password)";
 
-        $this->db
-            ->query($sql)
-            ->bind(':name', $name)
-            ->bind(':email', $email)
-            ->bind(':username', $username)
-            ->bind(':password', $hashedPwd);
-
-        return $this->db->execute();
+        return $this->db->execute($sql, [
+            'name' => $name,
+            'email' => $email,
+            'username' => $username,
+            'password' => $hashedPwd,
+        ]);
     }
 
     public function update(int $userId, array $properties)
@@ -484,41 +551,22 @@ class User extends Model
                 $setString .= ' ';
             }
         }
-
+        $properties['id'] = $userId;
         $sql = "UPDATE $this->table
             SET $setString
             WHERE id = :id";
 
-        $this->db->query($sql);
-        foreach ($properties as $property => $value) {
-            $this->db->bind(':' . $property, $value);
-        }
-        $this->db->bind(':id', $userId);
-
-        return $this->db->execute();
+        return $this->db->execute($sql, $properties);
     }
 
     public function delete(int $userId)
     {
-        $sql = "DELETE FROM $this->table
-            WHERE id = :id";
-
-        $this->db
-            ->query($sql)
-            ->bind(':id', $userId);
-
-        return $this->db->execute();
+        $sql = "DELETE FROM $this->table WHERE id = ?";
+        return $this->db->execute($sql, [$userId]);
     }
 }
 ```
 To follow MVC conventions, and for better organization in your application, it is highly recommended to only use the DB class and execute queries within your model classes.
-
-### Establishing a Connection
-There are multiple approaches to creating and using a database connection within a PHP web application.
-
-As stated previously, the `App\Core\DB` class is what creates our database connection, and it is registered into the container by default using the `setOnce()` method within `/app/core/App.php`. With this approach, we can ensure that there is only one database class/connection created per request lifecycle.
-
-This approach is beneficial if you intend on using the container to resolve needed classes within your controllers. However, if this is not the approach you want/need in your application, feel free to remove the binding.
 
 ## Helper Functions
 Helper functions are meant to be accessed anywhere within the application. There are few included with the framework, feel free to add our own as well.
