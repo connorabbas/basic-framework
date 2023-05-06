@@ -373,7 +373,7 @@ The included `App\Core\DB` class acts as a wrapper around [PDO](https://www.php.
 ### Establishing a Connection
 There are multiple approaches to creating and using a database connection within a PHP web application.
 
-As stated previously, the `App\Core\DB` class is what creates our database connection, and it is registered into the container by default using the `setOnce()` method within `App\Core\App::containerSetup()`. With this approach, we can ensure that there is only one database class/connection created per request lifecycle, and it can be easily referenced in the application whenever it is needed.
+As stated previously, the `App\Core\DB` class is what creates our database connection. There is a default container binding added within: `App\Core\App::containerSetup()`, it is commented out by default. With this approach, we can ensure that there is only one database class/connection created per request lifecycle, and it can be easily referenced in the application whenever it is needed.
 
 To make things easier, your model classes should extend the included `App\Core\Model` abstract class to include the `$this->db` property.
 

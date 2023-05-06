@@ -46,7 +46,7 @@ class App
         $this->container->setOnce(Request::class, function ($container) {
             return new Request();
         });
-        $this->container->setOnce(DB::class, function ($container) {
+        /* $this->container->setOnce(DB::class, function ($container) {
             $dbConfig = config('database', 'main');
             return new DB(
                 $dbConfig['name'],
@@ -54,7 +54,7 @@ class App
                 $dbConfig['password'],
                 $dbConfig['host'],
             );
-        });
+        }); */
 
         return $this;
     }
