@@ -368,7 +368,7 @@ public function index()
 Models are classes that are meant to interact with your database.
 
 ### The DB Class
-The included `App\Core\DB` class acts as a wrapper around [PDO](https://www.php.net/manual/en/intro.pdo.php) and is intended to make connecting to a database and executing your queries easier. As mentioned earlier, the `App\Core\DB` class is set once into the container by default using the `database.main` configuration settings. You can change the default options, or setup multiple connections using the `App\Data\Config` class and your application's `.env` file, more on that later.
+The included `App\Core\DB` class acts as a wrapper around [PDO](https://www.php.net/manual/en/intro.pdo.php) and is intended to make connecting to a database and executing your queries easier. As mentioned earlier, the `App\Core\DB` class is set once into the container by default using the `database.main` configuration settings. You can change the default options, or setup multiple connections using `/config/database.php` and your application's `.env` file, more on that later.
 
 ### Establishing a Connection
 There are multiple approaches to creating and using a database connection within a PHP web application.
