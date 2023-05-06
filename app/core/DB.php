@@ -7,7 +7,7 @@ use Exception;
 use PDOException;
 
 class DB {
-    
+
     private $pdo;
     private $defaultPdoOptions = [
         PDO::ATTR_PERSISTENT => false,
@@ -15,7 +15,7 @@ class DB {
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
     ];
-    
+
     public function __construct(
         $database,
         $username,
@@ -40,7 +40,7 @@ class DB {
     {
         return $this->pdo;
     }
-    
+
     /**
      * Prepares the query, binds the params, executes, and runs a fetchAll()
      */
@@ -51,7 +51,7 @@ class DB {
         $stmt->execute();
         return $stmt->fetchAll();
     }
-    
+
     /**
      * Prepares the query, binds the params, executes, and runs a fetch()
      */
@@ -62,7 +62,7 @@ class DB {
         $stmt->execute();
         return $stmt->fetch();
     }
-    
+
     /**
      * Prepares the query, binds the params, and executes the query
      */
@@ -72,7 +72,7 @@ class DB {
         $this->bindParams($stmt, $params);
         return $stmt->execute($this->getExecuteParams($params));
     }
-    
+
     private function bindParams($stmt, array $params)
     {
         if (empty($params)) {
@@ -88,7 +88,7 @@ class DB {
             }
         }
     }
-    
+
     private function getExecuteParams(array $params)
     {
         if (count($params) == 0) {
