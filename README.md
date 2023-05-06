@@ -280,7 +280,7 @@ By default the container is used to easily instantiate a class you need, without
 
 To manually set a class binding into the container, use the `set()` method, passing in a string reference `$id` (usually the fully qualified class name), and a closure as the `$callback` which should return the new class instance. Whenever your set class needs to be resolved by the container, it will use your registered callback to return it's implementation.
 
-If you want your configured class to only be instantiated once, and used in all the subsequent references in the container, you can use the `setOnce()` method. For example, the `App\Core\DB` & `App\Core\Request` classes are set once by default.
+If you want your configured class to only be instantiated once, and used in all the subsequent references in the container, you can use the `setOnce()` method. There are a few core classes that are set once by default for use throughout the framework.
 
 To return/resolve a class instance from the container, use the `get()` method. This is what the container uses internally when using automatic resolution with your injected classes.
 
