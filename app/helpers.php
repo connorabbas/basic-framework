@@ -8,28 +8,21 @@
  * Access classes in the container
  */
 if (!function_exists('container')) {
-    function container(string $classReference)
+    function container(string $reference)
     {
-        global $container;
-        return $container->get($classReference);
+        global $container; // don't hate me
+        return $container->get($reference);
     }
 }
 
 /**
- * Access config values by using "." as the nesting delimiter
+ * Passthrough method for using Config::get()
+ * Access values by using "." as the nesting delimiter for the $key
  */
 if (!function_exists('config')) {
-    function config(string $configPath)
+    function config(string $file, string $key)
     {
-        $configKeys = explode('.', $configPath);
-        $config = (new App\Data\Config($_ENV))->get();
-        $finalKey = $config;
-
-        for ($i = 0; $i < count($configKeys); $i++) {
-            $finalKey = $finalKey[$configKeys[$i]];
-        }
-
-        return $finalKey;
+        return container(App\Core\Config::class)->get($file, $key);
     }
 }
 

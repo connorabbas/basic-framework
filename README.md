@@ -12,11 +12,6 @@ PHP 8 is required.
 - Dependency Injection Container
 - PDO database wrapper class
 
-## Example Project
-For more in-depth code examples, and to see a fully working application using the framework I have made an example project to reference.
-
-[PHP User Auth](https://github.com/connorabbas/php-user-auth)
-
 ---
 # Documentation
 
@@ -300,11 +295,14 @@ If you need to manually set up a class or interface and it's binding, you may do
 public function containerSetup(): self
 {
     // included by default
+    $this->container->setOnce(Config::class, function ($container) {
+        return new Config($_ENV);
+    });
     $this->container->setOnce(Request::class, function ($container) {
         return new Request();
     });
     $this->container->setOnce(DB::class, function ($container) {
-        $dbConfig = config('database.main');
+        $dbConfig = config('database', 'main');
         return new DB(
             $dbConfig['name'],
             $dbConfig['username'],
@@ -453,7 +451,7 @@ class ExampleController
 
         // Ex.3
         // Create a connection on the fly
-        $dbConfig = config('database.alt');
+        $dbConfig = config('database', 'alt');
         $this->db = new DB(
             $dbConfig['name'],
             $dbConfig['username'],
@@ -574,23 +572,29 @@ Helper functions are meant to be accessed anywhere within the application. There
 ` /app/helpers.php `
 
 ## Environmental and Configuration Data
-### .env
-The project `.env` file should be created on install when using composer. If not, a provided example file is included.
+### The `.env` File
+The project `.env` file should be created on install when using composer. If not, a provided example file is included to create a new one.
 
-This file is for your settings variables that may differ from each environment your site is being used (local, staging, production). It is also used to store private data such as API keys, database access credentials, etc. It is added to the `.gitignore` by default.
+This file is for your settings variables that may differ from each environment your site is being used (local, staging, production), as well as storing private information you don't want committed to your source code repository, such as API keys, database access credentials, etc. It is added to the `.gitignore` by default.
 
-Data from the `.env` file is accessible in the ` $_ENV ` superglobal.
+```env
+# Site Environment
+ENV=local
 
-### config()
-It's best practice that the data from your .env should only be accessed in the config class. `App\Data\Config`
+# When the data has spaces
+EXAMPLE_DATA="Example Data"
+```
 
-The config class allows you to set your options for things like database or mail connections, site settings, etc. in an organized array structure.
+### Configuration Data
+Configuration data can be thought of as your site "settings". This could include database connections, mail server info, site meta data, etc. This data will be stored in multi-dimensional arrays using `.php` files residing in the `/config` directory.
 
-The ` config() ` helper function is used to access the desired data. Using a period `.` as the nesting delimiter for accessing the nested values in the configuration array.
+When you need to set configuration settings that are related to your private `.env` data, you can use the `$this->env` property to access it's values.
+
+The `config()` helper function is used to access the desired data throughout the application. Using the config file reference as the first argument (without the file extension), and a the values key location string as the second argument (using a period `.` as the nesting delimiter for accessing the nested values in the configuration array).
 
 ```php
-// get the database host name
-$host = config('database.main.host');
+// get the main database connection host name
+$host = config('database', 'main.host');
 ```
 
 ## CLI Tools

@@ -3,6 +3,7 @@
 namespace App\Core;
 
 use App\Core\DB;
+use App\Core\Config;
 use App\Core\Router;
 use App\Core\Request;
 use App\Core\Container;
@@ -39,11 +40,14 @@ class App
      */
     public function containerSetup(): self
     {
+        $this->container->setOnce(Config::class, function ($container) {
+            return new Config($_ENV);
+        });
         $this->container->setOnce(Request::class, function ($container) {
             return new Request();
         });
         $this->container->setOnce(DB::class, function ($container) {
-            $dbConfig = config('database.main');
+            $dbConfig = config('database', 'main');
             return new DB(
                 $dbConfig['name'],
                 $dbConfig['username'],

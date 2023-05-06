@@ -15,7 +15,7 @@ class View
         $templates = new Engine(__DIR__ . '/../views');
 
         $realPath = str_replace('.', '/', $view);
-        foreach (config('plates_templates.folders') as $name => $folder) {
+        foreach (config('plates', 'folders') as $name => $folder) {
             $templates->addFolder($name, __DIR__ . '/../views' . $folder);
         }
 
