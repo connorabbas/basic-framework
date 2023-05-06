@@ -334,7 +334,7 @@ class ExampleController
 {
     public function index()
     {
-        // get/resolve the User class from the container without injecting into the constructor
+        // get/resolve the UserModel class from the container without injecting into the constructor
         // dependencies automatically resolved, pretty neat
         $userModel = container(UserModel::class);
         $user = $userModel->getById($_REQUEST['id']);
