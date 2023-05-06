@@ -249,22 +249,22 @@ By default, you can type hint any class into a controller's `__construct()` meth
 namespace App\Controllers;
 
 use App\Core\View;
-use App\Models\User;
+use App\Models\UserModel;
 
 class UserController
 {
-    protected $userData;
+    protected $userModel;
 
     // utilizing the containers automatic resolution
     // by type hinting the class we want
-    public function __construct(User $userData)
+    public function __construct(UserModel $userModel)
     {
-        $this->userData = $userData;
+        $this->userModel = $userModel;
     }
 
     public function index()
     {
-        $users = $this->userData->getAll();
+        $users = $this->userModel->getAll();
 
         return View::render('pages.users.list', ['users' => $users]);
     }
@@ -313,7 +313,7 @@ public function containerSetup(): self
 
     // reference the actual repository whenever the interface is referenced/injected
     $this->container->set(UserRepositoryInterface::class, function ($container) {
-        return new UserRepository($container->get(User::class));
+        return new UserRepository($container->get(UserModel::class));
     });
 
     return $this;
@@ -328,7 +328,7 @@ If you don't want to resolve certain classes in your controller's constructor, y
 namespace App\Controllers;
 
 use App\Core\View;
-use App\Models\User;
+use App\Models\UserModel;
 
 class ExampleController
 {
@@ -336,8 +336,8 @@ class ExampleController
     {
         // get/resolve the User class from the container without injecting into the constructor
         // dependencies automatically resolved, pretty neat
-        $userData = container(User::class);
-        $user = $userData->getById($_REQUEST['id']);
+        $userModel = container(UserModel::class);
+        $user = $userModel->getById($_REQUEST['id']);
 
         return View::render('pages.example', ['user' => $user]);
     }
