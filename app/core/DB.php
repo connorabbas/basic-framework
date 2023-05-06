@@ -6,8 +6,8 @@ use PDO;
 use Exception;
 use PDOException;
 
-class DB {
-
+class DB
+{
     private $pdo;
     private $defaultPdoOptions = [
         PDO::ATTR_PERSISTENT => false,

@@ -2,7 +2,7 @@
 
 /**
  * Basic PHP Framework
- * Developed and maintained by: Connor Abbas 
+ * Developed and maintained by: Connor Abbas
  * Docs: https://github.com/connorabbas/basic-framework#documentation
  */
 

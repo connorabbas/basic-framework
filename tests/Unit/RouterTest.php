@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use App\Core\Router;
-use App\Core\Request;
 use App\Core\Container;
 use PHPUnit\Framework\TestCase;
 use App\Controllers\ExampleController;
@@ -60,7 +59,7 @@ class RouterTest extends TestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $output = 'test route output';
         $router = new Router($this->container);
-        $router->get('/test/123', fn() => $output);
+        $router->get('/test/123', fn () => $output);
 
         ob_start();
         $router->run();

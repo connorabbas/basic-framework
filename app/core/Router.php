@@ -2,9 +2,6 @@
 
 namespace App\Core;
 
-use App\Core\View;
-use App\Core\Container;
-
 class Router
 {
     private $container;
@@ -42,8 +39,8 @@ class Router
                     return $this->resolveRoute($callback);
                 }
                 // if the route has wildcard parameters
-                else if (
-                    (count($routeParts) == count($uriParts)) && 
+                elseif (
+                    (count($routeParts) == count($uriParts)) &&
                     stripos(json_encode($routeParts), '#') !== false
                 ) {
                     $matchedIndexes = [];
@@ -100,11 +97,11 @@ class Router
                 $methodName = $callback[1];
                 $fullClassName = "\\$className";
                 $obj = $this->container->get($fullClassName);
-                return call_user_func_array([$obj, $methodName],  $args);
+                return call_user_func_array([$obj, $methodName], $args);
             }
-        } else if (is_callable($callback)) {
+        } elseif (is_callable($callback)) {
             return call_user_func($callback, $args);
-        } else if (is_string($callback)) {
+        } elseif (is_string($callback)) {
             return View::render($callback);
         }
     }
