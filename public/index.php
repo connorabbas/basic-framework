@@ -1,7 +1,7 @@
 <?php
 
 /**
- * PHP Basic Framework
+ * Basic PHP Framework
  * Developed and maintained by: Connor Abbas 
  * Docs: https://github.com/connorabbas/basic-framework#documentation
  */

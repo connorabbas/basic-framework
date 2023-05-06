@@ -1,4 +1,4 @@
-# PHP Basic Framework
+# Basic PHP Framework
 ## About
 A full-stack PHP framework that gives you the basics for starting a web project.
 
