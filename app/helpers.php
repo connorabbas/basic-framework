@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Helper functions available anywhere within the application (within the current request)
+ * Helper functions available anywhere within the application
  */
 
 /**
@@ -40,6 +40,20 @@ if (!function_exists('request')) {
     function request()
     {
         return container(App\Core\Request::class);
+    }
+}
+
+/**
+ * Access config values by using "." as the nesting delimiter
+ */
+if (!function_exists('current_url')) {
+    function current_url()
+    {
+        $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ||
+            $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+        return $url;
     }
 }
 

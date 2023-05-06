@@ -24,9 +24,6 @@ try {
     die;
 }
 
-// Global constants
-require_once __DIR__ . '/../app/data/constants.php';
-
 // Error Reporting
 if (config('site.environment') == 'local') {
     ini_set('display_errors', 1);
