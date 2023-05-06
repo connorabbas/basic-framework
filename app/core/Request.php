@@ -15,6 +15,9 @@ class Request
         $this->request = $_REQUEST;
     }
 
+    /**
+     * An array of all sanitized inputs from the request
+     */
     public function all(): array
     {
         $sanitized = [];
@@ -25,7 +28,10 @@ class Request
         return $sanitized;
     }
 
-    public function get(string $key, string $default = null)
+    /**
+     * The sanitized $_GET value by it's key, optional default value
+     */
+    public function get(string $key, string $default = null): mixed
     {
         if (isset($this->get[$key])) {
             return $this->sanitize($this->get[$key]);
@@ -34,7 +40,10 @@ class Request
         return $default;
     }
 
-    public function post(string $key, string $default = null)
+    /**
+     * The sanitized $_POST value by it's key, optional default value
+     */
+    public function post(string $key, string $default = null): mixed
     {
         if (isset($this->post[$key])) {
             return $this->sanitize($this->post[$key]);
@@ -43,7 +52,10 @@ class Request
         return $default;
     }
 
-    public function input(string $key, string $default = null)
+    /**
+     * The sanitized $_REQUEST value by it's key, optional default value
+     */
+    public function input(string $key, string $default = null): mixed
     {
         if (isset($this->request[$key])) {
             return $this->sanitize($this->request[$key]);

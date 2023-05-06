@@ -33,12 +33,18 @@ class DB {
         }
     }
 
-    public function pdo()
+    /**
+     * Get the established PDO connection
+     */
+    public function pdo(): PDO
     {
         return $this->pdo;
     }
     
-    public function query(string $sql, array $params = [])
+    /**
+     * Prepares the query, binds the params, executes, and runs a fetchAll()
+     */
+    public function query(string $sql, array $params = []): array
     {
         $stmt = $this->pdo->prepare($sql);
         $this->bindParams($stmt, $params);
@@ -46,7 +52,10 @@ class DB {
         return $stmt->fetchAll();
     }
     
-    public function single(string $sql, array $params = [])
+    /**
+     * Prepares the query, binds the params, executes, and runs a fetch()
+     */
+    public function single(string $sql, array $params = []): mixed
     {
         $stmt = $this->pdo->prepare($sql);
         $this->bindParams($stmt, $params);
@@ -54,7 +63,10 @@ class DB {
         return $stmt->fetch();
     }
     
-    public function execute(string $sql, array $params = [])
+    /**
+     * Prepares the query, binds the params, and executes the query
+     */
+    public function execute(string $sql, array $params = []): bool
     {
         $stmt = $this->pdo->prepare($sql);
         $this->bindParams($stmt, $params);

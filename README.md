@@ -476,7 +476,7 @@ class ExampleController
 The `App\Core\DB` class offers the following methods:
 ``` php
 /**
- * return the established PDO connection
+ * Get the established PDO connection
  */
 $this->db->pdo();
 
