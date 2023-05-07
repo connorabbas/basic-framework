@@ -15,7 +15,7 @@ class CLI
                 array_unshift($dirParts, '');
                 $nameSpace = implode('\\', $dirParts);
                 if (!is_dir("app/controllers/" . $newDir)) {
-                    mkdir("app/controllers/" . $newDir, 0777, true) or die("Unable to create directory!");       
+                    mkdir("app/controllers/" . $newDir, 0777, true) or die("Unable to create directory!");
                 }
             }
 
@@ -61,7 +61,7 @@ class CLI
                 array_unshift($dirParts, '');
                 $nameSpace = implode('\\', $dirParts);
                 if (!is_dir("app/models/" . $newDir)) {
-                    mkdir("app/models/" . $newDir, 0777, true) or die("Unable to create directory!");       
+                    mkdir("app/models/" . $newDir, 0777, true) or die("Unable to create directory!");
                 }
             }
 
@@ -98,8 +98,8 @@ class CLI
      */
     public static function createEnvFile()
     {
-        $source = './.env.example'; 
-        $destination = './.env'; 
+        $source = './.env.example';
+        $destination = './.env';
 
         // only create the file if it doesn't exist (initial install)
         if (!file_exists($destination)) {

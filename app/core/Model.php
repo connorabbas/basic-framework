@@ -2,8 +2,6 @@
 
 namespace App\Core;
 
-use App\Core\DB;
-
 abstract class Model
 {
     protected $db;

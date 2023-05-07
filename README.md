@@ -337,7 +337,7 @@ class ExampleController
         // get/resolve the UserModel class from the container without injecting into the constructor
         // dependencies automatically resolved, pretty neat
         $userModel = container(UserModel::class);
-        $user = $userModel->getById($_REQUEST['id']);
+        $user = $userModel->getById(request()->input('id'));
 
         return View::render('pages.example', ['user' => $user]);
     }

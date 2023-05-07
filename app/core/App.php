@@ -2,11 +2,6 @@
 
 namespace App\Core;
 
-use App\Core\DB;
-use App\Core\Config;
-use App\Core\Router;
-use App\Core\Request;
-use App\Core\Container;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 
@@ -42,6 +37,9 @@ class App
     {
         $this->container->setOnce(Config::class, function ($container) {
             return new Config($_ENV);
+        });
+        $this->container->setOnce(Session::class, function ($container) {
+            return new Session();
         });
         $this->container->setOnce(Request::class, function ($container) {
             return new Request();

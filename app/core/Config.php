@@ -25,4 +25,5 @@ class Config
         }
 
         return $value;
-    }}
+    }
+}
