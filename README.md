@@ -14,6 +14,15 @@ PHP 8 is required.
 
 ---
 # Documentation
+- [Installation](#installation)
+- [Routing](#routing)
+- [Controllers](#controllers)
+- [Dependency Injection Container](#dependency-injection-container)
+- [Views](#views)
+- [Models and Database](#models-and-database)
+- [Helper Functions](#helper-functions)
+- [Environmental and Configuration Data](#environmental-and-configuration-data)
+- [CLI Tools](#cli-tools)
 
 ## Installation
 Download using [Composer](https://getcomposer.org/).
