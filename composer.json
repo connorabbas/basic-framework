@@ -1,6 +1,6 @@
 {
     "name": "connora/basic",
-    "description": "A full-stack PHP framework that gives you the basics for starting a web project in a lightweight package.",
+    "description": "A full-stack PHP framework that gives you the basics for starting a web project.",
     "keywords": [
         "framework",
         "php"
