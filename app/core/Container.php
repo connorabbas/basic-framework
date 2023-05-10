@@ -120,4 +120,19 @@ class Container implements ContainerInterface
 
         return $reflectionClass->newInstanceArgs($dependencies);
     }
+
+    public function getBindings()
+    {
+        return $this->bindings;
+    }
+
+    public function getSingles()
+    {
+        return $this->singles;
+    }
+
+    public function getBound()
+    {
+        return $this->bound;
+    }
 }
