@@ -6,10 +6,10 @@
  * Docs: https://github.com/connorabbas/basic-framework#documentation
  */
 
-use App\Core\App;
 use Dotenv\Dotenv;
-use App\Core\Router;
-use App\Core\Container;
+use BasicFramework\App;
+use BasicFramework\Core\Router;
+use BasicFramework\Core\Container;
 use Dotenv\Exception\InvalidPathException;
 
 // Composer autoload

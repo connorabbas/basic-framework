@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Core\Model;
+use BasicFramework\Core\Model;
 
 class ExampleModel extends Model
 {

@@ -2,13 +2,13 @@
 
 namespace Tests\Unit;
 
-use App\Core\Router;
-use App\Core\Container;
+use BasicFramework\Core\Router;
+use BasicFramework\Core\Container;
 use PHPUnit\Framework\TestCase;
 use App\Controllers\ExampleController;
 
 /**
- * @covers App\Core\Router
+ * @covers BasicFramework\Core\Router
  * https://github.com/bramus/router/blob/master/tests/RouterTest.php
  */
 class RouterTest extends TestCase

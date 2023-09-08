@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core;
+namespace BasicFramework\Core;
 
 use League\Plates\Engine;
 
@@ -12,11 +12,11 @@ class View
      */
     public static function render(string $view, array $data = [])
     {
-        $templates = new Engine(__DIR__ . '/../views');
+        $templates = new Engine('./../app/views');
 
         $realPath = str_replace('.', '/', $view);
         foreach (config('plates', 'folders') as $name => $folder) {
-            $templates->addFolder($name, __DIR__ . '/../views' . $folder);
+            $templates->addFolder($name, './../app/views' . $folder);
         }
 
         return $templates->render($realPath, $data);

@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Core\View;
+use BasicFramework\Core\View;
 
 class ExampleController
 {

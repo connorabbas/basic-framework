@@ -1,8 +1,8 @@
 <?php
 
-use App\Core\Config;
-use App\Core\Request;
-use App\Core\Session;
+use BasicFramework\Core\Config;
+use BasicFramework\Core\Request;
+use BasicFramework\Core\Session;
 
 /**
  * Helper functions available anywhere within the application

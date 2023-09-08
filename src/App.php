@@ -1,9 +1,14 @@
 <?php
 
-namespace App\Core;
+namespace BasicFramework;
 
 use RecursiveIteratorIterator;
+use BasicFramework\Core\Config;
+use BasicFramework\Core\Router;
 use RecursiveDirectoryIterator;
+use BasicFramework\Core\Request;
+use BasicFramework\Core\Session;
+use BasicFramework\Core\Container;
 
 class App
 {
@@ -21,7 +26,7 @@ class App
      */
     public function run(): void
     {
-        $iterator = new RecursiveDirectoryIterator(__DIR__ . '/../../routes');
+        $iterator = new RecursiveDirectoryIterator(__DIR__ . '/../routes');
         foreach (new RecursiveIteratorIterator($iterator) as $filename) {
             if (strpos($filename, '.php') !== false) {
                 require_once $filename;

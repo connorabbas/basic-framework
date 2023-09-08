@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers App\Core\Router
+ * @covers BasicFramework\Core\Router
  * Test actual endpoints within the site
  * Site must be served
  * Testing locally only
