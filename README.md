@@ -194,7 +194,7 @@ Controllers are classes meant to handle the logic for an incoming HTTP request. 
 
 It is best practice to only handle the user input, and response logic within your controller methods. If you have more complicated business logic involved in your endpoint, it's recommended to abstract that into another class (typically a `Service` class).
 
-Controllers should be named and organized based on the subject matter the request is pertaining too. Is is also recommended, but not required to include the word "Controller" in your class name.
+Controllers should be named and organized based on the subject matter the request is pertaining too. It is also recommended, but not required to include the word "Controller" in your class name.
 
 There is an example controller class provided.
 
